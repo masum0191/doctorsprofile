@@ -585,18 +585,18 @@ public function storeall(Request $request)
             'is_active' => true,
         ]);
             // Run seeder
-            // Artisan::call('db:seed', [
-            //     '--class' => 'MedicineTemplateSeeder',
-            //     '--force' => true, // required in production
-            // ]);
-            // Artisan::call('db:seed', [
-            //     '--class' => 'MedicineCompanySeeder',
-            //     '--force' => true, // required in production
-            // ]);
-            // Artisan::call('db:seed', [
-            //     '--class' => 'TestSeeder',
-            //     '--force' => true, // required in production
-            // ]);
+            Artisan::call('db:seed', [
+                '--class' => 'MedicineTemplateSeeder',
+                '--force' => true, // required in production
+            ]);
+            Artisan::call('db:seed', [
+                '--class' => 'MedicineCompanySeeder',
+                '--force' => true, // required in production
+            ]);
+            Artisan::call('db:seed', [
+                '--class' => 'TestSeeder',
+                '--force' => true, // required in production
+            ]);
     $payment = Payment::create([
     //'tenant_id' => $tenantId,
     'user_id' => $tuser->id,
