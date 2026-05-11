@@ -14,28 +14,33 @@ class Coupon extends Model
         'min_amount',
         'max_discount',
         'usage_limit',
+        'usage_limit_per_user',
         'used_count',
         'starts_at',
         'expires_at',
-        'status'
+        'is_active',
+        'status',
+        'note',
+        'description',
     ];
 
     protected $casts = [
         'value' => 'decimal:2',
         'min_amount' => 'decimal:2',
         'max_discount' => 'decimal:2',
+        'is_active' => 'boolean',
         'starts_at' => 'datetime',
         'expires_at' => 'datetime',
     ];
 
     public function scopeActive($query)
     {
-        return $query->where('status', 'active');
+        return $query->where('is_active', true);
     }
 
     public function isActive()
     {
-        return $this->status === 'active';
+        return (bool) $this->is_active;
     }
 
     public function isCurrentlyValid()
@@ -68,7 +73,7 @@ class Coupon extends Model
             return 0;
         }
 
-        $discount = $this->type === 'percentage'
+        $discount = $this->type === 'percent'
             ? ($amount * $this->value) / 100
             : $this->value;
 

@@ -104,12 +104,14 @@ class CouponController extends Controller
     }
     public function available(Request $request)
     {
-        $amount = $request->query('amount', 0);
+        $amount = $request->query('amount');
 
-        $coupons = Coupon::
-            where('min_amount', '<=', $amount)
+        $coupons = Coupon::active()
+            ->when($amount !== null, function ($query) use ($amount) {
+                $query->where('min_amount', '<=', (float) $amount);
+            })
             ->where(function($query) {
-                $query->where('usage_limit', '>', 'used_count')
+                $query->whereColumn('usage_limit', '>', 'used_count')
                       ->orWhereNull('usage_limit');
             })
             ->where(function($query) {
@@ -120,7 +122,11 @@ class CouponController extends Controller
                 $query->where('expires_at', '>=', now())
                       ->orWhereNull('expires_at');
             })
-            ->get();
+            ->get()
+            ->map(function ($coupon) {
+                $coupon->description = $coupon->description ?: $coupon->note;
+                return $coupon;
+            });
 
         return response()->json($coupons);
     }
@@ -132,7 +138,7 @@ class CouponController extends Controller
             'amount' => 'required|numeric|min:0'
         ]);
 
-        $coupon = Coupon::where('code', $request->code)->first();
+        $coupon = Coupon::where('code', strtoupper(trim($request->code)))->first();
 
         if (!$coupon) {
             return response()->json([
@@ -155,18 +161,7 @@ class CouponController extends Controller
             ]);
         }
 
-        // Calculate discount
-        $discount = 0;
-        if ($coupon->type === 'percentage') {
-            $discount = ($request->amount * $coupon->value) / 100;
-        } else {
-            $discount = $coupon->value;
-        }
-
-        // Apply max discount limit
-        if ($coupon->max_discount && $discount > $coupon->max_discount) {
-            $discount = $coupon->max_discount;
-        }
+        $discount = $coupon->calculateDiscount((float) $request->amount);
 
         return response()->json([
             'valid' => true,

@@ -294,7 +294,7 @@ class DoctorRegistrationController extends Controller
             if (!empty($validated['coupon_code'])) {
                 Log::info('Validating coupon', ['code' => $validated['coupon_code']]);
 
-                $coupon = Coupon::where('code', $validated['coupon_code'])->first();
+                $coupon = Coupon::where('code', strtoupper(trim($validated['coupon_code'])))->first();
 
                 if (!$coupon || !$coupon->isCurrentlyValid()) {
                     throw new \Exception('Invalid or expired coupon code');
@@ -850,7 +850,7 @@ class DoctorRegistrationController extends Controller
         }
 
         try {
-            $coupon = Coupon::where('code', $request->code)->first();
+            $coupon = Coupon::where('code', strtoupper(trim($request->code)))->first();
 
             if (!$coupon) {
                 return response()->json([
@@ -983,7 +983,7 @@ class DoctorRegistrationController extends Controller
             $coupon = null;
             $discountAmount = 0;
             if (!empty($request->coupon_code)) {
-                $coupon = Coupon::where('code', $request->coupon_code)->first();
+                $coupon = Coupon::where('code', strtoupper(trim($request->coupon_code)))->first();
                 if ($coupon && $coupon->isCurrentlyValid() && $coupon->min_amount <= $subtotal) {
                     $discountAmount = $coupon->calculateDiscount($subtotal);
                 }

@@ -427,7 +427,7 @@ public function storeall(Request $request)
         if (!empty($validated['coupon_code'])) {
             Log::info('Validating coupon', ['code' => $validated['coupon_code']]);
 
-            $coupon = Coupon::where('code', $validated['coupon_code'])->first();
+            $coupon = Coupon::where('code', strtoupper(trim($validated['coupon_code'])))->first();
 
             if (!$coupon || !$coupon->isCurrentlyValid()) {
 
