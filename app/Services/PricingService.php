@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -121,7 +120,7 @@ class PricingService
 
     public function refreshLiveRates(): array
     {
-        Cache::forget('pricing:live-rates:usd');
+        $this->plainCacheForget('pricing:live-rates:usd');
         return $this->liveRates(true);
     }
 
@@ -164,10 +163,10 @@ class PricingService
         $ttl = (int) config('pricing.rates.cache_ttl_seconds', 43200);
 
         if ($force) {
-            Cache::forget($cacheKey);
+            $this->plainCacheForget($cacheKey);
         }
 
-        return Cache::remember($cacheKey, $ttl, function () {
+        return $this->plainCacheRemember($cacheKey, $ttl, function () {
             // Try to fetch from APIs
             $rates = $this->fetchRatesFromMultipleSources();
             
@@ -401,7 +400,7 @@ class PricingService
         $cacheKey = 'pricing:country-ip:' . md5($ip);
         $ttl = (int) config('pricing.country_detection.cache_ttl_seconds', 86400);
 
-        return (string) Cache::remember($cacheKey, $ttl, function () use ($ip) {
+        return (string) $this->plainCacheRemember($cacheKey, $ttl, function () use ($ip) {
             // Try multiple IP geolocation services
             $services = [
                 'https://ipapi.co/' . urlencode($ip) . '/json/',
@@ -435,6 +434,56 @@ class PricingService
             
             return '';
         });
+    }
+
+    private function plainCacheRemember(string $key, int $ttl, callable $callback): mixed
+    {
+        $path = $this->plainCachePath($key);
+
+        if (is_file($path)) {
+            $payload = json_decode((string) file_get_contents($path), true);
+
+            if (
+                is_array($payload)
+                && array_key_exists('expires_at', $payload)
+                && (int) $payload['expires_at'] >= time()
+                && array_key_exists('value', $payload)
+            ) {
+                return $payload['value'];
+            }
+        }
+
+        $value = $callback();
+        $directory = dirname($path);
+
+        if (!is_dir($directory)) {
+            mkdir($directory, 0755, true);
+        }
+
+        file_put_contents(
+            $path,
+            json_encode([
+                'expires_at' => time() + max(1, $ttl),
+                'value' => $value,
+            ]),
+            LOCK_EX
+        );
+
+        return $value;
+    }
+
+    private function plainCacheForget(string $key): void
+    {
+        $path = $this->plainCachePath($key);
+
+        if (is_file($path)) {
+            @unlink($path);
+        }
+    }
+
+    private function plainCachePath(string $key): string
+    {
+        return storage_path('framework/cache/pricing/' . sha1($key) . '.json');
     }
     
     private function isPrivateIp(string $ip): bool
