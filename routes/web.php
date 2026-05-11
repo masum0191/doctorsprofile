@@ -41,6 +41,15 @@ Route::get('/login', function(){
      return redirect()->route('admin.login');
 });
 
+Route::match(['get', 'post'], '/sslcommerz/success', [\App\Http\Controllers\Api\DoctorRegistrationController::class, 'sslcommerzSuccess'])
+    ->name('sslcommerz.success');
+Route::match(['get', 'post'], '/sslcommerz/fail', [\App\Http\Controllers\Api\DoctorRegistrationController::class, 'sslcommerzFail'])
+    ->name('sslcommerz.fail');
+Route::match(['get', 'post'], '/sslcommerz/cancel', [\App\Http\Controllers\Api\DoctorRegistrationController::class, 'sslcommerzCancel'])
+    ->name('sslcommerz.cancel');
+Route::match(['get', 'post'], '/sslcommerz/ipn', [\App\Http\Controllers\Api\DoctorRegistrationController::class, 'sslcommerzIpn'])
+    ->name('sslcommerz.ipn');
+
 //
 // updateProfileUpdateByTenant
 
