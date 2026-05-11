@@ -1555,11 +1555,11 @@
                         <h4>Dr. {{ auth()->user()->name }}</h4>
                         <p>{{ auth()->user()->specialization ?? 'Medical Professional' }}</p>
                     </div>
-                    <a href="{{ route('admin.logout') }}" class="logout-btn"
+                    <a href="{{ route('logout') }}" class="logout-btn"
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="ri-logout-box-r-line"></i>
                     </a>
-                    <form id="logout-form" action="{{ route('admin.logout') }}" method="POST"
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
                         style="display: none;">
                         @csrf
                     </form>

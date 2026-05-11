@@ -515,7 +515,7 @@
                         </td>
                         <td data-label="Amount">
                             <span class="amount">
-                                {{ number_format($sub->billing_cycle == 'yearly' ? $sub->package->price_yearly : $sub->package->price_monthly, 2) }} ৳
+                                {{ number_format($sub->billing_cycle == 'yearly' ? $sub->package->price_yearly : $sub->package->price_monthly, 2) }} $
                             </span>
                         </td>
                         <td data-label="Status">
