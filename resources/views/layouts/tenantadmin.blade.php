@@ -508,16 +508,9 @@
                                 <div class="email">{{ Auth::user()->email ?? 'admin@example.com' }}</div>
                             </div>
                             <div class="dropdown-divider"></div>
-                    <a href="/profile" class="dropdown-item">
-                                <i class="ri-user-settings-line"></i>
-                                <span>Profile Settings</span>
-                            </a>
-                            <a href="#" class="dropdown-item">
-                                <i class="ri-lock-password-line"></i>
-                                <span>Change Password</span>
-                            </a>
+                    
                             <div class="dropdown-divider"></div>
-                            <form id="logout-form" action="" method="POST" style="display: none;">
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
                             <a href="#" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
