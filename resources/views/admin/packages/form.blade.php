@@ -15,14 +15,14 @@
 
     {{-- Price Monthly --}}
     <div>
-        <label for="price_monthly" class="block text-sm font-medium text-gray-700">Price Monthly ( {{ $companysetting->currency }} )</label>
+        <label for="price_monthly" class="block text-sm font-medium text-gray-700">Price Monthly (USD Base)</label>
         <input type="number" step="0.01" name="price_monthly" id="price_monthly" value="{{ old('price_monthly', $package->price_monthly ?? 0.00) }}" required min="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2">
         @error('price_monthly')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
     </div>
 
     {{-- Price Yearly --}}
     <div>
-        <label for="price_yearly" class="block text-sm font-medium text-gray-700">Price Yearly ({{ $companysetting->currency }})</label>
+        <label for="price_yearly" class="block text-sm font-medium text-gray-700">Price Yearly (USD Base)</label>
         <input type="number" step="0.01" name="price_yearly" id="price_yearly" value="{{ old('price_yearly', $package->price_yearly ?? 0.00) }}" required min="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2">
         @error('price_yearly')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
     </div>

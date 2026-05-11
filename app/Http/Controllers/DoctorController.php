@@ -503,6 +503,10 @@ public function storeall(Request $request)
         $package = Package::findOrFail($validated['package_id']);
         $billingCycle = $validated['selected_billing_cycle'];
 
+        if (in_array($domainType, ['new', 'existing'], true) && !$package->hasFeature('custom_domain')) {
+            throw new \Exception('The selected package only supports platform subdomains. Please choose a package with custom domain support.');
+        }
+
         $trialEndsAt = null;
         if ($billingCycle === 'free') {
             $billingCycle = 'monthly';

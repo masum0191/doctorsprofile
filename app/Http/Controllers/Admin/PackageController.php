@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Package;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 
 class PackageController extends Controller
 {
@@ -23,7 +23,9 @@ class PackageController extends Controller
      */
     public function create()
     {
-        return view('admin.packages.create');
+        return view('admin.packages.create', [
+            'featureCatalog' => config('package_features.catalog', []),
+        ]);
     }
 
     /**
@@ -45,9 +47,10 @@ class PackageController extends Controller
             'sort_order' => 'nullable|integer',
         ]);
 
+        $validated['slug'] = Str::slug($validated['name']);
         $validated['max_doctors'] = $request->filled('max_doctors') ? (int) $request->input('max_doctors') : null;
         $validated['max_patients'] = $request->filled('max_patients') ? (int) $request->input('max_patients') : null;
-        $validated['features'] = $this->normalizeFeatures($request);
+        $validated['features'] = $this->normalizeFeatures($request, $validated['name']);
 
         Package::create($validated);
 
@@ -60,7 +63,10 @@ class PackageController extends Controller
      */
     public function edit(Package $package)
     {
-        return view('admin.packages.edit', compact('package'));
+        return view('admin.packages.edit', [
+            'package' => $package,
+            'featureCatalog' => config('package_features.catalog', []),
+        ]);
     }
 
     /**
@@ -82,9 +88,10 @@ class PackageController extends Controller
             'sort_order' => 'nullable|integer',
         ]);
 
+        $validated['slug'] = Str::slug($validated['name']);
         $validated['max_doctors'] = $request->filled('max_doctors') ? (int) $request->input('max_doctors') : null;
         $validated['max_patients'] = $request->filled('max_patients') ? (int) $request->input('max_patients') : null;
-        $validated['features'] = $this->normalizeFeatures($request);
+        $validated['features'] = $this->normalizeFeatures($request, $validated['name']);
 
         $package->update($validated);
 
@@ -104,9 +111,16 @@ class PackageController extends Controller
         ->with('success', 'Package deleted successfully.');
     }
 
-    private function normalizeFeatures(Request $request): array
+    private function normalizeFeatures(Request $request, string $packageName): array
     {
-        $keys = ['doctor', 'appointments', 'patients', 'services', 'content'];
+        $presetKey = Str::slug($packageName);
+        $preset = config("package_features.presets.$presetKey");
+
+        if (is_array($preset)) {
+            return $preset;
+        }
+
+        $keys = array_keys(config('package_features.catalog', []));
         $features = [];
 
         foreach ($keys as $key) {

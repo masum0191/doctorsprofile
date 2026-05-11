@@ -274,16 +274,12 @@
                     @enderror
 
                     <div class="form-group mt-3">
-                        <label class="form-label">Doctor Dashboard Permissions</label>
+                        <label class="form-label">Package Features</label>
                         <div class="feature-grid">
                             @php
-                                $featureLabels = [
-                                    'doctor' => ['title' => 'Doctor', 'text' => 'Dashboard and doctor profile access'],
-                                    'appointments' => ['title' => 'Appointments', 'text' => 'Appointment list, calendar, and status updates'],
-                                    'patients' => ['title' => 'Patients', 'text' => 'Patient list, profiles, records, and prescriptions'],
-                                    'services' => ['title' => 'Services', 'text' => 'Chambers, telemedicine, and billing sections'],
-                                    'content' => ['title' => 'Content', 'text' => 'Posts, testimonials, FAQs, and AI content'],
-                                ];
+                                $featureLabels = $featureCatalog ?? config('package_features.catalog', []);
+                                $presetKey = str_contains(strtolower(old('name', '')), 'premium') ? 'premium' : (str_contains(strtolower(old('name', '')), 'free') ? 'free' : 'standard');
+                                $presetFeatures = config("package_features.presets.$presetKey", []);
                             @endphp
 
                             @foreach($featureLabels as $featureKey => $featureMeta)
@@ -294,11 +290,11 @@
                                             id="feature_{{ $featureKey }}"
                                             name="features[{{ $featureKey }}]"
                                             value="1"
-                                            {{ old("features.$featureKey", true) ? 'checked' : '' }}
+                                            {{ old("features.$featureKey", $presetFeatures[$featureKey] ?? false) ? 'checked' : '' }}
                                         >
-                                        {{ $featureMeta['title'] }}
+                                        {{ $featureMeta['label'] }}
                                     </label>
-                                    <p>{{ $featureMeta['text'] }}</p>
+                                    <p>{{ $featureMeta['description'] }}</p>
                                 </div>
                             @endforeach
                         </div>

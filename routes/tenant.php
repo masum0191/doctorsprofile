@@ -130,7 +130,7 @@ Route::post('/packages/upgrade', [UpgradeController::class,'process'])
 // notice
 Route::get('/notices', [\App\Http\Controllers\NoticeController::class, 'index'])->name('notices.index');
 Route::get('/notices/{slug}', [\App\Http\Controllers\NoticeController::class, 'show'])->name('notices.show');
-Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
+Route::post('/appointments', [AppointmentController::class, 'store'])->middleware('feature:appointment_booking')->name('appointments.store');
 Route::get('/appointment/confirmation/{appointment}', [AppointmentController::class, 'confirmation'])->name('appointment.confirmation');
 
 Route::get('chambers/{chamber}/slots/{date}', [ChamberController::class, 'getAvailableSlots'])->name('chambers.slots');
@@ -343,8 +343,8 @@ Route::prefix('patients')->name('patients.')->middleware(['auth', 'feature:patie
 
     Route::get('/appointments', [DoctorAppointmentController::class, 'index'])->middleware('feature:appointments')->name('appointments.index');
     Route::get('/appointments/{appointment}', [DoctorAppointmentController::class, 'show'])->middleware('feature:appointments')->name('appointments.show');
-    Route::put('/appointments/{appointment}/status', [DoctorAppointmentController::class, 'updateStatus'])->middleware('feature:appointments')->name('appointments.updateStatus');
-    Route::post('/appointments/{appointment}/reschedule', [DoctorAppointmentController::class, 'reschedule'])->middleware('feature:appointments')->name('appointments.reschedule');
+    Route::put('/appointments/{appointment}/status', [DoctorAppointmentController::class, 'updateStatus'])->middleware('feature:appointment_management')->name('appointments.updateStatus');
+    Route::post('/appointments/{appointment}/reschedule', [DoctorAppointmentController::class, 'reschedule'])->middleware('feature:appointment_management')->name('appointments.reschedule');
     Route::get('/appointments-calendar', [DoctorAppointmentController::class, 'calendar'])->middleware('feature:appointments')->name('appointments.calendar');
     Route::get('/appointments/upcoming', [DoctorAppointmentController::class, 'upcoming'])->middleware('feature:appointments')->name('appointments.upcoming');
     Route::get('/appointment/today', [DoctorAppointmentController::class, 'today'])->middleware('feature:appointments')->name('appointment.today');

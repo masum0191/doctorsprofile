@@ -439,7 +439,7 @@
                                         <div class="d-flex gap-2">
                                             <div class="price-tag">
                                                 <div class="period">Monthly</div>
-                                                <div class="amount">{{ $companysetting->currency }}{{ number_format($package->price_monthly, 0) }}</div>
+                                                <div class="amount">${{ number_format($package->price_monthly, 0) }}</div>
                                                @if($package->price_yearly && $package->price_monthly > 0)
     <div class="discount">
         Save {{ number_format((1 - ($package->price_yearly / ($package->price_monthly * 12))) * 100, 0) }}%
@@ -449,7 +449,7 @@
                                             @if($package->price_yearly)
                                             <div class="price-tag">
                                                 <div class="period">Yearly</div>
-                                                <div class="amount">{{ $companysetting->currency }}{{ number_format($package->price_yearly, 0) }}</div>
+                                                <div class="amount">${{ number_format($package->price_yearly, 0) }}</div>
                                                 <div class="text-muted small">/year</div>
                                             </div>
                                             @endif

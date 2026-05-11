@@ -275,15 +275,9 @@
                     @enderror
 
                     <div class="form-group mt-3">
-                        <label class="form-label">Doctor Dashboard Permissions</label>
+                        <label class="form-label">Package Features</label>
                         @php
-                            $featureLabels = [
-                                'doctor' => ['title' => 'Doctor', 'text' => 'Dashboard and doctor profile access'],
-                                'appointments' => ['title' => 'Appointments', 'text' => 'Appointment list, calendar, and status updates'],
-                                'patients' => ['title' => 'Patients', 'text' => 'Patient list, profiles, records, and prescriptions'],
-                                'services' => ['title' => 'Services', 'text' => 'Chambers, telemedicine, and billing sections'],
-                                'content' => ['title' => 'Content', 'text' => 'Posts, testimonials, FAQs, and AI content'],
-                            ];
+                            $featureLabels = $featureCatalog ?? config('package_features.catalog', []);
                             $packageFeatures = method_exists($package, 'featureMap') ? $package->featureMap() : [];
                         @endphp
                         <div class="feature-grid">
@@ -297,9 +291,9 @@
                                             value="1"
                                             {{ old("features.$featureKey", $packageFeatures[$featureKey] ?? true) ? 'checked' : '' }}
                                         >
-                                        {{ $featureMeta['title'] }}
+                                        {{ $featureMeta['label'] }}
                                     </label>
-                                    <p>{{ $featureMeta['text'] }}</p>
+                                    <p>{{ $featureMeta['description'] }}</p>
                                 </div>
                             @endforeach
                         </div>

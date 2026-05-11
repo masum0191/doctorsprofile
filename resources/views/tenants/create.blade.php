@@ -62,7 +62,8 @@
                                 data-package-id="{{ $package->id }}"
                                 data-package-free="{{ $package->price_monthly == 0 ? 'true' : 'false' }}"
                                 data-package-price-monthly="{{ $package->price_monthly }}"
-                                data-package-price-yearly="{{ $package->price_yearly }}">
+                                data-package-price-yearly="{{ $package->price_yearly }}"
+                                data-package-features='@json($package->featureMap())'>
 
                                 @if ($index == 1)
                                     <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-full px-4">
@@ -1492,7 +1493,27 @@
     }
 
     // ========== DOMAIN TYPE TOGGLE ==========
+    function selectedPackageHasFeature(feature) {
+        if (!selectedPackageId) return false;
+
+        const selectedCard = document.querySelector(`[data-package-id="${selectedPackageId}"]`);
+        if (!selectedCard) return false;
+
+        try {
+            const features = JSON.parse(selectedCard.dataset.packageFeatures || '{}');
+            return !!features[feature];
+        } catch (error) {
+            console.error('Package feature parse failed:', error);
+            return false;
+        }
+    }
+
     function switchDomainTab(option) {
+        if ((option === 'register' || option === 'existing') && !selectedPackageHasFeature('custom_domain')) {
+            alert('The selected package supports subdomain only. Please choose Standard or Premium for custom domain support.');
+            option = 'free';
+        }
+
         // Map the UI option to the database expected value
         let dbValue = option;
         if (option === 'free') {
@@ -2092,6 +2113,10 @@ function useDomainSuggestion(suggestion) {
         if (isFreePackageField) isFreePackageField.value = isFreePackage ? '1' : '0';
 
         console.log(`Selected package ${packageId}, isFreePackage: ${isFreePackage}`);
+
+        if (!selectedPackageHasFeature('custom_domain') && selectedDomainType !== 'subdomain') {
+            switchDomainTab('free');
+        }
 
         document.querySelectorAll('.package-card').forEach(card => {
             card.classList.remove('border-[#318069]', 'shadow-xl', 'scale-105');

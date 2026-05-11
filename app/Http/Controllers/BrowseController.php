@@ -9,6 +9,7 @@ use App\Models\Appointment;
 use App\Models\Setting;
 use App\Models\Tenant;
 use App\Models\CompanyIncome;
+use App\Models\Package;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -441,6 +442,14 @@ public function getAvailableSlots(User $doctor, $chamberId, $date)
         }
 
         \Log::info('Tenant found, initializing tenancy', ['tenant_id' => $tenant->id]);
+
+        $package = Package::on('mysql')->find($tenant->package_id);
+        if ($package && !$package->hasFeature('appointment_booking')) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Online appointment booking is not available on this doctor package.',
+            ], 403);
+        }
 
         // Step 3: Initialize tenancy
         tenancy()->initialize($tenant);

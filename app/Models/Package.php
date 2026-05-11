@@ -35,30 +35,45 @@ class Package extends Model
 
     public function hasFeature($feature)
     {
-        $defaults = [
-            'doctor' => true,
-            'appointments' => true,
-            'patients' => true,
-            'services' => true,
-            'content' => true,
-        ];
-
-        $features = is_array($this->features) ? array_merge($defaults, $this->features) : $defaults;
-
-        return (bool) ($features[$feature] ?? false);
+        return (bool) ($this->featureMap()[$feature] ?? false);
     }
 
     public function featureMap(): array
     {
-        $defaults = [
-            'doctor' => true,
-            'appointments' => true,
-            'patients' => true,
-            'services' => true,
-            'content' => true,
-        ];
+        $catalogDefaults = array_fill_keys(array_keys(config('package_features.catalog', [])), false);
+        $preset = config('package_features.presets.' . $this->presetKey(), []);
+        $features = is_array($this->features) ? $this->features : [];
 
-        return is_array($this->features) ? array_merge($defaults, $this->features) : $defaults;
+        if ($this->isPresetPackage()) {
+            return array_merge($catalogDefaults, $features, $preset);
+        }
+
+        return array_merge($catalogDefaults, $preset, $features);
     }
 
+    public function presetKey(): string
+    {
+        $key = strtolower((string) ($this->slug ?: $this->name));
+
+        if (str_contains($key, 'premium')) {
+            return 'premium';
+        }
+
+        if (str_contains($key, 'standard')) {
+            return 'standard';
+        }
+
+        if (str_contains($key, 'free')) {
+            return 'free';
+        }
+
+        return 'standard';
+    }
+
+    public function isPresetPackage(): bool
+    {
+        $key = strtolower((string) ($this->slug ?: $this->name));
+
+        return in_array($key, ['free', 'standard', 'premium'], true);
+    }
 }
