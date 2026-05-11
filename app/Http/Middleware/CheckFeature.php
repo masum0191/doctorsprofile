@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\Models\Package;
+use App\Models\Subscription;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -16,14 +17,7 @@ class CheckFeature
      */
     public function handle($request, Closure $next, $feature)
     {
-        $tenant = function_exists('tenant') ? tenant() : null;
-        $packageId = data_get($tenant, 'package_id') ?: auth()->user()?->package;
-
-        if (!$packageId) {
-            return $next($request);
-        }
-
-        $package = Package::find($packageId);
+        $package = $this->resolvePackage();
 
         if (!$package || !$package->hasFeature($feature)) {
             if ($request->expectsJson()) {
@@ -45,4 +39,28 @@ class CheckFeature
         return $next($request);
     }
 
+    private function resolvePackage(): ?Package
+    {
+        $tenant = function_exists('tenant') ? tenant() : null;
+
+        if ($tenant) {
+            $subscription = Subscription::where('tenant_id', tenant('id'))
+                ->where('status', 'active')
+                ->where('ends_at', '>', now())
+                ->with('package')
+                ->latest()
+                ->first();
+
+            if ($subscription && $subscription->package) {
+                return $subscription->package;
+            }
+        }
+
+        $packageId = data_get($tenant, 'package_id')
+            ?: data_get($tenant, 'data.package_id')
+            ?: auth()->user()?->package_id
+            ?: auth()->user()?->package;
+
+        return $packageId ? Package::find($packageId) : null;
+    }
 }

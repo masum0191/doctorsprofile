@@ -305,8 +305,8 @@ Route::prefix('patients')->name('patients.')->middleware(['auth', 'feature:patie
          ->name('testimonials.destroy');
  Route::get('faqs', [DoctorFaqController::class, 'index'])->middleware('feature:content')->name('faqs.index');
     Route::delete('faqs/{faq}', [DoctorFaqController::class, 'destroy'])->middleware('feature:content')->name('faqs.destroy');
-     Route::get('billing', [DoctorBillingController::class, 'index'])->middleware('feature:services')->name('billing.index');
-    Route::get('billing/report', [DoctorBillingController::class, 'report'])->middleware('feature:services')->name('billing.report');
+     Route::get('billing', [DoctorBillingController::class, 'index'])->middleware('feature:online_payments')->name('billing.index');
+    Route::get('billing/report', [DoctorBillingController::class, 'report'])->middleware('feature:analytics_advanced')->name('billing.report');
 
     // Route::get('services', [ServiceController::class, 'index'])->name('services.index');
     // Route::post('services', [ServiceController::class, 'store'])->name('services.store');
@@ -348,7 +348,7 @@ Route::prefix('patients')->name('patients.')->middleware(['auth', 'feature:patie
     Route::get('/appointments-calendar', [DoctorAppointmentController::class, 'calendar'])->middleware('feature:appointments')->name('appointments.calendar');
     Route::get('/appointments/upcoming', [DoctorAppointmentController::class, 'upcoming'])->middleware('feature:appointments')->name('appointments.upcoming');
     Route::get('/appointment/today', [DoctorAppointmentController::class, 'today'])->middleware('feature:appointments')->name('appointment.today');
-    Route::get('/appointment/online', [DoctorAppointmentController::class, 'onlineAppointments'])->middleware('feature:appointments')->name('appointment.online');
+    Route::get('/appointment/online', [DoctorAppointmentController::class, 'onlineAppointments'])->middleware('feature:appointment_booking')->name('appointment.online');
 
     // setting routes
    // Route::get('/settings/categories', [DoctorSettingController::class, 'categories'])->name('settings.categories');
