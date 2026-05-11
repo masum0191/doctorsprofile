@@ -443,7 +443,7 @@ class DoctorRegistrationController extends Controller
             ]);
 
             tenancy()->end();
-            InitializeTenantData::dispatch($tenant->id)->afterCommit();
+            InitializeTenantData::dispatch($tenant->id);
 
             // 9) Process payment
             $paymentStatus = 'pending';
@@ -525,15 +525,6 @@ class DoctorRegistrationController extends Controller
 
             // 12) Fire events
             event(new \App\Events\TenantDomainCreated($domainRow));
-
-            if (DB::transactionLevel() > 0) {
-                DB::commit();
-            } else {
-                Log::warning('No active DB transaction at register commit point', [
-                    'user_id' => $user->id ?? null,
-                    'tenant_id' => $tenant->id ?? null,
-                ]);
-            }
 
             Log::info('API Registration completed successfully', [
                 'user_id' => $user->id,

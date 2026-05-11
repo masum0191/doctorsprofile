@@ -401,8 +401,7 @@ public function storeall(Request $request)
 //dd($validated);
         Log::info('Validation passed', ['email' => $validated['email']]);
 
-        DB::beginTransaction();
-        Log::info('Database transaction started');
+        Log::info('Creating registration records');
 
         // 1) Photo upload
         $databasePath = '';
@@ -594,7 +593,7 @@ public function storeall(Request $request)
 ]);
 
         tenancy()->end();
-        InitializeTenantData::dispatch($tenant->id)->afterCommit();
+        InitializeTenantData::dispatch($tenant->id);
  // 12) Fire events
         event(new \App\Events\TenantDomainCreated($domainRow));
         // 9) Process payment based on method
@@ -692,10 +691,6 @@ public function storeall(Request $request)
             'ends_at'=>$endsAt,
             'status'=>$subscriptionStatus,
         ]);
-
-        if (DB::transactionLevel() > 0) {
-            DB::commit();
-        }
 
         // 13) Handle redirection based on payment status
         if ($validated['payment_option'] === 'offline') {
