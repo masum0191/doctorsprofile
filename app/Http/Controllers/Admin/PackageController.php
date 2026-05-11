@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Package;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 class PackageController extends Controller
@@ -48,9 +49,9 @@ class PackageController extends Controller
         ]);
 
         $validated['slug'] = Str::slug($validated['name']);
-        $validated['max_doctors'] = $request->filled('max_doctors') ? (int) $request->input('max_doctors') : null;
-        $validated['max_patients'] = $request->filled('max_patients') ? (int) $request->input('max_patients') : null;
+        $this->applyOptionalLimitColumns($validated, $request);
         $validated['features'] = $this->normalizeFeatures($request, $validated['name']);
+        $validated = $this->onlyExistingPackageColumns($validated);
 
         Package::create($validated);
 
@@ -89,9 +90,9 @@ class PackageController extends Controller
         ]);
 
         $validated['slug'] = Str::slug($validated['name']);
-        $validated['max_doctors'] = $request->filled('max_doctors') ? (int) $request->input('max_doctors') : null;
-        $validated['max_patients'] = $request->filled('max_patients') ? (int) $request->input('max_patients') : null;
+        $this->applyOptionalLimitColumns($validated, $request);
         $validated['features'] = $this->normalizeFeatures($request, $validated['name']);
+        $validated = $this->onlyExistingPackageColumns($validated);
 
         $package->update($validated);
 
@@ -128,6 +129,26 @@ class PackageController extends Controller
         }
 
         return $features;
+    }
+
+    private function applyOptionalLimitColumns(array &$validated, Request $request): void
+    {
+        unset($validated['max_doctors'], $validated['max_patients']);
+
+        if (Schema::connection('mysql')->hasColumn('packages', 'max_doctors')) {
+            $validated['max_doctors'] = $request->filled('max_doctors') ? (int) $request->input('max_doctors') : null;
+        }
+
+        if (Schema::connection('mysql')->hasColumn('packages', 'max_patients')) {
+            $validated['max_patients'] = $request->filled('max_patients') ? (int) $request->input('max_patients') : null;
+        }
+    }
+
+    private function onlyExistingPackageColumns(array $attributes): array
+    {
+        $columns = array_flip(Schema::connection('mysql')->getColumnListing('packages'));
+
+        return array_intersect_key($attributes, $columns);
     }
 
     public function getPackages()
