@@ -21,7 +21,7 @@ use Illuminate\Validation\Rule;
 use App\Models\Subscription;
 // SSLCommerzService
 use App\Services\SSLCommerzService;
-use App\Services\TenantDataInitializer;
+use App\Jobs\InitializeTenantData;
 use App\Services\PricingService;
 
 class DoctorRegistrationController extends Controller
@@ -441,9 +441,9 @@ class DoctorRegistrationController extends Controller
                 'longitude' => $user->longitude,
 
             ]);
-app(TenantDataInitializer::class)->run();
 
             tenancy()->end();
+            InitializeTenantData::dispatch($tenant->id)->afterCommit();
 
             // 9) Process payment
             $paymentStatus = 'pending';

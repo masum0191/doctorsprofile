@@ -23,9 +23,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
 use App\Services\SSLCommerzService;
-use Illuminate\Support\Facades\Artisan;
 use App\Jobs\InitializeTenantData;
-use App\Services\TenantDataInitializer;
 use App\Services\PricingService;
 
 
@@ -584,19 +582,6 @@ public function storeall(Request $request)
             'schedule'  => [],
             'is_active' => true,
         ]);
-            // Run seeder
-            Artisan::call('db:seed', [
-                '--class' => 'MedicineTemplateSeeder',
-                '--force' => true, // required in production
-            ]);
-            Artisan::call('db:seed', [
-                '--class' => 'MedicineCompanySeeder',
-                '--force' => true, // required in production
-            ]);
-            Artisan::call('db:seed', [
-                '--class' => 'TestSeeder',
-                '--force' => true, // required in production
-            ]);
     $payment = Payment::create([
     //'tenant_id' => $tenantId,
     'user_id' => $tuser->id,
@@ -607,10 +592,9 @@ public function storeall(Request $request)
     'status' => 'pending',
     'billing_cycle' => $billingCycle,
 ]);
-app(TenantDataInitializer::class)->run();
 
         tenancy()->end();
-        //InitializeTenantData::dispatch($tenant->id);
+        InitializeTenantData::dispatch($tenant->id)->afterCommit();
  // 12) Fire events
         event(new \App\Events\TenantDomainCreated($domainRow));
         // 9) Process payment based on method
@@ -709,7 +693,9 @@ app(TenantDataInitializer::class)->run();
             'status'=>$subscriptionStatus,
         ]);
 
-        //DB::commit();
+        if (DB::transactionLevel() > 0) {
+            DB::commit();
+        }
 
         // 13) Handle redirection based on payment status
         if ($validated['payment_option'] === 'offline') {

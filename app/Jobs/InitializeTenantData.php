@@ -7,14 +7,15 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Artisan;
 use App\Models\Tenant;
+use App\Services\TenantDataInitializer;
 
 class InitializeTenantData implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $tenantId;
+    public $timeout = 300;
 
     public function __construct(string $tenantId)
     {
@@ -28,9 +29,7 @@ class InitializeTenantData implements ShouldQueue
 
         tenancy()->initialize($tenant);
 
-        Artisan::call('db:seed', ['--class' => 'MedicineTemplateSeeder', '--force' => true]);
-        Artisan::call('db:seed', ['--class' => 'MedicineCompanySeeder', '--force' => true]);
-        Artisan::call('db:seed', ['--class' => 'TestSeeder', '--force' => true]);
+        app(TenantDataInitializer::class)->run();
 
         tenancy()->end();
     }
