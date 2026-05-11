@@ -571,11 +571,13 @@
                     {{ $doctor->profile->headline ?? 'Your Health, Our Priority' }}
                 </h1>
                 <p class="text-lg text-gray-600 leading-relaxed">{{ $doctor->profile->about_short ?? 'Comprehensive healthcare services with years of experience.' }}</p>
+                @if($canBookAppointments)
                 <div class="flex flex-wrap gap-4">
                     <button class="px-6 py-3 bg-cyan-600 text-white rounded-lg font-semibold hover:bg-cyan-700 transition-all shadow-lg hover:shadow-xl whitespace-nowrap cursor-pointer launch-btn" type="button" data-open>
     <i class="ri-calendar-check-line mr-2"></i>Book Appointment
 </button>
                 </div>
+                @endif
                 <div class="grid grid-cols-3 gap-6 pt-8 border-t border-gray-200">
                     <div>
                         <div class="text-3xl font-bold text-cyan-600">{{ $doctor->profile->years_experience ?? '15' }}+</div>
@@ -1014,7 +1016,7 @@
         @endif
 
         <!-- Areas of Expertise -->
-        @if($doctor->services->count() > 0)
+        @if($showServices && $doctor->services->count() > 0)
         <div class="bg-gray-50 rounded-2xl p-8 lg:p-12">
             <h3 class="text-3xl font-bold text-gray-900 mb-8 text-center">Areas of Expertise</h3>
             <div class="grid md:grid-cols-2 gap-4">
@@ -1033,7 +1035,7 @@
 </section>
 
 <!-- Specialties Section -->
-@if($doctor->specialties->count() > 0)
+@if($showProfessionalProfile && $doctor->specialties->count() > 0)
 <section id="specialties" class="py-20 bg-gradient-to-br from-cyan-50 to-teal-50">
     <div class="container mx-auto px-6 lg:px-12">
         <div class="text-center mb-16">
@@ -1065,7 +1067,7 @@
 @endif
 
 <!-- Experience & Timeline -->
-@if($doctor->experiences->count() > 0)
+@if($showProfessionalProfile && $doctor->experiences->count() > 0)
 <section id="experience" class="py-20 bg-white">
     <div class="container mx-auto px-6 lg:px-12">
         <div class="text-center mb-16">
@@ -1129,7 +1131,7 @@
 @endif
 
 <!-- Online Chamber Section -->
-@if($doctor->accepts_virtual_visits && $doctor->telemedicinePlatforms->count() > 0)
+@if($showServices && $doctor->accepts_virtual_visits && $doctor->telemedicinePlatforms->count() > 0)
 <section id="online-chamber" class="py-20 bg-gradient-to-br from-cyan-50 via-white to-teal-50">
     <div class="container mx-auto px-6 lg:px-12">
         <div class="text-center mb-16">
@@ -1171,7 +1173,7 @@
 @endif
 
 <!-- Gallery Section -->
-@if($doctor->galleries->count() > 0)
+@if($showContent && $doctor->galleries->count() > 0)
 <section id="gallery" class="py-20 bg-gray-50">
     <div class="container mx-auto px-6 lg:px-12">
         <div class="text-center mb-12">
@@ -1204,7 +1206,7 @@
 @endif
 
 <!-- Testimonials Section -->
-@if($doctor->testimonials->count() > 0)
+@if($showContent && $doctor->testimonials->count() > 0)
 <section class="py-20 bg-gradient-to-br from-gray-50 to-cyan-50">
     <div class="container mx-auto px-6 lg:px-12">
         <div class="text-center mb-16">
@@ -1255,7 +1257,7 @@
 @endif
 
 <!-- FAQs Section -->
-@if($doctor->faqs->count() > 0)
+@if($showContent && $doctor->faqs->count() > 0)
 <section class="py-20 bg-white">
     <div class="container mx-auto px-6 lg:px-12">
         <div class="text-center mb-16">

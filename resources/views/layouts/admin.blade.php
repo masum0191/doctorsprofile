@@ -1209,22 +1209,30 @@
     @php
         $currentTenant = function_exists('tenant') ? tenant() : null;
         $currentPackage = null;
+        $activeSubscription = null;
 
-        if ($currentTenant && data_get($currentTenant, 'package_id')) {
-            $currentPackage = \App\Models\Package::find(data_get($currentTenant, 'package_id'));
-        } elseif (auth()->check() && data_get(auth()->user(), 'package_id')) {
-            $currentPackage = \App\Models\Package::find(data_get(auth()->user(), 'package_id'));
+        if ($currentTenant) {
+            $activeSubscription = \App\Models\Subscription::where('tenant_id', tenant('id'))
+                ->where('status', 'active')
+                ->where('ends_at', '>', now())
+                ->with('package')
+                ->latest()
+                ->first();
+        }
+
+        if ($activeSubscription && $activeSubscription->package) {
+            $currentPackage = $activeSubscription->package;
+        } elseif ($currentTenant && (data_get($currentTenant, 'package_id') || data_get($currentTenant, 'data.package_id'))) {
+            $currentPackage = \App\Models\Package::find(data_get($currentTenant, 'package_id') ?: data_get($currentTenant, 'data.package_id'));
+        } elseif (auth()->check() && (data_get(auth()->user(), 'package_id') || data_get(auth()->user(), 'package'))) {
+            $currentPackage = \App\Models\Package::find(data_get(auth()->user(), 'package_id') ?: data_get(auth()->user(), 'package'));
         }
 
         $packageFeatures = $currentPackage && method_exists($currentPackage, 'featureMap')
             ? $currentPackage->featureMap()
-            : [
-                'doctor' => true,
-                'appointments' => true,
-                'patients' => true,
-                'services' => true,
-                'content' => true,
-            ];
+            : config('package_features.presets.free', []);
+
+        $can = fn (string $feature): bool => (bool) ($packageFeatures[$feature] ?? false);
     @endphp
 
     <div class="layout-container">
@@ -1241,7 +1249,7 @@
             </div>
 
             <nav class="sidebar-nav">
-                @if($packageFeatures['doctor'] ?? false)
+                @if($can('doctor'))
                     <div class="nav-section">
                         <div class="section-label">Doctor</div>
                         <ul class="nav-list">
@@ -1252,6 +1260,7 @@
                                     <span class="nav-text">Dashboard</span>
                                 </a>
                             </li>
+                            @if($can('profile_basic') || $can('profile_professional'))
                             <li class="nav-item {{ request()->is('admin/profile*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.profile.edit') }}"
                                     class="nav-link {{ request()->is('admin/profile*') ? 'active' : '' }}">
@@ -1259,11 +1268,12 @@
                                     <span class="nav-text">Profile</span>
                                 </a>
                             </li>
+                            @endif
                         </ul>
                     </div>
                 @endif
 
-                @if($packageFeatures['appointments'] ?? false)
+                @if($can('appointments'))
                     <div class="nav-section">
                         <div class="section-label">Appointments</div>
                         <ul class="nav-list">
@@ -1275,6 +1285,7 @@
                                     <span class="nav-text">Appointments</span>
                                 </a>
                             </li>
+                            @if($can('appointment_booking'))
                             <li class="nav-item {{ request()->is('admin/appointment/online*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.appointment.online') }}"
                                     class="nav-link {{ request()->is('admin/appointment/online*') ? 'active' : '' }}">
@@ -1282,6 +1293,7 @@
                                     <span class="nav-text">Online Booking</span>
                                 </a>
                             </li>
+                            @endif
                             <li class="nav-item {{ request()->is('admin/appointments-calendar*') ? 'active' : '' }}">
                                 <a href="{{ url('admin/appointments-calendar') }}"
                                     class="nav-link {{ request()->is('admin/appointments-calendar*') ? 'active' : '' }}">
@@ -1293,7 +1305,7 @@
                     </div>
                 @endif
 
-                @if($packageFeatures['patients'] ?? false)
+                @if($can('patients'))
                     <div class="nav-section">
                         <div class="section-label">Patients</div>
                         <ul class="nav-list">
@@ -1323,10 +1335,11 @@
                     </div>
                 @endif
 
-                @if($packageFeatures['services'] ?? false)
+                @if($can('services') || $can('appointment_booking') || $can('online_payments') || $can('analytics_basic') || $can('analytics_advanced'))
                     <div class="nav-section">
                         <div class="section-label">Services</div>
                         <ul class="nav-list">
+                            @if($can('services'))
                             <li class="nav-item {{ request()->is('admin/chambers*') ? 'active' : '' }}">
                                 <a href="{{ url('admin/chambers') }}"
                                     class="nav-link {{ request()->is('admin/chambers*') ? 'active' : '' }}">
@@ -1334,6 +1347,8 @@
                                     <span class="nav-text">Clinics</span>
                                 </a>
                             </li>
+                            @endif
+                            @if($can('appointment_booking'))
                             <li class="nav-item {{ request()->is('admin/settings/online-schedule*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.settings.online-schedule') }}"
                                     class="nav-link {{ request()->is('admin/settings/online-schedule*') ? 'active' : '' }}">
@@ -1341,6 +1356,8 @@
                                     <span class="nav-text">Online Schedule</span>
                                 </a>
                             </li>
+                            @endif
+                            @if($can('services'))
                             <li class="nav-item {{ request()->is('admin/telemedicine*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.telemedicine.index') }}"
                                     class="nav-link {{ request()->is('admin/telemedicine*') ? 'active' : '' }}">
@@ -1348,6 +1365,8 @@
                                     <span class="nav-text">Telemedicine</span>
                                 </a>
                             </li>
+                            @endif
+                            @if($can('online_payments'))
                             <li class="nav-item {{ request()->is('admin/billing*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.billing.index') }}"
                                     class="nav-link {{ request()->is('admin/billing*') ? 'active' : '' }}">
@@ -1355,6 +1374,8 @@
                                     <span class="nav-text">Billing</span>
                                 </a>
                             </li>
+                            @endif
+                            @if($can('analytics_basic') || $can('analytics_advanced'))
                             <li class="nav-item {{ request()->is('admin/billing/report*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.billing.report') }}"
                                     class="nav-link {{ request()->is('admin/billing/report*') ? 'active' : '' }}">
@@ -1362,14 +1383,16 @@
                                     <span class="nav-text">Reports</span>
                                 </a>
                             </li>
+                            @endif
                         </ul>
                     </div>
                 @endif
 
-                @if($packageFeatures['content'] ?? false)
+                @if($can('content') || $can('basic_meta_tags') || $can('advanced_seo') || $can('managed_seo') || $can('themes_multiple') || $can('template_basic'))
                     <div class="nav-section">
-                        <div class="section-label">Content</div>
+                        <div class="section-label">{{ $can('content') ? 'Content' : 'Settings' }}</div>
                         <ul class="nav-list">
+                            @if($can('content'))
                             <li class="nav-item {{ request()->is('admin/testimonials*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.testimonials.index') }}"
                                     class="nav-link {{ request()->is('admin/testimonials*') ? 'active' : '' }}">
@@ -1391,7 +1414,9 @@
                                     <span class="nav-text">Articles</span>
                                 </a>
                             </li>
+                            @endif
 
+                            @if($can('basic_meta_tags') || $can('advanced_seo') || $can('managed_seo') || $can('template_basic') || $can('themes_multiple'))
                             <li
                                 class="nav-item has-dropdown
                                 {{ request()->is('admin/setting-page*') ||
@@ -1416,12 +1441,23 @@
                                 <i class="ri-arrow-down-s-line dropdown-icon"></i>
                             </a>
                             <ul class="dropdown-menu">
+                                @if($can('basic_meta_tags') || $can('advanced_seo') || $can('managed_seo'))
                                 <li>
                                     <a class="dropdown-item {{ request()->is('admin/setting-page*') ? 'active' : '' }}"
                                         href="/admin/setting-page">
                                         <i class="ri-settings-2-line"></i> General
                                     </a>
                                 </li>
+                                @endif
+                                @if($can('template_basic') || $can('themes_multiple'))
+                                <li>
+                                    <a class="dropdown-item {{ request()->is('tenantadmin/templates*') ? 'active' : '' }}"
+                                        href="{{ route('tenantadmin.templates.index') }}">
+                                        <i class="ri-layout-3-line"></i> Templates
+                                    </a>
+                                </li>
+                                @endif
+                                @if($can('content'))
                                 <li>
                                     <a class="dropdown-item {{ request()->is('admin/categories*') ? 'active' : '' }}"
                                         href="/admin/categories">
@@ -1500,9 +1536,11 @@
                                         <i class="ri-heart-pulse-line"></i> Comorbidities
                                     </a>
                                 </li>
+                                @endif
 
                             </ul>
                         </li>
+                        @endif
                     </ul>
                 </div>
                 @endif
@@ -1556,19 +1594,23 @@
                             <i class="ri-add-line"></i>
                             New Appointment
                         </button> --}}
+                        @if($can('patients'))
                         <a href="/admin/add-new-prescriptions">
                             <button class="quick-action-btn">
                                 <i class="ri-user-add-line"></i>
                                <span class="d-none d-md-inline">  Add  Prescription</span>
                             </button>
                         </a>
+                        @endif
                     </div>
 
 
+                    @if($can('email_notifications') || $can('sms_reminders') || $can('appointments'))
                     <button class="notification-btn" id="notificationBtn">
                         <i class="ri-notification-3-line"></i>
                         <span class="notification-badge" id="notificationCount">0</span>
                     </button>
+                    @endif
 
                     <div class="profile-dropdown" id="profileDropdown">
                         <button class="profile-btn" id="profileBtn">

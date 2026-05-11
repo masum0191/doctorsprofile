@@ -41,11 +41,16 @@ class BrowseController extends Controller
 
         $tenantDoctor = null;
         $chambers = collect();
+        $packageFeatures = config('package_features.presets.free', []);
 
         if ($doctor->tenant_id) {
             $tenant = Tenant::find($doctor->tenant_id);
 
             if ($tenant) {
+                $packageId = data_get($tenant, 'package_id') ?: data_get($tenant, 'data.package_id');
+                $package = $packageId ? Package::on('mysql')->find($packageId) : null;
+                $packageFeatures = $package ? $package->featureMap() : $packageFeatures;
+
                 tenancy()->initialize($tenant);
 
                 try {
@@ -91,7 +96,7 @@ class BrowseController extends Controller
         $doctor->setAttribute('specialization_list', array_values($specializations ?: ['General Medicine']));
         $doctor->setAttribute('detail_domain', Domain::where('tenant_id', $doctor->tenant_id)->first());
 
-        return view('doctor-details', compact('doctor', 'tenantDoctor', 'chambers'));
+        return view('doctor-details', compact('doctor', 'tenantDoctor', 'chambers', 'packageFeatures'));
     }
 
 

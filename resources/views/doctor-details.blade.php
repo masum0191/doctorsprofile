@@ -50,6 +50,12 @@
         ->map(fn ($item) => is_string($item) ? trim($item) : $item)
         ->filter()
         ->values();
+    $packageFeatures = $packageFeatures ?? config('package_features.presets.free', []);
+    $canBookAppointments = (bool) ($packageFeatures['appointment_booking'] ?? false);
+    $showServices = (bool) ($packageFeatures['services'] ?? false);
+    $showProfessionalProfile = (bool) ($packageFeatures['profile_professional'] ?? false);
+    $showContent = (bool) ($packageFeatures['content'] ?? false);
+    $showDoctorWebsite = (bool) (($packageFeatures['subdomain'] ?? false) || ($packageFeatures['custom_domain'] ?? false));
 @endphp
 
 @section('content')
@@ -114,16 +120,18 @@
                 </div>
 
                 <div class="flex flex-wrap gap-3 mt-4 sm:mt-6">
-                    <button
-                        type="button"
-                        onclick="window.openBookingModal('{{ $doctor->id }}', @js($doctor->name))"
-                        class="bg-[#FFC107] hover:bg-amber-500 text-gray-900 px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold transition-all flex items-center gap-2 text-sm sm:text-base"
-                    >
-                        <i class="ri-calendar-check-line"></i>
-                        Book Appointment
-                    </button>
+                    @if($canBookAppointments)
+                        <button
+                            type="button"
+                            onclick="window.openBookingModal('{{ $doctor->id }}', @js($doctor->name))"
+                            class="bg-[#FFC107] hover:bg-amber-500 text-gray-900 px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold transition-all flex items-center gap-2 text-sm sm:text-base"
+                        >
+                            <i class="ri-calendar-check-line"></i>
+                            Book Appointment
+                        </button>
+                    @endif
 
-                    @if($profileUrl)
+                    @if($profileUrl && $showDoctorWebsite)
                         <a
                             href="{{ $profileUrl }}"
                             target="_blank"
@@ -187,7 +195,7 @@
                 </div>
             </div>
 
-            @if($tenantDoctor && $tenantDoctor->experiences->count() > 0)
+            @if($showProfessionalProfile && $tenantDoctor && $tenantDoctor->experiences->count() > 0)
                 <div class="bg-white rounded-xl sm:rounded-2xl p-5 sm:p-6 md:p-8 shadow-sm border border-gray-100">
                     <div class="flex items-center gap-3 mb-4">
                         <div class="w-10 h-10 bg-[#318069]/10 rounded-xl flex items-center justify-center">
@@ -219,6 +227,7 @@
                 </div>
             @endif
 
+            @if($showServices)
             <div class="bg-white rounded-xl sm:rounded-2xl p-5 sm:p-6 md:p-8 shadow-sm border border-gray-100">
                 <div class="flex items-center gap-3 mb-4">
                     <div class="w-10 h-10 bg-[#318069]/10 rounded-xl flex items-center justify-center">
@@ -233,6 +242,7 @@
                     @endforeach
                 </div>
             </div>
+            @endif
         </div>
 
         <div class="space-y-5 sm:space-y-6">
@@ -301,7 +311,7 @@
                 </div>
             </div>
 
-            @if($chambers->count() > 0)
+            @if($showServices && $chambers->count() > 0)
                 <div class="bg-white rounded-xl sm:rounded-2xl p-5 sm:p-6 shadow-sm border border-gray-100">
                     <h3 class="text-lg font-bold text-gray-800 mb-4">Chambers</h3>
                     <div class="space-y-4">
@@ -356,7 +366,7 @@
                 </div>
             </div>
 
-            @if($profileUrl)
+            @if($profileUrl && $showDoctorWebsite)
                 <div class="bg-white rounded-xl sm:rounded-2xl p-5 sm:p-6 shadow-sm border border-gray-100">
                     <h3 class="text-lg font-bold text-gray-800 mb-3">Book or Learn More</h3>
                     <p class="text-sm text-gray-600 mb-4">Open the doctor's website to see appointment options and published profile details.</p>

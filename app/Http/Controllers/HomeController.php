@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 use App\Models\Setting;
 use App\Models\User;
 use App\Models\Chamber;
+use App\Models\Package;
 
 use Illuminate\Http\Request;
 
@@ -32,9 +33,13 @@ class HomeController extends Controller
         ])->first();
        // dd($doctor);
         $chambers=Chamber::where('doctor_id',$doctor->id)->get();
-        return view('welcome', compact('setting','doctor','chambers'));
+        $tenant = function_exists('tenant') ? tenant() : null;
+        $packageId = data_get($tenant, 'package_id') ?: data_get($tenant, 'data.package_id');
+        $package = $packageId ? Package::on('mysql')->find($packageId) : null;
+        $packageFeatures = $package ? $package->featureMap() : config('package_features.presets.free', []);
+
+        return view('welcome', compact('setting','doctor','chambers', 'packageFeatures'));
 
     }
 }
-
 
