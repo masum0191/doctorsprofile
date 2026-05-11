@@ -1241,7 +1241,7 @@
             <div class="sidebar-header">
                 <div class="brand-img d-flex">
                     <img alt="Doctor Directory Logo" class="h-12 w-auto object-contain"
-                        src="https://doctorsprofile.xyz/uploads/settings/logo_HsNogj4w3l.png" height="50">
+                        src="{{ tenant('logo') }}" height="50">
                 </div>
                 <button class="toggle-btn d-none" id="sidebarToggle">
                     <i class="ri-arrow-left-s-line"></i>
