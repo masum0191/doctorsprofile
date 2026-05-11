@@ -1241,7 +1241,7 @@
             <div class="sidebar-header">
                 <div class="brand-img d-flex">
                     <img alt="Doctor Directory Logo" class="h-12 w-auto object-contain"
-                        src="{{ tenant('logo') }}" height="50">
+                        src="{{ auth()->user()->photo ? url(auth()->user()->photo) : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) . '&background=318069&color=fff' }}" height="50">
                 </div>
                 <button class="toggle-btn d-none" id="sidebarToggle">
                     <i class="ri-arrow-left-s-line"></i>
