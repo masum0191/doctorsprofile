@@ -187,17 +187,17 @@
                                             @if($coupon->type === 'percent')
                                                 {{ rtrim(rtrim(number_format($coupon->value, 2), '0'), '.') }}%
                                             @else
-                                                ৳{{ number_format($coupon->value, 2) }}
+                                                ${{ number_format($coupon->value, 2) }}
                                             @endif
                                         </div>
                                         @if($coupon->type === 'percent' && $coupon->max_discount)
                                             <div class="text-muted small">
-                                                Max: ৳{{ number_format($coupon->max_discount, 2) }}
+                                                Max: ${{ number_format($coupon->max_discount, 2) }}
                                             </div>
                                         @endif
                                         @if($coupon->min_amount)
                                             <div class="text-muted small">
-                                                Min: ৳{{ number_format($coupon->min_amount, 2) }}
+                                                Min: ${{ number_format($coupon->min_amount, 2) }}
                                             </div>
                                         @endif
                                     </td>

@@ -172,11 +172,11 @@
                                                    value="{{ old('value', $coupon->value) }}" 
                                                    required>
                                             <span class="input-group-text" id="valueSuffix">
-                                                {{ old('type', $coupon->type) == 'percent' ? '%' : '৳' }}
+                                                {{ old('type', $coupon->type) == 'percent' ? '%' : '$' }}
                                             </span>
                                         </div>
                                         <div class="form-hint" id="valueHint">
-                                            {{ old('type', $coupon->type) == 'percent' ? 'Percentage discount (e.g., 10 for 10%)' : 'Fixed amount in ৳' }}
+                                            {{ old('type', $coupon->type) == 'percent' ? 'Percentage discount (e.g., 10 for 10%)' : 'Fixed amount in USD' }}
                                         </div>
                                         @error('value')
                                             <div class="text-danger small mt-1">{{ $message }}</div>
@@ -223,7 +223,7 @@
                                                    class="form-control"
                                                    value="{{ old('min_amount', $coupon->min_amount) }}"
                                                    placeholder="e.g., 500">
-                                            <span class="input-group-text">৳</span>
+                                        <span class="input-group-text">$</span>
                                         </div>
                                         <div class="form-hint">Minimum order value to use this coupon</div>
                                         @error('min_amount')
@@ -382,7 +382,7 @@
                             <div class="preview-label">Value</div>
                             <div class="preview-value" id="previewValue">
                                 {{ old('value', $coupon->value) ?: '0' }}
-                                {{ old('type', $coupon->type) == 'percent' ? '%' : '৳' }}
+                                {{ old('type', $coupon->type) == 'percent' ? '%' : '$' }}
                             </div>
                         </div>
                     </div>
@@ -390,14 +390,14 @@
                     <div class="mt-3">
                         <div class="preview-label">Minimum Order</div>
                         <div class="preview-value" id="previewMin">
-                            {{ old('min_amount', $coupon->min_amount) ? number_format(old('min_amount', $coupon->min_amount), 2) . ' ৳' : 'None' }}
+                            {{ old('min_amount', $coupon->min_amount) ? '$' . number_format(old('min_amount', $coupon->min_amount), 2) : 'None' }}
                         </div>
                     </div>
                     
                     <div class="mt-3">
                         <div class="preview-label">Max Discount</div>
                         <div class="preview-value" id="previewMax">
-                            {{ old('type', $coupon->type) == 'percent' && old('max_discount', $coupon->max_discount) ? number_format(old('max_discount', $coupon->max_discount), 2) . ' ৳' : 'N/A' }}
+                            {{ old('type', $coupon->type) == 'percent' && old('max_discount', $coupon->max_discount) ? '$' . number_format(old('max_discount', $coupon->max_discount), 2) : 'N/A' }}
                         </div>
                     </div>
                     
@@ -448,12 +448,12 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('previewCode').textContent = codeInput.value || 'COUPONCODE';
         document.getElementById('previewType').textContent = typeSelect.value === 'percent' ? 'Percentage' : 'Fixed';
         document.getElementById('previewValue').textContent = 
-            (valueInput.value || '0') + (typeSelect.value === 'percent' ? '%' : '৳');
+            (typeSelect.value === 'percent' ? (valueInput.value || '0') + '%' : '$' + (valueInput.value || '0'));
         document.getElementById('previewMin').textContent = 
-            minAmountInput.value ? parseFloat(minAmountInput.value).toFixed(2) + ' ৳' : 'None';
+            minAmountInput.value ? '$' + parseFloat(minAmountInput.value).toFixed(2) : 'None';
         document.getElementById('previewMax').textContent = 
             typeSelect.value === 'percent' && maxDiscountInput.value ? 
-            parseFloat(maxDiscountInput.value).toFixed(2) + ' ৳' : 'N/A';
+            '$' + parseFloat(maxDiscountInput.value).toFixed(2) : 'N/A';
         document.getElementById('previewUsage').textContent = 
             usageLimitInput.value ? usageLimitInput.value : 'Unlimited';
     }
@@ -465,10 +465,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const valueHint = document.getElementById('valueHint');
         const maxDiscountField = document.getElementById('maxDiscountInput');
         
-        valueSuffix.textContent = isPercent ? '%' : '৳';
+        valueSuffix.textContent = isPercent ? '%' : '$';
         valueHint.textContent = isPercent ? 
             'Percentage discount (e.g., 10 for 10%)' : 
-            'Fixed amount in ৳';
+            'Fixed amount in USD';
         
         maxDiscountField.disabled = !isPercent;
         if (!isPercent) {

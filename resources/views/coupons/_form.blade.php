@@ -22,7 +22,7 @@
         <label class="form-label fw-semibold">Value</label>
         <input type="number" step="0.01" min="0.01" name="value" class="form-control"
                value="{{ old('value', $coupon->value ?? '') }}" required>
-        <div class="small text-muted mt-1">Fixed: amount (৳). Percent: % value.</div>
+        <div class="small text-muted mt-1">Fixed: amount in USD. Percent: % value.</div>
         @error('value')<div class="text-danger small mt-1">{{ $message }}</div>@enderror
     </div>
 

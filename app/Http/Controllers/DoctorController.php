@@ -897,9 +897,11 @@ private function initiateSSLCommerzPayment($tenant, $user, $package, $data, $cou
     try {
         $totalAmount = (float)$data['total_amount'];
         $sslc = new SSLCommerzService();
+        $sslcommerzAmount = app(PricingService::class)->convertFromUsd($totalAmount, 'BDT');
 
         // Create payment data
-        $postData = $sslc->createDoctorRegistrationData($user, $package, $totalAmount);
+        $postData = $sslc->createDoctorRegistrationData($user, $package, $sslcommerzAmount);
+        $postData['currency'] = 'BDT';
 
         // Add API URLs for callbacks
         $postData['success_url'] = url('/sslcommerz/success');
@@ -913,7 +915,7 @@ private function initiateSSLCommerzPayment($tenant, $user, $package, $data, $cou
             'tenant_id' => $tenant->id,
             'user_id' => $user->id,
             'order_id' => $postData['tran_id'],
-            'amount' => $data['total_amount'],
+            'amount' => $sslcommerzAmount,
             'coupon_id' => $coupon->id ?? null,
             'payment_gateway' => 'sslcommerz',
             'expires_at' => now()->addHours(24)

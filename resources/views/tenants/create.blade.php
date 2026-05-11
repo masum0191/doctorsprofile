@@ -3105,16 +3105,11 @@ function useDomainSuggestion(suggestion) {
             if (element) element.textContent = value;
         });
 
-        const convertedPackagePrice = parseFloat((packagePrice * EXCHANGE_RATE).toFixed(2));
-        const convertedDomainPrice = parseFloat((domainPrice * EXCHANGE_RATE).toFixed(2));
-        const convertedDiscount = parseFloat((discount * EXCHANGE_RATE).toFixed(2));
-        const convertedTotal = parseFloat((totalAmount * EXCHANGE_RATE).toFixed(2));
-
         const hiddenFields = {
-            'finalPackagePrice': convertedPackagePrice,
-            'finalDomainPrice': convertedDomainPrice,
-            'finalDiscount': convertedDiscount,
-            'finalTotal': convertedTotal,
+            'finalPackagePrice': packagePrice.toFixed(2),
+            'finalDomainPrice': domainPrice.toFixed(2),
+            'finalDiscount': discount.toFixed(2),
+            'finalTotal': totalAmount.toFixed(2),
             'selectedBillingCycle': selectedBillingCycle,
             'selectedSubdomain': domainUrl
         };
