@@ -1698,23 +1698,11 @@ $centralUser = \App\Models\User::on('mysql')
     // $isActive = $subscription &&
     //             $subscription->status === 'active' &&
     //             \Carbon\Carbon::parse($subscription->ends_at)->isFuture();
- $subscription = \App\Models\Subscription::where('tenant_id', tenant('id'))
-        ->with('package')
-        ->latest('id')
-
-        ->latest()
-        ->first();
-    $daysLeft = $subscription
-        ? now()->diffInDays($subscription->ends_at, false)
-        : 0;
-        $currentSubscription = \App\Models\Subscription::where('tenant_id', tenant('id'))
+    $subscription = \App\Models\Subscription::where('tenant_id', tenant('id'))
         ->where('status','active')
+        ->with('package')
         ->latest()
         ->first();
-
-    $currentPackageId = $currentSubscription->package_id ?? null;
-
-
 
     $isActive = false;
     $daysLeft = 0;

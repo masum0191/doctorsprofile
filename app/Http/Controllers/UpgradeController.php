@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Package;
 use App\Models\Subscription;
 use App\Models\Payment;
-use App\Models\Tenant;
 use Carbon\Carbon;
 class UpgradeController extends Controller
 {
@@ -18,8 +17,9 @@ public function index()
         ->orderBy('sort_order')
         ->get();
 
-    // Get latest subscription
+    // Keep the current active subscription in effect while upgrades wait for approval.
     $subscription = Subscription::where('tenant_id', tenant('id'))
+        ->where('status', 'active')
         ->latest()
         ->with('package')
         ->first();
@@ -101,54 +101,25 @@ public function process(Request $request)
         'user_id' => auth()->id(),
         'package_id' => $newPackage->id,
         'amount' => $finalAmount,
-        'status' => 'panding',
+        'status' => 'pending',
         'billing_cycle' => $request->billing_cycle,
 
 
     ]);
 
     /* ==========================
-       EXPIRE OLD SUBSCRIPTION
-    ========================== */
-
-    if ($current) {
-        $current->update(['status'=>'expired']);
-    }
-
-    /* ==========================
        CREATE NEW SUBSCRIPTION
     ========================== */
 
     Subscription::on('mysql')->create([
-        'doctor_id' => $current->doctor_id,
+        'doctor_id' => $current->doctor_id ?? auth()->id(),
         'tenant_id' => $tenantId,
         'package_id'=> $newPackage->id,
         'billing_cycle'=> $request->billing_cycle,
-        'starts_at' => now(),
-        'ends_at' => $request->billing_cycle == 'yearly'
-                        ? now()->addYear()
-                        : now()->addMonth(),
-        //'status' => 'active',
+        'status' => 'pending',
     ]);
 
-    /* ==========================
-       UPDATE TENANT FEATURE
-    ========================== */
-
-    $tenant = Tenant::find($tenantId);
-
-$tenant->data = array_merge($tenant->data ?? [], [
-    'package_id' => $newPackage->id,
-    'billing_cycle' => $request->billing_cycle,
-    'monthly_price' => $newPackage->price_monthly,
-    'yearly_price'  => $newPackage->price_yearly,
-    'storage_gb'    => $newPackage->storage_gb,
-]);
-
-$tenant->status = 1;
-$tenant->save();
-
     return redirect()->route('admin.dashboard')
-        ->with('success','Subscription upgraded successfully.');
+        ->with('success','Package upgrade request submitted. New package features will apply after superadmin approval.');
 }
 }
