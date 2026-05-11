@@ -116,6 +116,10 @@ public function process(Request $request)
         'tenant_id' => $tenantId,
         'package_id'=> $newPackage->id,
         'billing_cycle'=> $request->billing_cycle,
+        'starts_at' => now(),
+        'ends_at' => $request->billing_cycle == 'yearly'
+                        ? now()->addYear()
+                        : now()->addMonth(),
         'status' => 'pending',
     ]);
 
