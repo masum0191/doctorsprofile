@@ -10,6 +10,7 @@ use App\Models\Setting;
 use App\Models\Tenant;
 use App\Models\CompanyIncome;
 use App\Models\Package;
+use App\Models\Subscription;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -47,8 +48,7 @@ class BrowseController extends Controller
             $tenant = Tenant::find($doctor->tenant_id);
 
             if ($tenant) {
-                $packageId = data_get($tenant, 'package_id') ?: data_get($tenant, 'data.package_id');
-                $package = $packageId ? Package::on('mysql')->find($packageId) : null;
+                $package = $this->resolveCurrentPackage($tenant, $doctor);
                 $packageFeatures = $package ? $package->featureMap() : $packageFeatures;
 
                 tenancy()->initialize($tenant);
@@ -448,7 +448,7 @@ public function getAvailableSlots(User $doctor, $chamberId, $date)
 
         \Log::info('Tenant found, initializing tenancy', ['tenant_id' => $tenant->id]);
 
-        $package = Package::on('mysql')->find($tenant->package_id);
+        $package = $this->resolveCurrentPackage($tenant, $doctor);
         if ($package && !$package->hasFeature('appointment_booking')) {
             return response()->json([
                 'success' => false,
@@ -955,6 +955,30 @@ private function isSlotAvailable($data, $doctorId)
         })
         ->whereIn('status', ['pending', 'confirmed', 'completed'])
         ->exists();
+}
+
+private function resolveCurrentPackage(Tenant $tenant, ?User $doctor = null): ?Package
+{
+    $subscription = Subscription::on('mysql')
+        ->where('tenant_id', $tenant->id)
+        ->where('status', 'active')
+        ->where(function ($query) {
+            $query->whereNull('ends_at')->orWhere('ends_at', '>', now());
+        })
+        ->with('package')
+        ->latest()
+        ->first();
+
+    if ($subscription?->package) {
+        return $subscription->package;
+    }
+
+    $packageId = data_get($tenant, 'package_id')
+        ?: data_get($tenant, 'data.package_id')
+        ?: data_get($doctor, 'package_id')
+        ?: data_get($doctor, 'package');
+
+    return $packageId ? Package::on('mysql')->find($packageId) : null;
 }
 
     /* ============================================================

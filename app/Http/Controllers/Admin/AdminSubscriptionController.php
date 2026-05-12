@@ -160,6 +160,7 @@ private function syncTenantPackage(Tenant $tenant, Package $package, ?string $bi
         'storage_gb' => $package->storage_gb,
     ]);
 
+    $tenant->package_id = $package->id;
     $tenant->status = 1;
     $tenant->save();
 }

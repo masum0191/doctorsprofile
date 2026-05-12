@@ -35,6 +35,12 @@ public function handle()
 
     $freePackage = Package::where('slug','free')->first();
 
+    if (!$freePackage) {
+        $this->error('Free package was not found. Expired subscriptions were not processed.');
+
+        return self::FAILURE;
+    }
+
     foreach ($expiredSubs as $sub) {
 
         // 1️⃣ Expire current subscription
@@ -60,11 +66,27 @@ public function handle()
         }
 
         // 3️⃣ Update tenant status (keep active but downgraded)
-        Tenant::where('id',$sub->tenant_id)
-            ->update(['status'=>1]);
+        $tenant = Tenant::find($sub->tenant_id);
+
+        if ($tenant) {
+            $tenant->data = array_merge($tenant->data ?? [], [
+                'package_id' => $freePackage->id,
+                'package_name' => $freePackage->name,
+                'package_features' => $freePackage->featureMap(),
+                'billing_cycle' => 'monthly',
+                'monthly_price' => $freePackage->price_monthly,
+                'yearly_price' => $freePackage->price_yearly,
+                'storage_gb' => $freePackage->storage_gb,
+            ]);
+            $tenant->package_id = $freePackage->id;
+            $tenant->status = 1;
+            $tenant->save();
+        }
     }
 
     $this->info('Expired subscriptions processed successfully.');
+
+    return self::SUCCESS;
 }
 
 }
