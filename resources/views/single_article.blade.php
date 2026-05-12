@@ -7,16 +7,26 @@
 @section('ogtype', 'article')
 
 @php
+    $articleSeoImage = $post->cover_image
+        ? (preg_match('/^https?:\/\//i', $post->cover_image) || str_starts_with($post->cover_image, '//')
+            ? $post->cover_image
+            : url(ltrim($post->cover_image, '/')))
+        : null;
     $articleSchema = [
         '@context' => 'https://schema.org',
         '@type' => 'Article',
         'headline' => $post->meta_title ?? $post->title,
         'description' => $post->meta_description ?? Str::limit(strip_tags($post->excerpt), 160),
+        'image' => $articleSeoImage,
         'datePublished' => optional($post->published_at)->toAtomString(),
         'dateModified' => optional($post->updated_at)->toAtomString(),
         'mainEntityOfPage' => url('singles-article/' . $post->slug),
     ];
 @endphp
+
+@if($articleSeoImage)
+    @section('ogimage', $articleSeoImage)
+@endif
 
 @section('structured_data')
     <script type="application/ld+json">

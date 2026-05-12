@@ -17,7 +17,16 @@
     $ogDescription = trim($__env->yieldContent('ogdescription', data_get($seoSettings, 'ogdescription') ?: $description));
     $ogType = trim($__env->yieldContent('ogtype', data_get($seoSettings, 'ogtype') ?: 'website'));
     $ogUrl = trim($__env->yieldContent('ogurl', data_get($seoSettings, 'ogurl') ?: $canonical));
-    $ogImage = trim($__env->yieldContent('ogimage', data_get($seoSettings, 'ogimage') ?: asset('images/og-default.jpg')));
+    $explicitOgImage = trim($__env->yieldContent('ogimage', ''));
+    $contextOgImage = data_get($post ?? null, 'cover_image')
+        ?: data_get($doctor ?? null, 'photo')
+        ?: data_get($seoSettings, 'ogimage')
+        ?: data_get($seoSettings, 'logo')
+        ?: 'images/og-default.jpg';
+    $rawOgImage = $explicitOgImage !== '' ? $explicitOgImage : $contextOgImage;
+    $ogImage = preg_match('/^https?:\/\//i', $rawOgImage) || str_starts_with($rawOgImage, '//')
+        ? $rawOgImage
+        : url(ltrim($rawOgImage, '/'));
     $twitterCard = trim($__env->yieldContent('twitter_card', 'summary_large_image'));
     $schemaOrganization = [
         '@context' => 'https://schema.org',

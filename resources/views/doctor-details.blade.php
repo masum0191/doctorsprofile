@@ -61,11 +61,13 @@
 @endphp
 
 @php
+    $doctorSeoImage = $doctor->photo ? url($doctor->photo) : null;
     $doctorSchema = [
         '@context' => 'https://schema.org',
         '@type' => 'Physician',
         'name' => 'Dr. ' . $doctor->name,
         'url' => route('doc-details', ['doctor' => $doctor->id, 'slug' => \Illuminate\Support\Str::slug($doctor->name)]),
+        'image' => $doctorSeoImage,
         'medicalSpecialty' => $specializations,
         'description' => $about,
         'telephone' => $contactPhone,
@@ -76,6 +78,10 @@
         ] : null,
     ];
 @endphp
+
+@if($doctorSeoImage)
+    @section('ogimage', $doctorSeoImage)
+@endif
 
 @section('structured_data')
     <script type="application/ld+json">
