@@ -7,16 +7,7 @@
     ?>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Doctor Directory Bangladesh — Find Specialists and GPs</title>
     <link rel="icon" href="{{ url($settingModel->favicon) }}" type="image/x-icon" />
-
-    {{-- Meta Tags --}}
-    <title>@yield('meta_title', 'DoctorsProfile – Global Doctors Directory')</title>
-
-
-    {{-- Open Graph --}}
-
-
     @include('partials.seo')
 
     {{-- CSRF Token --}}

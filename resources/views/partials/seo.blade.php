@@ -13,10 +13,10 @@
     $keywords = trim($__env->yieldContent('meta_keywords', data_get($seoSettings, 'keywords', '')));
     $robots = trim($__env->yieldContent('robots', data_get($seoSettings, 'robots') ?: 'index, follow'));
     $canonical = trim($__env->yieldContent('canonical', url()->current()));
-    $ogTitle = trim($__env->yieldContent('ogtitle', data_get($seoSettings, 'ogtitle') ?: $title));
-    $ogDescription = trim($__env->yieldContent('ogdescription', data_get($seoSettings, 'ogdescription') ?: $description));
+    $ogTitle = trim($__env->yieldContent('ogtitle', $title));
+    $ogDescription = trim($__env->yieldContent('ogdescription', $description));
     $ogType = trim($__env->yieldContent('ogtype', data_get($seoSettings, 'ogtype') ?: 'website'));
-    $ogUrl = trim($__env->yieldContent('ogurl', data_get($seoSettings, 'ogurl') ?: $canonical));
+    $ogUrl = trim($__env->yieldContent('ogurl', $canonical));
     $explicitOgImage = trim($__env->yieldContent('ogimage', ''));
     $contextOgImage = data_get($post ?? null, 'cover_image')
         ?: data_get($doctor ?? null, 'photo')

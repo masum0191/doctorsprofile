@@ -1,7 +1,13 @@
 @extends('layouts.sass')
 
-@section('title', 'Dr. ' . $doctor->name . ' | Doctor Profile')
-@section('meta_description', 'View profile, qualifications, and contact details for Dr. ' . $doctor->name . '.')
+@php
+    $seoDoctorName = \Illuminate\Support\Str::startsWith(strtolower($doctor->name), 'dr.')
+        ? $doctor->name
+        : 'Dr. ' . $doctor->name;
+@endphp
+
+@section('title', $seoDoctorName . ' | Doctor Profile')
+@section('meta_description', 'View profile, qualifications, and contact details for ' . $seoDoctorName . '.')
 @section('canonical', route('doc-details', ['doctor' => $doctor->id, 'slug' => \Illuminate\Support\Str::slug($doctor->name)]))
 @section('ogtype', 'profile')
 
@@ -65,7 +71,7 @@
     $doctorSchema = [
         '@context' => 'https://schema.org',
         '@type' => 'Physician',
-        'name' => 'Dr. ' . $doctor->name,
+        'name' => $seoDoctorName,
         'url' => route('doc-details', ['doctor' => $doctor->id, 'slug' => \Illuminate\Support\Str::slug($doctor->name)]),
         'image' => $doctorSeoImage,
         'medicalSpecialty' => $specializations,
