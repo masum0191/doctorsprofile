@@ -1,5 +1,7 @@
 @extends('layouts.sass')
 @section('title', 'Find Doctors Nearby')
+@section('meta_description', 'Find doctors, specialists, appointment options, and trusted medical profiles.')
+@section('canonical', url('/'))
 
 @php
     use Illuminate\Support\Str;

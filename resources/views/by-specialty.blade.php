@@ -1,5 +1,7 @@
 @extends('layouts.sass')
 @section('title', 'Doctors by Specialty')
+@section('meta_description', 'Browse doctors specializing in ' . $specialty->name . ' and compare available profiles.')
+@section('canonical', route('specialty.doctors', ['slug' => $specialty->id]))
 
 @section('content')
 <section class="pt-24 pb-20 bg-gradient-to-b from-slate-50 to-white min-h-screen">

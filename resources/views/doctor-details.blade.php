@@ -2,6 +2,8 @@
 
 @section('title', 'Dr. ' . $doctor->name . ' | Doctor Profile')
 @section('meta_description', 'View profile, qualifications, and contact details for Dr. ' . $doctor->name . '.')
+@section('canonical', route('doc-details', ['doctor' => $doctor->id, 'slug' => \Illuminate\Support\Str::slug($doctor->name)]))
+@section('ogtype', 'profile')
 
 @php
     $specializations = $doctor->specialization_list ?? ['General Medicine'];
@@ -57,6 +59,22 @@
     $showContent = (bool) ($packageFeatures['content'] ?? false);
     $showDoctorWebsite = (bool) (($packageFeatures['subdomain'] ?? false) || ($packageFeatures['custom_domain'] ?? false));
 @endphp
+
+@section('structured_data')
+    <script type="application/ld+json">
+        @json([
+            '@context' => 'https://schema.org',
+            '@type' => 'Physician',
+            'name' => 'Dr. ' . $doctor->name,
+            'url' => route('doc-details', ['doctor' => $doctor->id, 'slug' => \Illuminate\Support\Str::slug($doctor->name)]),
+            'medicalSpecialty' => $specializations,
+            'description' => $about,
+            'telephone' => $contactPhone,
+            'email' => $contactEmail,
+            'address' => $displayLocation ? ['@type' => 'PostalAddress', 'addressLocality' => $displayLocation] : null,
+        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)
+    </script>
+@endsection
 
 @section('content')
 <section class="relative bg-gradient-to-r from-[#318069] to-teal-700 mt-16 pt-10 pb-8 sm:pb-12">

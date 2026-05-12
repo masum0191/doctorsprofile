@@ -2,6 +2,8 @@
 
 
 @section('title', 'Articles ')
+@section('meta_description', 'Read health articles, doctor insights, and patient education resources.')
+@section('canonical', route('articles.index'))
 
 @section('content')
     <section id="blog" class="pt-24 pb-12 bg-white">

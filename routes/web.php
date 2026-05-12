@@ -23,6 +23,7 @@ use App\Http\Controllers\CompanySettingController;
 use App\Http\Controllers\Admin\SpecialtyController;
 use App\Http\Controllers\Admin\CompanyIncomeController;
 use App\Http\Controllers\Admin\AdminSubscriptionController;
+use App\Http\Controllers\SeoController;
 
 
 
@@ -37,6 +38,8 @@ Route::get('/about', function () {
 
     return view('about', compact('setting'));
 })->name('about');
+Route::get('/robots.txt', [SeoController::class, 'robots'])->name('seo.robots');
+Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('seo.sitemap');
 Route::get('/login', function(){
      return redirect()->route('admin.login');
 });

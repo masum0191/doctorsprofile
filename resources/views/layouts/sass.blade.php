@@ -8,25 +8,16 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Doctor Directory Bangladesh — Find Specialists and GPs</title>
-    <meta name="description"
-        content="Search and browse verified medical professionals and doctors in Bangladesh, including specialists and general practitioners." />
-    <link rel="canonical" href="{{ url('/') }}" />
     <link rel="icon" href="{{ url($settingModel->favicon) }}" type="image/x-icon" />
 
     {{-- Meta Tags --}}
     <title>@yield('meta_title', 'DoctorsProfile – Global Doctors Directory')</title>
 
-    <meta name="description" content="@yield('meta_description', 'Find verified doctors and medical specialists worldwide on DoctorsProfile.')">
-    <meta name="keywords" content="@yield('keywords', 'global doctors directory, find doctors worldwide')">
-    <meta name="robots" content="@yield('robots', 'index, follow')">
 
     {{-- Open Graph --}}
-    <meta property="og:title" content="@yield('ogtitle', 'DoctorsProfile')">
-    <meta property="og:description" content="@yield('ogdescription', 'Global doctors directory and medical profiles')">
-    <meta property="og:type" content="@yield('ogtype', 'website')">
-    <meta property="og:url" content="@yield('ogurl', url()->current())">
-    <meta property="og:image" content="@yield('ogimage', asset('images/og-default.jpg'))">
 
+
+    @include('partials.seo')
 
     {{-- CSRF Token --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
