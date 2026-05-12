@@ -7,17 +7,21 @@
 @section('canonical', route('articles.show', $post->slug))
 @section('ogtype', 'article')
 
+@php
+    $articleSchema = [
+        '@context' => 'https://schema.org',
+        '@type' => 'Article',
+        'headline' => $post->meta_title ?? $post->title,
+        'description' => $post->meta_description ?? Str::limit(strip_tags($post->excerpt), 160),
+        'datePublished' => optional($post->published_at)->toAtomString(),
+        'dateModified' => optional($post->updated_at)->toAtomString(),
+        'mainEntityOfPage' => route('articles.show', $post->slug),
+    ];
+@endphp
+
 @section('structured_data')
     <script type="application/ld+json">
-        @json([
-            '@context' => 'https://schema.org',
-            '@type' => 'Article',
-            'headline' => $post->meta_title ?? $post->title,
-            'description' => $post->meta_description ?? Str::limit(strip_tags($post->excerpt), 160),
-            'datePublished' => optional($post->published_at)->toAtomString(),
-            'dateModified' => optional($post->updated_at)->toAtomString(),
-            'mainEntityOfPage' => route('articles.show', $post->slug),
-        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)
+        @json($articleSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)
     </script>
 @endsection
 

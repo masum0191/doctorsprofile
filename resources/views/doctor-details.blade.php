@@ -60,19 +60,26 @@
     $showDoctorWebsite = (bool) (($packageFeatures['subdomain'] ?? false) || ($packageFeatures['custom_domain'] ?? false));
 @endphp
 
+@php
+    $doctorSchema = [
+        '@context' => 'https://schema.org',
+        '@type' => 'Physician',
+        'name' => 'Dr. ' . $doctor->name,
+        'url' => route('doc-details', ['doctor' => $doctor->id, 'slug' => \Illuminate\Support\Str::slug($doctor->name)]),
+        'medicalSpecialty' => $specializations,
+        'description' => $about,
+        'telephone' => $contactPhone,
+        'email' => $contactEmail,
+        'address' => $displayLocation ? [
+            '@type' => 'PostalAddress',
+            'addressLocality' => $displayLocation,
+        ] : null,
+    ];
+@endphp
+
 @section('structured_data')
     <script type="application/ld+json">
-        @json([
-            '@context' => 'https://schema.org',
-            '@type' => 'Physician',
-            'name' => 'Dr. ' . $doctor->name,
-            'url' => route('doc-details', ['doctor' => $doctor->id, 'slug' => \Illuminate\Support\Str::slug($doctor->name)]),
-            'medicalSpecialty' => $specializations,
-            'description' => $about,
-            'telephone' => $contactPhone,
-            'email' => $contactEmail,
-            'address' => $displayLocation ? ['@type' => 'PostalAddress', 'addressLocality' => $displayLocation] : null,
-        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)
+        @json($doctorSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)
     </script>
 @endsection
 
