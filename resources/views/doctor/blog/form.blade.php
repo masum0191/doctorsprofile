@@ -362,6 +362,42 @@
         opacity: 1;
     }
 
+    .image-preview-container {
+        width: 100%;
+        aspect-ratio: 1200 / 630;
+        min-height: 220px;
+        border: 1px dashed rgba(49, 128, 105, 0.35);
+        border-radius: 12px;
+        background: #f8fafc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        cursor: pointer;
+        position: relative;
+        text-align: center;
+        padding: 1rem;
+    }
+
+    .image-placeholder {
+        display: block;
+        font-size: 2rem;
+        color: rgba(49, 128, 105, 0.6);
+        margin-bottom: 0.75rem;
+    }
+
+    .image-preview {
+        display: none;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        object-position: center;
+        border-radius: 8px;
+        background: white;
+    }
+
     /* AI Content Generation */
     .ai-content-options {
         display: flex;
@@ -440,6 +476,10 @@
 
         .ai-generated-images {
             grid-template-columns: repeat(2, 1fr);
+        }
+
+        .image-preview-container {
+            min-height: 180px;
         }
     }
 </style>
