@@ -60,4 +60,17 @@
 <meta name="twitter:image" content="{{ $ogImage }}">
 <script type="application/ld+json">@json($schemaOrganization, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)</script>
 <script type="application/ld+json">@json($schemaWebsite, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)</script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        event: 'page_metadata',
+        page_title: @json($title),
+        page_description: @json($description),
+        page_canonical: @json($canonical),
+        page_type: @json($ogType),
+        site_name: @json($siteName),
+    });
+</script>
+@yield('meta')
+@yield('data_layer')
 @yield('structured_data')

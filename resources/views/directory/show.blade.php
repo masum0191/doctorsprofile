@@ -1,9 +1,32 @@
 {{-- resources/views/directory/show.blade.php --}}
 @extends('layouts.sass')
-@section('title', $settings->site_name ?? $tenant->name ?? 'LocalGov')
-@section('meta')
-  <link rel="canonical" href="{{ route('tenants.show', $tenant->slug) }}">
-  <meta name="description" content="{{ Str::limit($settings->extras['about'] ?? $settings->extras['tagline'] ?? $tenant->name, 160) }}">
+@php
+  $directoryTitle = $settings->site_name ?? $tenant->name ?? 'LocalGov';
+  $directoryDescription = Str::limit(
+      strip_tags($settings->extras['about'] ?? $settings->extras['tagline'] ?? $tenant->name ?? ''),
+      160
+  );
+  $directoryUrl = route('tenants.show', $tenant->slug);
+  $directorySchema = [
+      '@context' => 'https://schema.org',
+      '@type' => 'Organization',
+      'name' => $directoryTitle,
+      'url' => $directoryUrl,
+      'description' => $directoryDescription,
+  ];
+@endphp
+
+@section('title', $directoryTitle)
+@section('meta_description', $directoryDescription)
+@section('canonical', $directoryUrl)
+@section('ogtitle', $directoryTitle)
+@section('ogdescription', $directoryDescription)
+@section('ogurl', $directoryUrl)
+
+@section('structured_data')
+  <script type="application/ld+json">
+      @json($directorySchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)
+  </script>
 @endsection
 
 @section('content')
