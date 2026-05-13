@@ -414,6 +414,7 @@
 </head>
 
 <body class="bg-white">
+    @include('partials.analytics-body')
     <div class="min-h-screen">
         <!-- Header -->
         <header

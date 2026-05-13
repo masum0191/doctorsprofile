@@ -506,6 +506,7 @@ select.form-control {
 </head>
 
 <body>
+    @include('partials.analytics-body')
     <div class="bg-white">
         <header id="mainHeader" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent">
             <div class="max-w-7xl mx-auto px-3 md:px-6 py-3">

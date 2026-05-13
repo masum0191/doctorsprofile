@@ -58,6 +58,7 @@
 <meta name="twitter:title" content="{{ $ogTitle }}">
 <meta name="twitter:description" content="{{ $ogDescription }}">
 <meta name="twitter:image" content="{{ $ogImage }}">
+@include('partials.analytics-head')
 <script type="application/ld+json">@json($schemaOrganization, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)</script>
 <script type="application/ld+json">@json($schemaWebsite, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)</script>
 <script>

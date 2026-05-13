@@ -508,6 +508,7 @@
 </head>
 
 <body class="bg-white">
+    @include('partials.analytics-body')
     <div class="min-h-screen bg-white">
         <!-- Header -->
         <header id="mainHeader" class="bg-white sticky top-0 z-50 transition-all duration-300 border-b shadow-sm">
