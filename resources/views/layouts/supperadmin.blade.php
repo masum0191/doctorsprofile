@@ -1018,28 +1018,28 @@ $settingModel = \App\Models\CompanySetting::first();
                     <li>
                         <a href="{{ route('superadmin.marketing.contacts.index') }}"
                            class="dropdown-item {{ request()->is('superadmin/marketing/contacts*') ? 'active' : '' }}">
-                            Contacts
+                            Audience Contacts
                         </a>
                     </li>
 
                     <li>
                         <a href="{{ route('superadmin.marketing.templates.index') }}"
                            class="dropdown-item {{ request()->is('superadmin/marketing/templates*') ? 'active' : '' }}">
-                            Templates
+                            Message Templates
                         </a>
                     </li>
 
                     <li>
                         <a href="{{ route('superadmin.marketing.segments.index') }}"
                            class="dropdown-item {{ request()->is('superadmin/marketing/segments*') ? 'active' : '' }}">
-                            Segments
+                            Audience Segments
                         </a>
                     </li>
 
                     <li>
                         <a href="{{ route('superadmin.marketing.campaigns.index') }}"
                            class="dropdown-item {{ request()->is('superadmin/marketing/campaigns*') ? 'active' : '' }}">
-                            Campaigns
+                            Campaign Management
                         </a>
                     </li>
 

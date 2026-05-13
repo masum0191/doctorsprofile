@@ -1,12 +1,12 @@
 @extends('layouts.supperadmin')
-@section('title','Marketing Contacts')
+@section('title','Audience Contacts')
 
 @section('content')
 <div class="container-fluid px-4">
   <div class="d-flex justify-content-between align-items-center py-4">
     <div>
-      <h1 class="h4 mb-1 fw-bold">Doctor Marketing Contacts</h1>
-      <p class="text-muted mb-0">Filter and manage doctor list for WhatsApp & Email campaigns.</p>
+      <h1 class="h4 mb-1 fw-bold">Audience Contacts</h1>
+      <p class="text-muted mb-0">Manage reachable doctors for email and WhatsApp outreach.</p>
     </div>
     <a class="btn btn-primary" href="{{ route('superadmin.marketing.contacts.create') }}">
       <i class="ri-add-line me-1"></i>Add Contact

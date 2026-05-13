@@ -8,7 +8,7 @@
     <div class="d-flex align-items-center justify-content-between py-4">
         <div>
             <h1 class="h4 fw-bold mb-1">Message Templates</h1>
-            <p class="text-muted mb-0">Manage email and WhatsApp message templates</p>
+            <p class="text-muted mb-0">Create reusable email and WhatsApp content for campaigns.</p>
         </div>
 
         {{-- Create Button --}}

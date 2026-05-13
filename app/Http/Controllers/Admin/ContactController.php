@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Campaign;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 
@@ -29,15 +30,24 @@ class ContactController extends Controller
         if ($request->filled('channel')) {
             if ($request->channel === 'email') $q->where('opt_in_email',1);
             if ($request->channel === 'whatsapp') $q->where('opt_in_whatsapp',1);
+            if ($request->channel === 'both') $q->where('opt_in_email',1)->where('opt_in_whatsapp',1);
         }
 
         if ($request->boolean('exclude_dnc', true)) {
             $q->where('do_not_contact',0);
         }
 
+        $statsQuery = clone $q;
         $contacts = $q->orderByDesc('id')->paginate(20)->withQueryString();
+        $contactStats = [
+            'total' => (clone $statsQuery)->count(),
+            'email' => (clone $statsQuery)->where('opt_in_email', 1)->count(),
+            'whatsapp' => (clone $statsQuery)->where('opt_in_whatsapp', 1)->count(),
+        ];
+        $runningCampaigns = Campaign::where('status', 'running')->count();
+        $scheduledCampaigns = Campaign::where('status', 'scheduled')->count();
 
-        return view('admin.marketing.contacts.index1', compact('contacts'));
+        return view('admin.marketing.contacts.index1', compact('contacts', 'contactStats', 'runningCampaigns', 'scheduledCampaigns'));
     }
 
     public function create() {

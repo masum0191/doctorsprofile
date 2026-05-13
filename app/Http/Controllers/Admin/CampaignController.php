@@ -14,9 +14,38 @@ use Illuminate\Http\Request;
 
 class CampaignController extends Controller
 {
-    public function index() {
-        $campaigns = Campaign::orderByDesc('id')->paginate(20);
-        return view('admin.marketing.campaigns.index', compact('campaigns'));
+    public function index(Request $request) {
+        $query = Campaign::query();
+
+        if ($request->filled('q')) {
+            $search = trim((string) $request->q);
+            $query->where(function ($builder) use ($search) {
+                $builder->where('name', 'like', "%{$search}%")
+                    ->orWhere('subject', 'like', "%{$search}%");
+
+                if (ctype_digit($search)) {
+                    $builder->orWhere('id', (int) $search);
+                }
+            });
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('channel')) {
+            $query->where('channel', $request->channel);
+        }
+
+        $campaigns = $query->orderByDesc('id')->paginate(20)->withQueryString();
+        $campaignStats = [
+            'total' => Campaign::count(),
+            'draft' => Campaign::where('status', 'draft')->count(),
+            'scheduled' => Campaign::where('status', 'scheduled')->count(),
+            'running' => Campaign::where('status', 'running')->count(),
+        ];
+
+        return view('admin.marketing.campaigns.index', compact('campaigns', 'campaignStats'));
     }
 
     public function create() {

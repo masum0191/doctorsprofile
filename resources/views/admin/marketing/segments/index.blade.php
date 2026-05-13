@@ -1,5 +1,5 @@
 @extends('layouts.supperadmin')
-@section('title','Marketing Segments')
+@section('title','Audience Segments')
 
 @section('content')
 <div class="container-fluid px-4">
@@ -7,8 +7,8 @@
     {{-- Page Header --}}
     <div class="d-flex align-items-center justify-content-between py-4">
         <div>
-            <h1 class="h4 fw-bold mb-1">Marketing Segments</h1>
-            <p class="text-muted mb-0">Manage audience segmentation rules</p>
+            <h1 class="h4 fw-bold mb-1">Audience Segments</h1>
+            <p class="text-muted mb-0">Group contacts by targeting rules before launching campaigns.</p>
         </div>
 
         {{-- Create Button --}}

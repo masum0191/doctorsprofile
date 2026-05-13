@@ -1,13 +1,51 @@
 @extends('layouts.supperadmin')
 
-@section('title', 'Campaigns')
+@section('title', 'Campaign Management')
 
 @section('content')
 <div class="container-fluid">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h1 class="h3 mb-0">Campaigns</h1>
+        <div>
+            <h1 class="h3 mb-1">Campaign Management</h1>
+            <p class="text-muted mb-0">Plan, schedule, and monitor outbound marketing campaigns.</p>
+        </div>
         <div>
             <a href="{{ route('superadmin.marketing.campaigns.create') }}" class="btn btn-primary">New Campaign</a>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-3">
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="text-muted small">Total Campaigns</div>
+                    <div class="h3 mb-0">{{ $campaignStats['total'] }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="text-muted small">Drafts</div>
+                    <div class="h3 mb-0">{{ $campaignStats['draft'] }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="text-muted small">Scheduled</div>
+                    <div class="h3 mb-0">{{ $campaignStats['scheduled'] }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="text-muted small">Running</div>
+                    <div class="h3 mb-0">{{ $campaignStats['running'] }}</div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -27,17 +65,16 @@
                 <select name="status" class="form-select">
                     <option value="">Any status</option>
                     <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Draft</option>
-                    <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
-                    <option value="paused" {{ request('status') == 'paused' ? 'selected' : '' }}>Paused</option>
-                    <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Completed</option>
+                    <option value="scheduled" {{ request('status') == 'scheduled' ? 'selected' : '' }}>Scheduled</option>
+                    <option value="running" {{ request('status') == 'running' ? 'selected' : '' }}>Running</option>
+                    <option value="sent" {{ request('status') == 'sent' ? 'selected' : '' }}>Sent</option>
                 </select>
             </div>
             <div class="col-md-3">
-                <select name="type" class="form-select">
-                    <option value="">Any type</option>
-                    <option value="email" {{ request('type') == 'email' ? 'selected' : '' }}>Email</option>
-                    <option value="social" {{ request('type') == 'social' ? 'selected' : '' }}>Social</option>
-                    <option value="ads" {{ request('type') == 'ads' ? 'selected' : '' }}>Ads</option>
+                <select name="channel" class="form-select">
+                    <option value="">Any channel</option>
+                    <option value="email" {{ request('channel') == 'email' ? 'selected' : '' }}>Email</option>
+                    <option value="whatsapp" {{ request('channel') == 'whatsapp' ? 'selected' : '' }}>WhatsApp</option>
                 </select>
             </div>
             <div class="col-md-2 d-grid">
@@ -52,10 +89,10 @@
                 <tr>
                     <th style="width: 60px">#</th>
                     <th>Name</th>
-                    <th style="width: 120px">Type</th>
+                    <th style="width: 120px">Channel</th>
                     <th style="width: 110px">Status</th>
-                    <th style="width: 140px">Start - End</th>
-                    <th style="width: 120px" class="text-end">Budget</th>
+                    <th style="width: 150px">Schedule</th>
+                    <th style="width: 150px" class="text-end">Recipients</th>
                     <th style="width: 160px" class="text-end">Actions</th>
                 </tr>
             </thead>
@@ -67,21 +104,21 @@
                             <a href="{{ route('superadmin.marketing.campaigns.show', $campaign) }}">
                                 {{ $campaign->name }}
                             </a>
-                            @if($campaign->notes)
-                                <div class="text-muted small">{{ Str::limit($campaign->notes, 80) }}</div>
+                            @if($campaign->subject)
+                                <div class="text-muted small">{{ Str::limit($campaign->subject, 80) }}</div>
                             @endif
                         </td>
-                        <td class="text-capitalize">{{ $campaign->type ?? '-' }}</td>
+                        <td class="text-capitalize">{{ $campaign->channel ?? '-' }}</td>
                         <td>
                             @switch($campaign->status)
-                                @case('active')
-                                    <span class="badge bg-success">Active</span>
+                                @case('running')
+                                    <span class="badge bg-success">Running</span>
                                     @break
-                                @case('paused')
-                                    <span class="badge bg-warning text-dark">Paused</span>
+                                @case('scheduled')
+                                    <span class="badge bg-warning text-dark">Scheduled</span>
                                     @break
-                                @case('completed')
-                                    <span class="badge bg-secondary">Completed</span>
+                                @case('sent')
+                                    <span class="badge bg-secondary">Sent</span>
                                     @break
                                 @default
                                     <span class="badge bg-light text-dark">Draft</span>
@@ -89,17 +126,17 @@
                         </td>
                         <td>
                             <div class="small">
-                                {{ optional($campaign->start_at)->format('Y-m-d') ?? '-' }}
-                                &ndash;
-                                {{ optional($campaign->end_at)->format('Y-m-d') ?? '-' }}
+                                @if($campaign->scheduled_at)
+                                    Scheduled {{ $campaign->scheduled_at->format('Y-m-d H:i') }}
+                                @elseif($campaign->started_at)
+                                    Started {{ $campaign->started_at->format('Y-m-d H:i') }}
+                                @else
+                                    Not scheduled
+                                @endif
                             </div>
                         </td>
                         <td class="text-end">
-                            @if(!is_null($campaign->budget))
-                                {{ number_format($campaign->budget, 2) }}
-                            @else
-                                -
-                            @endif
+                            {{ data_get($campaign->totals_json, 'total', 0) }}
                         </td>
                         <td class="text-end">
                             <a href="{{ route('superadmin.marketing.campaigns.edit', $campaign) }}" class="btn btn-sm btn-outline-primary">Edit</a>

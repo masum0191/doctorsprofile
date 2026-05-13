@@ -171,7 +171,7 @@
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
                             <div class="small mb-1">Total Contacts</div>
-                            <div class="h3 mb-0 fw-bold">{{ $contacts->total() }}</div>
+                            <div class="h3 mb-0 fw-bold">{{ $contactStats['total'] }}</div>
                             <div class="small mt-2">
                                 <i class="fas fa-users me-1"></i> All doctors
                             </div>
@@ -190,9 +190,9 @@
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
                             <div class="small mb-1">Email Opt-ins</div>
-                            <div class="h3 mb-0 fw-bold">{{ $contacts->where('opt_in_email', true)->count() }}</div>
+                            <div class="h3 mb-0 fw-bold">{{ $contactStats['email'] }}</div>
                             <div class="small mt-2">
-                                <i class="fas fa-envelope me-1"></i> {{ number_format($contacts->where('opt_in_email', true)->count() / max($contacts->count(), 1) * 100, 1) }}% opted in
+                                <i class="fas fa-envelope me-1"></i> {{ number_format($contactStats['email'] / max($contactStats['total'], 1) * 100, 1) }}% opted in
                             </div>
                         </div>
                         <div class="icon-circle bg-white-20">
@@ -209,9 +209,9 @@
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
                             <div class="small mb-1">WhatsApp Opt-ins</div>
-                            <div class="h3 mb-0 fw-bold">{{ $contacts->where('opt_in_whatsapp', true)->count() }}</div>
+                            <div class="h3 mb-0 fw-bold">{{ $contactStats['whatsapp'] }}</div>
                             <div class="small mt-2">
-                                <i class="fab fa-whatsapp me-1"></i> {{ number_format($contacts->where('opt_in_whatsapp', true)->count() / max($contacts->count(), 1) * 100, 1) }}% opted in
+                                <i class="fab fa-whatsapp me-1"></i> {{ number_format($contactStats['whatsapp'] / max($contactStats['total'], 1) * 100, 1) }}% opted in
                             </div>
                         </div>
                         <div class="icon-circle bg-white-20">
@@ -227,10 +227,11 @@
                 <div class="card-body p-3">
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
-                            <div class="small mb-1">Active Campaigns</div>
-                            <div class="h3 mb-0 fw-bold">12</div>
+                            <div class="small mb-1">Campaign Pipeline</div>
+                            <div class="h3 mb-0 fw-bold">{{ $runningCampaigns + $scheduledCampaigns }}</div>
                             <div class="small mt-2">
-                                <i class="fas fa-chart-line me-1"></i> 8% growth
+                                <i class="fas fa-chart-line me-1"></i>
+                                {{ $runningCampaigns }} running, {{ $scheduledCampaigns }} scheduled
                             </div>
                         </div>
                         <div class="icon-circle bg-white-20">
@@ -245,8 +246,8 @@
     <!-- Header Section -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h1 class="h4 fw-bold">Doctor Marketing Contacts</h1>
-            <p class="text-muted mb-0">Filter and manage doctor list for WhatsApp & Email campaigns</p>
+            <h1 class="h4 fw-bold">Marketing Contacts</h1>
+            <p class="text-muted mb-0">Maintain outreach-ready doctors for email and WhatsApp campaigns.</p>
         </div>
         <div class="d-flex gap-2">
             <a href="{{ route('superadmin.marketing.contacts.create') }}" class="btn btn-primary btn-sm px-3">
