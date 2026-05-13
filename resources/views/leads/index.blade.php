@@ -81,6 +81,29 @@
         display: inline-block;
     }
 
+    .metric-card {
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        background: #fff;
+        padding: 1rem 1.1rem;
+        height: 100%;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+
+    .metric-label {
+        color: #64748b;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-bottom: 0.4rem;
+    }
+
+    .metric-value {
+        font-size: 1.7rem;
+        line-height: 1;
+        font-weight: 700;
+        color: #111827;
+    }
+
     /* Action Buttons */
     .action-btn {
         width: 32px;
@@ -231,12 +254,55 @@
         </h4>
         <p class="text-muted mb-0 small">Manage and track potential customers</p>
     </div>
-    <button class="btn btn-primary d-inline-flex align-items-center gap-2 px-4" 
-            data-bs-toggle="modal" 
-            data-bs-target="#createLeadModal">
-        <i class="ri-add-line"></i>
-        <span>New Lead</span>
-    </button>
+    <div class="d-flex flex-wrap gap-2">
+        <button class="btn btn-outline-primary d-inline-flex align-items-center gap-2 px-4"
+                data-bs-toggle="modal"
+                data-bs-target="#importLeadModal">
+            <i class="ri-upload-2-line"></i>
+            <span>Import CSV</span>
+        </button>
+        <button class="btn btn-primary d-inline-flex align-items-center gap-2 px-4" 
+                data-bs-toggle="modal" 
+                data-bs-target="#createLeadModal">
+            <i class="ri-add-line"></i>
+            <span>New Lead</span>
+        </button>
+    </div>
+</div>
+
+@if(session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
+
+@if($errors->any())
+    <div class="alert alert-danger">{{ $errors->first() }}</div>
+@endif
+
+<div class="row g-3 mb-4">
+    <div class="col-xl-3 col-md-6">
+        <div class="metric-card">
+            <div class="metric-label">Total Leads</div>
+            <div class="metric-value">{{ $leadStats['total'] }}</div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="metric-card">
+            <div class="metric-label">New</div>
+            <div class="metric-value">{{ $leadStats['new'] }}</div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="metric-card">
+            <div class="metric-label">Contacted</div>
+            <div class="metric-value">{{ $leadStats['contacted'] }}</div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="metric-card">
+            <div class="metric-label">Converted</div>
+            <div class="metric-value">{{ $leadStats['converted'] }}</div>
+        </div>
+    </div>
 </div>
 
 {{-- Lead List Card --}}
@@ -248,7 +314,7 @@
                 Lead List
             </h6>
             <span class="badge bg-primary-soft text-primary px-3 py-1 rounded-pill">
-                {{ $leads->count() }} Leads
+                {{ $leadStats['total'] }} Leads
             </span>
         </div>
     </div>
@@ -262,7 +328,7 @@
                         <th>Name</th>
                         <th>Phone</th>
                         <th>Email</th>
-                        <!-- <th style="width: 120px">Source</th> -->
+                        <th style="width: 140px">Source</th>
                         <th style="width: 100px">Status</th>
                         <th style="width: 100px" class="text-end">Actions</th>
                     </tr>
@@ -293,7 +359,7 @@
                                 {{ $lead->email ?? '—' }}
                             </a>
                         </td>
-                        <!-- <td data-label="Source">
+                        <td data-label="Source">
                             @if($lead->source)
                                 <span class="source-badge">
                                     <i class="ri-global-line me-1" style="font-size: 0.7rem;"></i>
@@ -302,7 +368,7 @@
                             @else
                                 <span class="text-muted">—</span>
                             @endif
-                        </td> -->
+                        </td>
                         <td data-label="Status">
                             <span class="status-badge status-{{ $lead->status }}">
                                 <i class="ri-checkbox-circle-fill" style="font-size: 0.6rem;"></i>
@@ -512,6 +578,47 @@
                     <button type="submit" class="btn btn-primary">
                         <i class="ri-add-line me-1"></i>
                         Create Lead
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{{-- IMPORT LEADS MODAL --}}
+<div class="modal fade" id="importLeadModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <form method="POST" action="{{ route('superadmin.leads.import') }}" enctype="multipart/form-data">
+                @csrf
+
+                <div class="modal-header">
+                    <div>
+                        <h5 class="modal-title mb-0">Import Leads From CSV</h5>
+                        <small class="opacity-75">Supported columns: name, phone, email, source, status, notes</small>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">
+                            <i class="ri-file-upload-line me-1"></i> CSV File
+                        </label>
+                        <input type="file" name="csv_file" class="form-control" accept=".csv,text/csv" required>
+                    </div>
+                    <div class="rounded border bg-light p-3 small text-muted">
+                        Required column: <strong>name</strong>.
+                        Valid status values: <strong>new</strong>, <strong>contacted</strong>, <strong>converted</strong>.
+                        Unknown or missing statuses are imported as <strong>new</strong>.
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="ri-upload-2-line me-1"></i>
+                        Upload CSV
                     </button>
                 </div>
             </form>

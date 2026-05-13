@@ -296,6 +296,8 @@ Route::post('/company-incomes/status/{id}', [CompanyIncomeController::class, 'up
         ->name('company.income.status');
 Route::resource('leads', LeadController::class)
     ->except(['create','edit','show']);
+Route::post('/leads/import', [LeadController::class, 'import'])
+    ->name('leads.import');
 
 Route::get('/settings/company', [CompanySettingController::class, 'edit'])
     ->name('company.settings');
