@@ -596,7 +596,7 @@
                         </thead>
                         <tbody id="doctorsTableBody">
                             @forelse ($users as $user)
-                                <tr class="doctor-row" data-name="{{ strtolower($user->name) }}" data-email="{{ strtolower($user->email) }}" data-phone="{{ $user->mobile ?? '' }}" data-specialty="{{ strtolower($user->specialization ?? '') }}" data-status="{{ $user->status }}" data-featured="{{ $user->feature }}">
+                                <tr class="doctor-row" data-name="{{ strtolower($user->name) }}" data-email="{{ strtolower($user->email) }}" data-phone="{{ $user->mobile ?? '' }}" data-specialty="{{ strtolower($user->specializationLabel()) }}" data-status="{{ $user->status }}" data-featured="{{ $user->feature }}">
                                     <td class="ps-4">
                                         <div class="d-flex align-items-center gap-3">
                                             <img src="{{ $user->photo ? url($user->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($user->name) . '&background=318069&color=fff&length=2&bold=true' }}"
@@ -604,7 +604,7 @@
                                                  class="doctor-avatar">
                                             <div>
                                                 <div class="doctor-name">{{ $user->name }}</div>
-                                                <div class="doctor-specialty">{{ $user->specialization ?? 'General Practice' }}</div>
+                                                <div class="doctor-specialty">{{ $user->specializationLabel() }}</div>
                                                 @if($user->qualification)
                                                     <div class="doctor-specialty text-muted">{{ $user->qualification }}</div>
                                                 @endif
@@ -679,14 +679,14 @@
     <!-- Mobile Card View -->
     <div class="mobile-view" id="mobileDoctorsContainer">
         @forelse ($users as $user)
-            <div class="doctor-card doctor-row" data-name="{{ strtolower($user->name) }}" data-email="{{ strtolower($user->email) }}" data-phone="{{ $user->mobile ?? '' }}" data-specialty="{{ strtolower($user->specialization ?? '') }}" data-status="{{ $user->status }}" data-featured="{{ $user->feature }}">
+            <div class="doctor-card doctor-row" data-name="{{ strtolower($user->name) }}" data-email="{{ strtolower($user->email) }}" data-phone="{{ $user->mobile ?? '' }}" data-specialty="{{ strtolower($user->specializationLabel()) }}" data-status="{{ $user->status }}" data-featured="{{ $user->feature }}">
                 <div class="card-header-info">
                     <img src="{{ $user->photo ? url($user->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($user->name) . '&background=318069&color=fff&length=2&bold=true' }}"
                          alt="{{ $user->name }}"
                          class="card-avatar">
                     <div class="card-name">
                         <h4>{{ $user->name }}</h4>
-                        <p class="text-muted small mb-0">{{ $user->specialization ?? 'General Practice' }}</p>
+                        <p class="text-muted small mb-0">{{ $user->specializationLabel() }}</p>
                         <p class="text-muted small">{{ $user->qualification ?? '' }}</p>
                     </div>
                 </div>

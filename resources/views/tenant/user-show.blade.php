@@ -315,7 +315,7 @@
                          alt="{{ $user->name }}"
                          class="profile-avatar">
                     <h2 class="profile-name">{{ $user->name }}</h2>
-                    <p class="profile-specialty">{{ $user->specialization ?? 'General Practice' }}</p>
+                    <p class="profile-specialty">{{ $user->specializationLabel() }}</p>
                     <div class="d-flex justify-content-center gap-2">
                         <span class="badge-status {{ (int) $user->status === 1 ? 'badge-active' : 'badge-inactive' }}">
                             <i class="ri-circle-fill fs-8"></i>
@@ -414,7 +414,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Specialization</label>
-                                <input type="text" name="specialization" class="form-control" value="{{ old('specialization', $user->specialization) }}">
+                                <input type="text" name="specialization" class="form-control" value="{{ old('specialization', $user->specializationLabel('')) }}">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Registration No</label>

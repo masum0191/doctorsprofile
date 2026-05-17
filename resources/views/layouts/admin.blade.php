@@ -1553,7 +1553,7 @@
                     </div>
                     <div class="user-info">
                         <h4>Dr. {{ auth()->user()->name }}</h4>
-                        <p>{{ auth()->user()->specialization ?? 'Medical Professional' }}</p>
+                        <p>{{ auth()->user()->specializationLabel('Medical Professional') }}</p>
                     </div>
                     <a href="{{ route('logout') }}" class="logout-btn"
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

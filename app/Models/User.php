@@ -145,6 +145,33 @@ public function tenant(): BelongsTo
 {
     return $this->belongsTo(Tenant::class, 'tenant_id');
 }
+
+public function specializationList(): array
+{
+    $specialization = $this->specialization;
+
+    if (is_array($specialization)) {
+        return array_values(array_filter(array_map('trim', $specialization)));
+    }
+
+    if (blank($specialization)) {
+        return [];
+    }
+
+    $decoded = json_decode((string) $specialization, true);
+    if (is_array($decoded)) {
+        return array_values(array_filter(array_map('trim', $decoded)));
+    }
+
+    return array_values(array_filter(array_map('trim', explode(',', (string) $specialization))));
+}
+
+public function specializationLabel(string $fallback = 'General Practice'): string
+{
+    $specializations = $this->specializationList();
+
+    return $specializations ? implode(', ', $specializations) : $fallback;
+}
 /**
  * Get the attributes that should be cast.
  *
