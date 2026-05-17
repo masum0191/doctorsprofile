@@ -39,6 +39,11 @@
         overflow: hidden;
     }
 
+    .stat-card.revenue-stat {
+        padding-right: 1.5rem;
+        padding-left: 1.5rem;
+    }
+
     .stat-card::before {
         content: '';
         position: absolute;
@@ -83,6 +88,10 @@
         color: var(--text-dark);
         margin-bottom: 0.25rem;
         line-height: 1.2;
+    }
+
+    .revenue-stat .stat-value {
+        overflow-wrap: anywhere;
     }
 
     .stat-label {
@@ -448,6 +457,10 @@
         .stat-value {
             font-size: 1.5rem;
         }
+        .stat-card.revenue-stat {
+            padding-right: 1.25rem;
+            padding-left: 1.25rem;
+        }
     }
 
     @media (max-width: 992px) {
@@ -542,7 +555,7 @@
                 <i class="ri-medal-line"></i> Premium members
             </div>
         </div>
-        <div class="stat-card">
+        <div class="stat-card revenue-stat">
             <div class="stat-value">৳ {{ number_format($totalRevenue, 0) }}</div>
             <div class="stat-label">Total Revenue</div>
             <div class="stat-trend">
