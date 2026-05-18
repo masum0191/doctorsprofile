@@ -126,6 +126,8 @@ Route::get('/test-sslcommerz-integration', function () {
     Route::get('/all-doctors', function () {
         return view('finds');
     })->name('finds');
+    Route::get('/featured-doctors', [BrowseController::class, 'featuredDoctors'])
+        ->name('featured.doctors');
 
     Route::get('/doc-details', function () {
         return redirect()->route('finds');

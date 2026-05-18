@@ -501,7 +501,14 @@
             @endforeach
         </div>
 
-       
+        <div class="text-center mt-8">
+            <a href="{{ route('featured.doctors') }}" class="inline-block w-full sm:w-auto">
+                <button class="w-full sm:w-auto bg-gray-100 hover:bg-[#318069] hover:text-white text-gray-700 px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg font-medium transition-colors whitespace-nowrap text-sm sm:text-base">
+                    View All Featured Doctors
+                    <i class="ri-arrow-right-line ml-2"></i>
+                </button>
+            </a>
+        </div>
     </div>
 </section>
 

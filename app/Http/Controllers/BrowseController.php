@@ -205,6 +205,17 @@ class BrowseController extends Controller
     return view('by-specialty', compact('specialty', 'doctors'));
 }
 
+public function featuredDoctors()
+{
+    $doctors = User::where('role', 'tenant')
+        ->where('status', 1)
+        ->where('feature', 1)
+        ->latest()
+        ->paginate(16);
+
+    return view('featured-doctors', compact('doctors'));
+}
+
 
 // Get available slots for a chamber on specific date
     /* ============================================================
