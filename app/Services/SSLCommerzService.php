@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use App\Services\RegistrationPaymentGatewayResolver;
 
 class SSLCommerzService
 {
@@ -14,9 +15,10 @@ class SSLCommerzService
 
     public function __construct()
     {
-        $this->storeId = config('sslcommerz.apiCredentials.store_id');
-        $this->storePassword = config('sslcommerz.apiCredentials.store_password');
-        $this->apiDomain = config('sslcommerz.apiDomain');
+        $gatewayResolver = app(RegistrationPaymentGatewayResolver::class);
+        $this->storeId = $gatewayResolver->sslcommerzStoreId();
+        $this->storePassword = $gatewayResolver->sslcommerzStorePassword();
+        $this->apiDomain = $gatewayResolver->sslcommerzApiDomain();
         $this->isLocalhost = config('sslcommerz.connect_from_localhost', false);
 
         Log::info('SSLCommerz Service Initialized', [

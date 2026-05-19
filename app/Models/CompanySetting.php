@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class CompanySetting extends Model
 {
+    protected $casts = [
+        'payment_gateway' => 'array',
+    ];
+
     protected $fillable = [
         'company_name',
         'tagline',
@@ -33,7 +37,8 @@ class CompanySetting extends Model
         'ogurl',
         'ogimage',
         'meta_title',
-        'currency'
+        'currency',
+        'payment_gateway'
         
     ];
 }

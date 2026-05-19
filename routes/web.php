@@ -311,6 +311,12 @@ Route::get('/settings/company', [CompanySettingController::class, 'edit'])
 Route::post('/settings/company', [CompanySettingController::class, 'update'])
     ->name('company.settings.update');
 
+Route::get('/settings/payment', [CompanySettingController::class, 'paymentEdit'])
+    ->name('payment.settings');
+
+Route::post('/settings/payment', [CompanySettingController::class, 'paymentUpdate'])
+    ->name('payment.settings.update');
+
 Route::prefix('marketing')->name('marketing.')->group(function () {
 
     // Contacts (Doctors)

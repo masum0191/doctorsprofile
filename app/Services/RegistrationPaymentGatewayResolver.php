@@ -45,6 +45,35 @@ class RegistrationPaymentGatewayResolver
             ?: null;
     }
 
+    public function sslcommerzStoreId(): ?string
+    {
+        $settings = $this->centralPaymentSettings();
+
+        return $settings['sslcommerz']['store_id']
+            ?? config('sslcommerz.apiCredentials.store_id')
+            ?? env('SSLCZ_STORE_ID')
+            ?: null;
+    }
+
+    public function sslcommerzStorePassword(): ?string
+    {
+        $settings = $this->centralPaymentSettings();
+
+        return $settings['sslcommerz']['store_password']
+            ?? $settings['sslcommerz']['secret']
+            ?? config('sslcommerz.apiCredentials.store_password')
+            ?? env('SSLCZ_STORE_PASSWORD')
+            ?: null;
+    }
+
+    public function sslcommerzApiDomain(): string
+    {
+        $settings = $this->centralPaymentSettings();
+        $testMode = (bool) ($settings['sslcommerz']['test_mode'] ?? env('SSLCZ_TESTMODE', false));
+
+        return $testMode ? 'https://sandbox.sslcommerz.com' : 'https://securepay.sslcommerz.com';
+    }
+
     public function stripeKey(): ?string
     {
         $settings = $this->centralPaymentSettings();
@@ -97,6 +126,16 @@ class RegistrationPaymentGatewayResolver
     private function centralPaymentSettings(): array
     {
         try {
+            if (Schema::connection('mysql')->hasTable('company_settings')) {
+                $companySetting = DB::connection('mysql')->table('company_settings')->first();
+                if ($companySetting && !empty($companySetting->payment_gateway)) {
+                    $paymentGateway = json_decode($companySetting->payment_gateway, true);
+                    if (is_array($paymentGateway)) {
+                        return $paymentGateway;
+                    }
+                }
+            }
+
             if (!Schema::connection('mysql')->hasTable('settings')) {
                 return [];
             }

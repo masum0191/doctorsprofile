@@ -1064,9 +1064,17 @@ $settingModel = \App\Models\CompanySetting::first();
 
             <li class="nav-item">
                 <a href="{{ url('superadmin/settings/company') }}"
-                   class="nav-link {{ request()->is('superadmin/settings*') ? 'active' : '' }}">
+                   class="nav-link {{ request()->is('superadmin/settings/company') ? 'active' : '' }}">
                     <i class="ri-settings-3-line nav-icon"></i>
-                    <span class="nav-text">Settings</span>
+                    <span class="nav-text">Company Settings</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ url('superadmin/settings/payment') }}"
+                   class="nav-link {{ request()->is('superadmin/settings/payment') ? 'active' : '' }}">
+                    <i class="ri-bank-card-line nav-icon"></i>
+                    <span class="nav-text">Payment Gateway</span>
                 </a>
             </li>
             <li class="nav-item">
