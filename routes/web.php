@@ -52,6 +52,10 @@ Route::match(['get', 'post'], '/sslcommerz/cancel', [\App\Http\Controllers\Api\D
     ->name('sslcommerz.cancel');
 Route::match(['get', 'post'], '/sslcommerz/ipn', [\App\Http\Controllers\Api\DoctorRegistrationController::class, 'sslcommerzIpn'])
     ->name('sslcommerz.ipn');
+Route::match(['get', 'post'], '/stripe/success', [\App\Http\Controllers\Api\DoctorRegistrationController::class, 'stripeSuccess'])
+    ->name('stripe.success');
+Route::match(['get', 'post'], '/stripe/cancel', [\App\Http\Controllers\Api\DoctorRegistrationController::class, 'stripeCancel'])
+    ->name('stripe.cancel');
 
 //
 // updateProfileUpdateByTenant

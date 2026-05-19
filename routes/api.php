@@ -106,6 +106,8 @@ Route::prefix('v1')->group(function () {
     Route::post('/sslcommerz/success', [DoctorRegistrationController::class, 'sslcommerzSuccess']);
     Route::post('/sslcommerz/fail', [DoctorRegistrationController::class, 'sslcommerzFail']);
     Route::post('/sslcommerz/cancel', [DoctorRegistrationController::class, 'sslcommerzCancel']);
+    Route::match(['get', 'post'], '/stripe/success', [DoctorRegistrationController::class, 'stripeSuccess']);
+    Route::match(['get', 'post'], '/stripe/cancel', [DoctorRegistrationController::class, 'stripeCancel']);
 
     Route::post('/payment/webhook/paypal', [DoctorRegistrationController::class, 'paypalWebhook']);
     Route::post('/payment/webhook/sslcommerz', [DoctorRegistrationController::class, 'sslcommerzWebhook']);
@@ -213,4 +215,3 @@ Route::middleware('auth:sanctum')->group(function () {
          Route::put('/doctor/profile/update-profile/{type}', [DoctorProfileApiController::class, 'update_profile_single_data']);
     });
 });
-

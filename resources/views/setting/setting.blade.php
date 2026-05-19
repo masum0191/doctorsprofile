@@ -2097,6 +2097,14 @@
                         </div>
                     </div>
 
+                    {{-- COUNTRY BASED GATEWAYS --}}
+                    <div class="border rounded p-3 mb-3">
+                        <label class="form-label fw-bold">Country Based Payment Gateways</label>
+                        <textarea class="form-control" name="country_gateways" rows="4"
+                                  placeholder="India=stripe&#10;Nepal=stripe&#10;Bangladesh=sslcommerz">{{ collect($extra['payment']['country_gateways'] ?? [])->map(fn($gateway, $country) => $country . '=' . $gateway)->implode("\n") }}</textarea>
+                        <small class="text-muted">One country per line. If no match is set, Bangladesh uses SSLCommerz and other countries use Stripe.</small>
+                    </div>
+
                     {{-- BKASH --}}
                     <div class="border rounded p-3 mb-3">
                         <div class="form-check form-switch mb-2">
@@ -2167,4 +2175,3 @@
 </div>
 </form>
 @endsection
-

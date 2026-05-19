@@ -25,6 +25,8 @@ use Illuminate\Support\Str;
 use App\Services\SSLCommerzService;
 use App\Jobs\InitializeTenantData;
 use App\Services\PricingService;
+use App\Services\RegistrationPaymentGatewayResolver;
+use App\Services\StripeCheckoutService;
 
 
 class DoctorController extends Controller
@@ -373,7 +375,7 @@ public function storeall(Request $request)
             'existing_domain'     => ['required_if:domain_type,existing', 'nullable', 'string', 'max:255'],
 
             // Step 6 (Now Step 4 after removal)
-            'payment_method' => ['nullable', 'required_if:payment_option,online', Rule::in(['paypal', 'sslcommerz', 'credit_card', 'bank_transfer', 'offline'])],
+            'payment_method' => ['nullable', 'required_if:payment_option,online', Rule::in(['paypal', 'sslcommerz', 'stripe', 'credit_card', 'bank_transfer', 'offline'])],
             'payment_option' => ['required', Rule::in(['online', 'offline'])],
             'terms'          => ['required', 'accepted'],
 
@@ -387,6 +389,7 @@ public function storeall(Request $request)
             'total_amount'    => ['required', 'numeric', 'min:0'],
 
             // optional
+            'country'   => ['nullable', 'string', 'max:100'],
             'latitude'  => ['nullable', 'numeric', 'between:-90,90'],
             'longitude' => ['nullable', 'numeric', 'between:-180,180'],
             'city'      => ['nullable', 'string', 'max:255'],
@@ -400,6 +403,11 @@ public function storeall(Request $request)
         ])->validate();
 //dd($validated);
         Log::info('Validation passed', ['email' => $validated['email']]);
+
+        $validated['payment_method'] = app(RegistrationPaymentGatewayResolver::class)->resolve(
+            $validated['country'] ?? 'Bangladesh',
+            $validated['payment_method'] ?? null
+        );
 
         Log::info('Creating registration records');
 
@@ -463,7 +471,7 @@ public function storeall(Request $request)
             'qualification'  => 'Medical Professional', // Default
             'reg_no'         => null,
             'specialization' => 'General Practitioner', // Default
-            'country'        => 'Bangladesh', // Default
+            'country'        => $validated['country'] ?? 'Bangladesh',
             'latitude'       => $validated['latitude'] ?? null,
             'longitude'      => $validated['longitude'] ?? null,
             'city'           => $validated['city'] ?? null,
@@ -616,6 +624,11 @@ public function storeall(Request $request)
                     $validated,
                     $coupon
                 );
+
+                return redirect()->away($paymentUrl);
+            } elseif ($validated['payment_method'] === 'stripe') {
+                $paymentUrl = app(StripeCheckoutService::class)
+                    ->createDoctorRegistrationSession($tenant, $user, $package, $validated, $coupon);
 
                 return redirect()->away($paymentUrl);
             } elseif ($validated['payment_method'] === 'credit_card') {

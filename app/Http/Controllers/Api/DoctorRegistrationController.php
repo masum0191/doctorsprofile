@@ -23,6 +23,8 @@ use App\Models\Subscription;
 use App\Services\SSLCommerzService;
 use App\Jobs\InitializeTenantData;
 use App\Services\PricingService;
+use App\Services\RegistrationPaymentGatewayResolver;
+use App\Services\StripeCheckoutService;
 
 class DoctorRegistrationController extends Controller
 {
@@ -219,7 +221,7 @@ class DoctorRegistrationController extends Controller
                 'existing_domain'     => ['required_if:domain_type,existing', 'nullable', 'string', 'max:255'],
 
                 // Payment
-                'payment_method' => ['required', Rule::in(['paypal', 'sslcommerz', 'bank_transfer', 'credit_card'])],
+                'payment_method' => ['required', Rule::in(['paypal', 'sslcommerz', 'stripe', 'bank_transfer', 'credit_card'])],
                 'payment_option' => ['required', Rule::in(['online', 'offline'])],
                 'terms'          => ['required', 'accepted'],
 
@@ -260,6 +262,10 @@ class DoctorRegistrationController extends Controller
             }
 
             $validated = $validator->validated();
+            $validated['payment_method'] = app(RegistrationPaymentGatewayResolver::class)->resolve(
+                $validated['country'] ?? null,
+                $validated['payment_method'] ?? null
+            );
             Log::info('API Validation passed', ['email' => $validated['email']]);
 
             $isZeroAmount = (float) $validated['total_amount'] <= 0;
@@ -461,6 +467,9 @@ class DoctorRegistrationController extends Controller
                     $paymentUrl = $this->initiatePayPalPaymentApi($tenant, $user, $package, $validated, $coupon);
                 } elseif ($validated['payment_method'] === 'sslcommerz') {
                     $paymentUrl = $this->initiateSSLCommerzPaymentApi($tenant, $user, $package,  $validated, $coupon);
+                } elseif ($validated['payment_method'] === 'stripe') {
+                    $paymentUrl = app(StripeCheckoutService::class)
+                        ->createDoctorRegistrationSession($tenant, $user, $package, $validated, $coupon, true);
                 } elseif ($validated['payment_method'] === 'credit_card') {
                     $paymentStatus = 'completed';
                 }
@@ -1623,6 +1632,110 @@ public function sslcommerzCancel(Request $request)
     return response()->json([
         'success' => false,
         'message' => 'Payment cancelled by user.'
+    ], 400);
+}
+
+public function stripeSuccess(Request $request)
+{
+    $transactionStarted = false;
+
+    try {
+        $stripeSessionId = $request->input('session_id');
+        if (!$stripeSessionId) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Stripe session is missing.'
+            ], 400);
+        }
+
+        $stripeSession = app(StripeCheckoutService::class)->retrieveSession($stripeSessionId);
+        $session = PaymentSession::where('order_id', $stripeSessionId)
+            ->where('payment_gateway', 'stripe')
+            ->first();
+
+        if (!$session) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Payment session not found.'
+            ], 400);
+        }
+
+        if (($stripeSession['payment_status'] ?? null) !== 'paid') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Stripe payment is not completed.'
+            ], 400);
+        }
+
+        DB::beginTransaction();
+        $transactionStarted = true;
+
+        $payment = Payment::where('tenant_id', $session->tenant_id)
+            ->where('status', 'pending')
+            ->first();
+
+        if ($payment) {
+            $payment->update([
+                'status' => 'completed',
+                'transaction_id' => $stripeSessionId,
+                'payment_date' => now(),
+            ]);
+        }
+
+        $tenant = Tenant::find($session->tenant_id);
+        if ($tenant) {
+            $tenant->update(['status' => 1]);
+            $tenant->domains()->update(['status' => 1]);
+        }
+
+        $user = User::find($session->user_id);
+        if ($user) {
+            $user->update(['status' => 1]);
+        }
+
+        $session->update(['status' => 'completed']);
+
+        DB::commit();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Payment successful! Your account is now active.',
+            'data' => [
+                'tenant_id' => $tenant->id ?? null,
+                'user_id' => $user->id ?? null,
+                'payment_id' => $payment->id ?? null,
+            ],
+        ]);
+    } catch (\Exception $e) {
+        if ($transactionStarted) {
+            DB::rollBack();
+        }
+
+        Log::error('Stripe success callback failed', [
+            'error' => $e->getMessage(),
+            'session_id' => $request->input('session_id'),
+        ]);
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Payment processing failed: ' . $e->getMessage()
+        ], 500);
+    }
+}
+
+public function stripeCancel(Request $request)
+{
+    $stripeSessionId = $request->input('session_id');
+
+    if ($stripeSessionId) {
+        PaymentSession::where('order_id', $stripeSessionId)
+            ->where('payment_gateway', 'stripe')
+            ->update(['status' => 'cancelled']);
+    }
+
+    return response()->json([
+        'success' => false,
+        'message' => 'Stripe payment cancelled by user.'
     ], 400);
 }
 }

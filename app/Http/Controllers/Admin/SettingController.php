@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Setting;
 use App\Models\Fee;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller
@@ -119,6 +121,9 @@ class SettingController extends Controller
 
             'store_id' => 'nullable|string|max:255',
             'store_pass' => 'nullable|string|max:255',
+            'stripe_key' => 'nullable|string|max:255',
+            'stripe_secret' => 'nullable|string|max:255',
+            'country_gateways' => 'nullable|string',
 
             // --- Repeatable groups (arrays) ---
             'institutions' => 'array',
@@ -264,6 +269,49 @@ class SettingController extends Controller
 
         $setting->store_id = $request->store_id;
         $setting->store_pass = $request->store_pass;
+
+        $countryGateways = [];
+        foreach (preg_split('/\r\n|\r|\n/', (string) $request->country_gateways) as $line) {
+            $line = trim($line);
+            if ($line === '' || !str_contains($line, '=')) {
+                continue;
+            }
+
+            [$country, $gateway] = array_map('trim', explode('=', $line, 2));
+            if ($country !== '' && $gateway !== '') {
+                $countryGateways[$country] = $gateway;
+            }
+        }
+
+        if (Schema::connection('mysql')->hasColumn('settings', 'extra_data')) {
+            $centralSetting = DB::connection('mysql')->table('settings')->first();
+            $extraData = [];
+
+            if ($centralSetting && !empty($centralSetting->extra_data)) {
+                $decoded = json_decode($centralSetting->extra_data, true);
+                $extraData = is_array($decoded) ? $decoded : [];
+            }
+
+            $extraData['payment'] = array_replace_recursive($extraData['payment'] ?? [], [
+                'sslcommerz' => [
+                    'enabled' => filled($request->store_id) && filled($request->store_pass),
+                    'store_id' => $request->store_id,
+                    'secret' => $request->store_pass,
+                ],
+                'stripe' => [
+                    'enabled' => filled($request->stripe_secret),
+                    'key' => $request->stripe_key,
+                    'secret' => $request->stripe_secret,
+                ],
+                'country_gateways' => $countryGateways,
+            ]);
+
+            if ($centralSetting) {
+                DB::connection('mysql')->table('settings')
+                    ->where('id', $centralSetting->id)
+                    ->update(['extra_data' => json_encode($extraData), 'updated_at' => now()]);
+            }
+        }
 
         // --- extra_data (repeatables) ---
         $pack = fn(?array $group, array $keys) => $this->packParallelArrays($group, $keys);

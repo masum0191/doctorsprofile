@@ -1533,6 +1533,31 @@
                                                 value="{{ @$setting->store_pass }}">
                                         </div>
 
+                                        @php
+                                            $paymentSettings = is_array(@$setting->extra_data) ? ($setting->extra_data['payment'] ?? []) : [];
+                                        @endphp
+
+                                        <div class="form-group mb-3">
+                                            <label class="form-label font-weight-bold">Stripe Publishable Key</label>
+                                            <input type="text" name="stripe_key"
+                                                class="form-control"
+                                                value="{{ $paymentSettings['stripe']['key'] ?? '' }}">
+                                        </div>
+
+                                        <div class="form-group mb-3">
+                                            <label class="form-label font-weight-bold">Stripe Secret Key</label>
+                                            <input type="text" name="stripe_secret"
+                                                class="form-control"
+                                                value="{{ $paymentSettings['stripe']['secret'] ?? '' }}">
+                                        </div>
+
+                                        <div class="form-group mb-3">
+                                            <label class="form-label font-weight-bold">Country Based Payment Gateways</label>
+                                            <textarea name="country_gateways" class="form-control" rows="4"
+                                                placeholder="India=stripe&#10;Nepal=stripe&#10;Bangladesh=sslcommerz">{{ collect($paymentSettings['country_gateways'] ?? [])->map(fn($gateway, $country) => $country . '=' . $gateway)->implode("\n") }}</textarea>
+                                            <small class="text-muted">If no country match is configured, Bangladesh uses SSLCommerz and other countries use Stripe.</small>
+                                        </div>
+
 
                                     </div>
                                 </div>

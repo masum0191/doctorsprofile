@@ -39,6 +39,19 @@ public function setting_update(Request $request)
     $setting->instagram_url = $request->instagram_url;
     $setting->linkedin_url  = $request->linkedin_url;
 
+    $countryGateways = [];
+    foreach (preg_split('/\r\n|\r|\n/', (string) $request->country_gateways) as $line) {
+        $line = trim($line);
+        if ($line === '' || !str_contains($line, '=')) {
+            continue;
+        }
+
+        [$country, $gateway] = array_map('trim', explode('=', $line, 2));
+        if ($country !== '' && $gateway !== '') {
+            $countryGateways[$country] = $gateway;
+        }
+    }
+
     // ================= EXTRA DATA (JSON) =================
     $setting->extra_data = [
 
@@ -83,6 +96,8 @@ public function setting_update(Request $request)
                 'client_id'=> $request->paypal_client_id,
                 'secret'   => $request->paypal_secret,
             ],
+
+            'country_gateways' => $countryGateways,
         ],
     ];
 
