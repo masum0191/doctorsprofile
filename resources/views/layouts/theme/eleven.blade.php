@@ -14,7 +14,7 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 </head>
-<body class="bg-white">
+<body class="bg-white theme-dark">
     @include('partials.analytics-body')
     <div class="min-h-screen">
         <header id="mainHeader" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white border-b">
@@ -953,3 +953,4 @@ document.addEventListener('DOMContentLoaded', function() {
 </body>
 
 </html>
+

@@ -1,0 +1,9 @@
+@import url("./profile-base.css");
+
+body {
+    --theme-primary: #0d9488;
+    --theme-primary-dark: #0f766e;
+    --theme-secondary: #f97316;
+    --theme-soft: #f0fdfa;
+    --theme-radius: .8rem;
+}
