@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('templates', function (Blueprint $table) {
             $table->id();
             $table->string('title')->nullable();
-            $table->string('value')->uniqid();
+            $table->string('value')->unique();
             $table->string('image');
             $table->boolean('status')->default(true);
             $table->timestamps();
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sliders');
+        Schema::dropIfExists('templates');
     }
 };

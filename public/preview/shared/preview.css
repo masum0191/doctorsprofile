@@ -1,0 +1,223 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Inter, Arial, sans-serif;
+    color: #172033;
+    background: var(--page-bg, #f6f8fb);
+}
+
+.preview-shell {
+    min-height: 100vh;
+    background:
+        linear-gradient(135deg, color-mix(in srgb, var(--accent) 12%, transparent), transparent 44%),
+        linear-gradient(315deg, color-mix(in srgb, var(--accent-2) 16%, transparent), transparent 38%),
+        var(--page-bg, #f6f8fb);
+}
+
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 18px 7vw;
+    border-bottom: 1px solid rgba(23, 32, 51, 0.08);
+    background: rgba(255, 255, 255, 0.86);
+    backdrop-filter: blur(14px);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 800;
+}
+
+.brand-mark {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+}
+
+.nav {
+    display: flex;
+    gap: 20px;
+    color: #536173;
+    font-size: 14px;
+}
+
+.hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.03fr) minmax(320px, 0.97fr);
+    gap: 44px;
+    align-items: center;
+    padding: 72px 7vw 56px;
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 12px;
+    border: 1px solid color-mix(in srgb, var(--accent) 26%, white);
+    border-radius: 999px;
+    color: var(--accent-dark);
+    background: rgba(255, 255, 255, 0.74);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+h1 {
+    max-width: 760px;
+    margin: 22px 0 18px;
+    font-size: clamp(42px, 6vw, 78px);
+    line-height: 0.98;
+    letter-spacing: 0;
+}
+
+.lead {
+    max-width: 650px;
+    margin: 0;
+    color: #536173;
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: 8px;
+    border: 1px solid rgba(23, 32, 51, 0.12);
+    background: #fff;
+    color: #172033;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.btn.primary {
+    border-color: transparent;
+    color: #fff;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+}
+
+.doctor-panel {
+    position: relative;
+    min-height: 520px;
+    padding: 28px;
+    border: 1px solid rgba(23, 32, 51, 0.1);
+    border-radius: var(--panel-radius, 8px);
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 28px 80px rgba(25, 37, 54, 0.14);
+    overflow: hidden;
+}
+
+.doctor-photo {
+    height: 260px;
+    border-radius: calc(var(--panel-radius, 8px) - 2px);
+    background:
+        radial-gradient(circle at 50% 25%, rgba(255, 255, 255, 0.95) 0 10%, transparent 11%),
+        linear-gradient(160deg, color-mix(in srgb, var(--accent) 18%, white), color-mix(in srgb, var(--accent-2) 22%, white));
+}
+
+.doctor-info {
+    padding: 22px 2px 0;
+}
+
+.doctor-info h2 {
+    margin: 0 0 8px;
+    font-size: 28px;
+}
+
+.doctor-info p {
+    margin: 0;
+    color: #667386;
+    line-height: 1.6;
+}
+
+.stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 22px;
+}
+
+.stat {
+    padding: 14px;
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--accent) 8%, white);
+}
+
+.stat strong {
+    display: block;
+    font-size: 20px;
+    color: var(--accent-dark);
+}
+
+.stat span {
+    color: #667386;
+    font-size: 12px;
+}
+
+.sections {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    padding: 0 7vw 70px;
+}
+
+.section-card {
+    min-height: 172px;
+    padding: 22px;
+    border: 1px solid rgba(23, 32, 51, 0.1);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.88);
+}
+
+.section-card h3 {
+    margin: 0 0 10px;
+    font-size: 18px;
+}
+
+.section-card p {
+    margin: 0;
+    color: #667386;
+    line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+    .nav {
+        display: none;
+    }
+
+    .hero {
+        grid-template-columns: 1fr;
+        padding-top: 44px;
+    }
+
+    .doctor-panel {
+        min-height: auto;
+    }
+
+    .sections {
+        grid-template-columns: 1fr;
+    }
+}

@@ -478,8 +478,8 @@
                         
                         <!-- Hover Overlay with Preview Button -->
                         <div class="image-overlay">
-                            @if (!empty($template->image))
-                                <a href="{{ url($template->image) }}" target="_blank" class="overlay-preview-btn">
+                            @if (!empty($template->url))
+                                <a href="{{ $template->url }}" target="_blank" class="overlay-preview-btn">
                                     <i class="fas fa-eye"></i> Preview
                                 </a>
                             @else
