@@ -1,1 +1,476 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Profile Template 15</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet"><link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet"><link rel="stylesheet" href="../shared/full-profile.css"></head><body><div id="app"></div><script>window.templateTheme={name:"Profile Template 15",primary:"#1e40af",secondary:"#318069",soft:"#eff6ff",radius:"18px",layout:"style-dark style-side",headline:"Appointment-First",accentLine:"Doctor Profile"};</script><script src="../shared/full-profile.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Alexander Chen - Specialist Physician</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        .custom-font {
+            font-family: 'Playfair Display', serif;
+        }
+        .gradient-border {
+            background: linear-gradient(135deg, #9333ea, #3b82f6) border-box;
+        }
+        .hero-pattern {
+            background-image: 
+                linear-gradient(135deg, #9333ea15 25%, transparent 25%),
+                linear-gradient(225deg, #9333ea15 25%, transparent 25%);
+            background-size: 40px 40px;
+            background-position: 0 0;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50">
+    <div class="min-h-screen">
+        <!-- Navigation -->
+        <nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-slate-200">
+            <div class="container mx-auto px-6 lg:px-12">
+                <div class="flex items-center justify-between h-20">
+                    <a href="index.html" class="flex items-center gap-2">
+                        <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
+                            <i class="ri-heart-pulse-fill text-lg text-white"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-lg font-bold text-gray-900">Dr. Chen</h1>
+                            <p class="text-xs text-gray-500">Specialist Care</p>
+                        </div>
+                    </a>
+                    <div class="hidden lg:flex items-center gap-8">
+                        <a href="#about" class="text-gray-600 hover:text-purple-600 font-medium transition-colors">About</a>
+                        <a href="#expertise" class="text-gray-600 hover:text-purple-600 font-medium transition-colors">Expertise</a>
+                        <a href="#testimonials" class="text-gray-600 hover:text-purple-600 font-medium transition-colors">Reviews</a>
+                        <button class="px-6 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-semibold hover:shadow-lg transition-all">Book Now</button>
+                    </div>
+                    <button class="lg:hidden text-gray-700"><i class="ri-menu-line text-2xl"></i></button>
+                </div>
+            </div>
+        </nav>
+
+        <main class="pt-20">
+            <!-- Hero Section with Side-by-Side Layout -->
+            <section class="py-20 bg-gradient-to-br from-purple-50 via-white to-blue-50 hero-pattern">
+                <div class="container mx-auto px-6 lg:px-12">
+                    <div class="grid lg:grid-cols-2 gap-16 items-center">
+                        <div class="space-y-8 order-2 lg:order-1">
+                            <div class="inline-block">
+                                <span class="px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-semibold flex items-center gap-2 w-fit">
+                                    <i class="ri-verified-badge-fill"></i>
+                                    Board Certified Physician
+                                </span>
+                            </div>
+                            <div>
+                                <h1 class="text-6xl font-bold text-gray-900 custom-font mb-4">
+                                    Dr. Alexander Chen
+                                </h1>
+                                <p class="text-2xl text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600 font-semibold">
+                                    Cardiology & Interventional Medicine
+                                </p>
+                            </div>
+                            <p class="text-lg text-gray-600 leading-relaxed max-w-xl">
+                                With over 18 years of clinical expertise, Dr. Chen specializes in complex cardiovascular cases and minimally invasive procedures. Dedicated to transforming patient outcomes through innovation and compassionate care.
+                            </p>
+                            <div class="flex flex-wrap gap-4">
+                                <button class="px-8 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-semibold hover:shadow-xl transition-all flex items-center gap-2">
+                                    <i class="ri-calendar-check-line"></i>
+                                    Schedule Appointment
+                                </button>
+                                <button class="px-8 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:border-purple-600 hover:text-purple-600 transition-all flex items-center gap-2">
+                                    <i class="ri-phone-line"></i>
+                                    (555) 987-6543
+                                </button>
+                            </div>
+                            <div class="grid grid-cols-3 gap-6 pt-8 border-t border-gray-200">
+                                <div>
+                                    <div class="text-4xl font-bold text-purple-600">18+</div>
+                                    <p class="text-sm text-gray-600 mt-2">Years Experience</p>
+                                </div>
+                                <div>
+                                    <div class="text-4xl font-bold text-blue-600">12K+</div>
+                                    <p class="text-sm text-gray-600 mt-2">Patients Helped</p>
+                                </div>
+                                <div>
+                                    <div class="text-4xl font-bold text-purple-600">99%</div>
+                                    <p class="text-sm text-gray-600 mt-2">Satisfaction</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="order-1 lg:order-2 relative">
+                            <div class="relative">
+                                <div class="absolute inset-0 bg-gradient-to-r from-purple-400 to-blue-400 rounded-3xl blur-2xl opacity-30"></div>
+                                <img alt="Dr. Alexander Chen" class="relative rounded-3xl shadow-2xl w-full h-auto object-cover object-top" src="https://img.freepik.com/free-photo/confident-male-doctor-standing-hospital_1268-21546.jpg?t=st=1761458438~exp=1761462038~hmac=b284edaba20ede29b07f17cbb555aad4ac3d20f2fad13104b377b18b6218e4d6&w=740">
+                            </div>
+                            <div class="absolute -bottom-8 -left-8 bg-white p-6 rounded-2xl shadow-xl border-l-4 border-purple-600">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 bg-gradient-to-br from-purple-100 to-blue-100 rounded-lg flex items-center justify-center">
+                                        <i class="ri-award-fill text-xl text-purple-600"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-gray-900">Fellowship Trained</p>
+                                        <p class="text-xs text-gray-600">Mayo Clinic Certified</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Key Stats Section -->
+            <section class="py-16 bg-white border-b border-slate-200">
+                <div class="container mx-auto px-6 lg:px-12">
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div class="text-center">
+                            <i class="ri-stethoscope-line text-4xl text-purple-600 mx-auto mb-3"></i>
+                            <div class="text-2xl font-bold text-gray-900">500+</div>
+                            <p class="text-gray-600 text-sm mt-1">Complex Surgeries Performed</p>
+                        </div>
+                        <div class="text-center">
+                            <i class="ri-hospital-line text-4xl text-blue-600 mx-auto mb-3"></i>
+                            <div class="text-2xl font-bold text-gray-900">15+</div>
+                            <p class="text-gray-600 text-sm mt-1">Leading Hospital Affiliations</p>
+                        </div>
+                        <div class="text-center">
+                            <i class="ri-book-open-line text-4xl text-purple-600 mx-auto mb-3"></i>
+                            <div class="text-2xl font-bold text-gray-900">32</div>
+                            <p class="text-gray-600 text-sm mt-1">Published Research Papers</p>
+                        </div>
+                        <div class="text-center">
+                            <i class="ri-award-line text-4xl text-blue-600 mx-auto mb-3"></i>
+                            <div class="text-2xl font-bold text-gray-900">8</div>
+                            <p class="text-gray-600 text-sm mt-1">Professional Awards</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section with Timeline -->
+            <section id="about" class="py-20 bg-slate-50">
+                <div class="container mx-auto px-6 lg:px-12">
+                    <div class="text-center mb-16">
+                        <h2 class="text-5xl font-bold text-gray-900 custom-font mb-4">About Dr. Chen</h2>
+                        <p class="text-xl text-gray-600 max-w-2xl mx-auto">A visionary cardiologist with a commitment to advancing cardiovascular medicine</p>
+                    </div>
+                    <div class="max-w-4xl mx-auto">
+                        <div class="bg-white rounded-2xl p-8 mb-8 shadow-sm border border-slate-200">
+                            <p class="text-gray-700 leading-relaxed mb-4 text-lg">
+                                Dr. Alexander Chen is a board-certified interventional cardiologist with extensive training from some of the nation's most prestigious medical institutions. His clinical practice focuses on treating complex cardiovascular diseases through both traditional and minimally invasive approaches.
+                            </p>
+                            <p class="text-gray-700 leading-relaxed text-lg">
+                                Known for his innovative approach to patient care, Dr. Chen combines cutting-edge technology with empathetic patient communication. He is passionate about advancing cardiovascular medicine through research and has contributed significantly to several landmark clinical trials.
+                            </p>
+                        </div>
+
+                        <div class="space-y-6">
+                            <div class="flex gap-6">
+                                <div class="w-1 bg-gradient-to-b from-purple-600 to-blue-600 rounded-full flex-shrink-0"></div>
+                                <div class="pb-8">
+                                    <div class="text-sm font-bold text-purple-600 mb-1">2006 - 2010</div>
+                                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Medical Degree</h3>
+                                    <p class="text-gray-600">Stanford School of Medicine | Graduated with Distinction in Research</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-6">
+                                <div class="w-1 bg-gradient-to-b from-purple-600 to-blue-600 rounded-full flex-shrink-0"></div>
+                                <div class="pb-8">
+                                    <div class="text-sm font-bold text-blue-600 mb-1">2010 - 2013</div>
+                                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Internal Medicine Residency</h3>
+                                    <p class="text-gray-600">Johns Hopkins Hospital | Chief Resident, Year 3</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-6">
+                                <div class="w-1 bg-gradient-to-b from-purple-600 to-blue-600 rounded-full flex-shrink-0"></div>
+                                <div class="pb-8">
+                                    <div class="text-sm font-bold text-purple-600 mb-1">2013 - 2016</div>
+                                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Cardiology Fellowship</h3>
+                                    <p class="text-gray-600">Mayo Clinic | Excellence in Clinical Practice Award</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-6">
+                                <div class="w-1 bg-gradient-to-b from-purple-600 to-blue-600 rounded-full flex-shrink-0"></div>
+                                <div>
+                                    <div class="text-sm font-bold text-blue-600 mb-1">2016 - Present</div>
+                                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Head of Cardiology Department</h3>
+                                    <p class="text-gray-600">Boston Medical Center | Leading cardiovascular innovation initiatives</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Expertise Section -->
+            <section id="expertise" class="py-20 bg-white">
+                <div class="container mx-auto px-6 lg:px-12">
+                    <div class="text-center mb-16">
+                        <h2 class="text-5xl font-bold text-gray-900 custom-font mb-4">Areas of Expertise</h2>
+                        <p class="text-xl text-gray-600">Specializing in advanced cardiovascular treatments and procedures</p>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                        <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-8 border-l-4 border-purple-600">
+                            <i class="ri-heart-pulse-line text-4xl text-purple-600 mb-4"></i>
+                            <h3 class="text-2xl font-bold text-gray-900 mb-3">Interventional Cardiology</h3>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-center gap-2"><i class="ri-check-line text-purple-600"></i>Coronary Angiography & Angioplasty</li>
+                                <li class="flex items-center gap-2"><i class="ri-check-line text-purple-600"></i>Peripheral Artery Interventions</li>
+                                <li class="flex items-center gap-2"><i class="ri-check-line text-purple-600"></i>Structural Heart Procedures</li>
+                                <li class="flex items-center gap-2"><i class="ri-check-line text-purple-600"></i>Arrhythmia Management</li>
+                            </ul>
+                        </div>
+                        <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 border-l-4 border-blue-600">
+                            <i class="ri-hospital-line text-4xl text-blue-600 mb-4"></i>
+                            <h3 class="text-2xl font-bold text-gray-900 mb-3">Preventive Cardiology</h3>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-center gap-2"><i class="ri-check-line text-blue-600"></i>Risk Assessment & Screening</li>
+                                <li class="flex items-center gap-2"><i class="ri-check-line text-blue-600"></i>Lipid Management</li>
+                                <li class="flex items-center gap-2"><i class="ri-check-line text-blue-600"></i>Hypertension Treatment</li>
+                                <li class="flex items-center gap-2"><i class="ri-check-line text-blue-600"></i>Lifestyle Optimization</li>
+                            </ul>
+                        </div>
+                        <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-8 border-l-4 border-purple-600">
+                            <i class="ri-microscope-line text-4xl text-purple-600 mb-4"></i>
+                            <h3 class="text-2xl font-bold text-gray-900 mb-3">Advanced Diagnostics</h3>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-center gap-2"><i class="ri-check-line text-purple-600"></i>3D Echocardiography</li>
+                                <li class="flex items-center gap-2"><i class="ri-check-line text-purple-600"></i>Advanced CT Imaging</li>
+                                <li class="flex items-center gap-2"><i class="ri-check-line text-purple-600"></i>Cardiac MRI</li>
+                                <li class="flex items-center gap-2"><i class="ri-check-line text-purple-600"></i>Nuclear Imaging</li>
+                            </ul>
+                        </div>
+                        <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 border-l-4 border-blue-600">
+                            <i class="ri-shield-check-line text-4xl text-blue-600 mb-4"></i>
+                            <h3 class="text-2xl font-bold text-gray-900 mb-3">Clinical Research</h3>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-center gap-2"><i class="ri-check-line text-blue-600"></i>Pharmaceutical Trials</li>
+                                <li class="flex items-center gap-2"><i class="ri-check-line text-blue-600"></i>Device Innovation</li>
+                                <li class="flex items-center gap-2"><i class="ri-check-line text-blue-600"></i>Published Research</li>
+                                <li class="flex items-center gap-2"><i class="ri-check-line text-blue-600"></i>Peer Teaching</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Certifications & Awards -->
+            <section class="py-20 bg-slate-50">
+                <div class="container mx-auto px-6 lg:px-12">
+                    <h2 class="text-5xl font-bold text-gray-900 custom-font text-center mb-16">Credentials & Recognition</h2>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-all">
+                            <div class="flex items-center gap-4 mb-4">
+                                <i class="ri-medal-fill text-3xl text-purple-600"></i>
+                                <div>
+                                    <p class="text-xs text-gray-500 font-semibold uppercase">2021</p>
+                                    <h3 class="font-bold text-gray-900">Best Interventional Cardiologist</h3>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600">Boston Medical Magazine</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-all">
+                            <div class="flex items-center gap-4 mb-4">
+                                <i class="ri-award-fill text-3xl text-blue-600"></i>
+                                <div>
+                                    <p class="text-xs text-gray-500 font-semibold uppercase">2020</p>
+                                    <h3 class="font-bold text-gray-900">Fellow - American College of Cardiology</h3>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600">FACC Designation</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-all">
+                            <div class="flex items-center gap-4 mb-4">
+                                <i class="ri-shield-check-fill text-3xl text-purple-600"></i>
+                                <div>
+                                    <p class="text-xs text-gray-500 font-semibold uppercase">2022</p>
+                                    <h3 class="font-bold text-gray-900">Board Certified - Cardiovascular Disease</h3>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600">American Board of Internal Medicine</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-all">
+                            <div class="flex items-center gap-4 mb-4">
+                                <i class="ri-book-fill text-3xl text-blue-600"></i>
+                                <div>
+                                    <p class="text-xs text-gray-500 font-semibold uppercase">2019</p>
+                                    <h3 class="font-bold text-gray-900">Research Excellence Award</h3>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600">Mayo Clinic Foundation</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-all">
+                            <div class="flex items-center gap-4 mb-4">
+                                <i class="ri-user-star-fill text-3xl text-purple-600"></i>
+                                <div>
+                                    <p class="text-xs text-gray-500 font-semibold uppercase">2023</p>
+                                    <h3 class="font-bold text-gray-900">Top 10 Cardiologists - Boston</h3>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600">New England Journal of Medicine</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-all">
+                            <div class="flex items-center gap-4 mb-4">
+                                <i class="ri-star-fill text-3xl text-blue-600"></i>
+                                <div>
+                                    <p class="text-xs text-gray-500 font-semibold uppercase">2023</p>
+                                    <h3 class="font-bold text-gray-900">Patients' Choice Award</h3>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600">Healthgrades Recognition</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Testimonials Section -->
+            <section id="testimonials" class="py-20 bg-gradient-to-r from-purple-600 to-blue-600">
+                <div class="container mx-auto px-6 lg:px-12">
+                    <h2 class="text-5xl font-bold text-white custom-font text-center mb-16">Patient Success Stories</h2>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div class="bg-white rounded-xl p-8 shadow-lg">
+                            <div class="flex gap-1 mb-4">
+                                <i class="ri-star-fill text-yellow-400"></i>
+                                <i class="ri-star-fill text-yellow-400"></i>
+                                <i class="ri-star-fill text-yellow-400"></i>
+                                <i class="ri-star-fill text-yellow-400"></i>
+                                <i class="ri-star-fill text-yellow-400"></i>
+                            </div>
+                            <p class="text-gray-700 mb-6 leading-relaxed">"Dr. Chen saved my life. His expertise and compassionate approach made all the difference during my complex cardiac procedure. I can't thank him enough."</p>
+                            <div class="flex items-center gap-4">
+                                <img src="https://readdy.ai/api/search-image?query=happy%20patient%20man&width=50&height=50&seq=test-001&orientation=squarish" alt="Patient" class="w-12 h-12 rounded-full object-cover">
+                                <div>
+                                    <p class="font-bold text-gray-900">Michael Rodriguez</p>
+                                    <p class="text-xs text-gray-600">Cardiac Patient</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-xl p-8 shadow-lg">
+                            <div class="flex gap-1 mb-4">
+                                <i class="ri-star-fill text-yellow-400"></i>
+                                <i class="ri-star-fill text-yellow-400"></i>
+                                <i class="ri-star-fill text-yellow-400"></i>
+                                <i class="ri-star-fill text-yellow-400"></i>
+                                <i class="ri-star-fill text-yellow-400"></i>
+                            </div>
+                            <p class="text-gray-700 mb-6 leading-relaxed">"The level of care and attention was extraordinary. Dr. Chen takes time to explain everything and truly cares about his patients' wellbeing."</p>
+                            <div class="flex items-center gap-4">
+                                <img src="https://readdy.ai/api/search-image?query=happy%20senior%20woman&width=50&height=50&seq=test-002&orientation=squarish" alt="Patient" class="w-12 h-12 rounded-full object-cover">
+                                <div>
+                                    <p class="font-bold text-gray-900">Patricia Williams</p>
+                                    <p class="text-xs text-gray-600">Senior Patient</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-xl p-8 shadow-lg">
+                            <div class="flex gap-1 mb-4">
+                                <i class="ri-star-fill text-yellow-400"></i>
+                                <i class="ri-star-fill text-yellow-400"></i>
+                                <i class="ri-star-fill text-yellow-400"></i>
+                                <i class="ri-star-fill text-yellow-400"></i>
+                                <i class="ri-star-fill text-yellow-400"></i>
+                            </div>
+                            <p class="text-gray-700 mb-6 leading-relaxed">"Dr. Chen's preventive approach helped me avoid a heart attack. His personalized care plan changed my life completely."</p>
+                            <div class="flex items-center gap-4">
+                                <img src="https://readdy.ai/api/search-image?query=healthy%20man%20smiling&width=50&height=50&seq=test-003&orientation=squarish" alt="Patient" class="w-12 h-12 rounded-full object-cover">
+                                <div>
+                                    <p class="font-bold text-gray-900">David Chen</p>
+                                    <p class="text-xs text-gray-600">Prevention Success</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA Section -->
+            <section class="py-20 bg-white">
+                <div class="container mx-auto px-6 lg:px-12 text-center max-w-2xl mx-auto">
+                    <h2 class="text-4xl font-bold text-gray-900 custom-font mb-4">Ready to Take Control of Your Heart Health?</h2>
+                    <p class="text-xl text-gray-600 mb-8">Schedule a consultation with Dr. Chen today and experience world-class cardiovascular care.</p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button class="px-8 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-semibold hover:shadow-xl transition-all">
+                            Schedule Appointment
+                        </button>
+                        <button class="px-8 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:border-purple-600 transition-all">
+                            Contact Office
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-900 text-gray-300 py-16">
+            <div class="container mx-auto px-6 lg:px-12">
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                    <div>
+                        <h3 class="text-xl font-bold text-white custom-font mb-4">Dr. Alexander Chen</h3>
+                        <p class="text-gray-400 mb-4">Leading cardiovascular specialist providing expert care and innovative treatment solutions.</p>
+                        <div class="flex gap-3">
+                            <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-purple-600 transition-colors cursor-pointer"><i class="ri-facebook-fill"></i></a>
+                            <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-purple-600 transition-colors cursor-pointer"><i class="ri-twitter-x-fill"></i></a>
+                            <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-purple-600 transition-colors cursor-pointer"><i class="ri-linkedin-fill"></i></a>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-semibold text-lg mb-4">Quick Links</h4>
+                        <ul class="space-y-2 text-gray-400">
+                            <li><a href="#about" class="hover:text-white transition-colors">About</a></li>
+                            <li><a href="#expertise" class="hover:text-white transition-colors">Expertise</a></li>
+                            <li><a href="#testimonials" class="hover:text-white transition-colors">Testimonials</a></li>
+                            <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-semibold text-lg mb-4">Services</h4>
+                        <ul class="space-y-2 text-gray-400">
+                            <li><a href="#" class="hover:text-white transition-colors">Consultations</a></li>
+                            <li><a href="#" class="hover:text-white transition-colors">Diagnostics</a></li>
+                            <li><a href="#" class="hover:text-white transition-colors">Procedures</a></li>
+                            <li><a href="#" class="hover:text-white transition-colors">Preventive Care</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-semibold text-lg mb-4">Contact</h4>
+                        <ul class="space-y-3 text-gray-400">
+                            <li class="flex items-center gap-2"><i class="ri-map-pin-line"></i>Boston Medical Center, MA</li>
+                            <li class="flex items-center gap-2"><i class="ri-phone-line"></i>(555) 987-6543</li>
+                            <li class="flex items-center gap-2"><i class="ri-mail-line"></i>chen@bostonmedical.com</li>
+                            <li class="flex items-center gap-2"><i class="ri-time-line"></i>Mon-Fri: 8AM-6PM</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+                    <p>© 2024 Dr. Alexander Chen. All rights reserved. | <a href="#" class="hover:text-white">Privacy Policy</a> | <a href="#" class="hover:text-white">Terms of Service</a></p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Scroll effect on navbar
+        const navbar = document.querySelector('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                navbar.classList.add('shadow-md');
+            } else {
+                navbar.classList.remove('shadow-md');
+            }
+        });
+    </script>
+</body>
+
+</html>
