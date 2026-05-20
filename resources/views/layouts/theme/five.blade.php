@@ -10,7 +10,7 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
         rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{asset('doctor/css/five.css')}}">
+    <link rel="stylesheet" href="{{url('doctor/css/five.css')}}">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 </head>
