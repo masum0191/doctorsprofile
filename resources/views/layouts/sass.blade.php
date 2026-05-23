@@ -1519,37 +1519,48 @@ select.form-control {
             }
 
             // Use current location
-            function useCurrentLocation() {
-                if (navigator.geolocation) {
-                    updateLocationText('Finding location...');
-                    navigator.geolocation.getCurrentPosition(
-                        (position) => {
-                            const lat = position.coords.latitude;
-                            const lng = position.coords.longitude;
+            function useCurrentLocation(showAlert = true) {
+                if (!navigator.geolocation) {
+                    updateLocationText('Any Location');
+                    applyFilters();
 
-                            setLatLng(lat, lng);
-                            initMap(lat, lng);
-                            reverseGeocode(lat, lng);
-                            updateLocationText('Current Location');
+                    if (showAlert) {
+                        alert('Geolocation is not supported by your browser');
+                    }
 
-                            // Apply filters after getting location
-                            setTimeout(() => applyFilters(), 1000);
-                        },
-                        (error) => {
-                            console.error('Geolocation error:', error);
-                            updateLocationText('Any Location');
+                    return;
+                }
+
+                updateLocationText('Finding location...');
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+
+                        setLatLng(lat, lng);
+                        initMap(lat, lng);
+                        reverseGeocode(lat, lng);
+                        updateLocationText('Current Location');
+
+                        // Apply filters after getting location
+                        setTimeout(() => applyFilters(), 1000);
+                    },
+                    (error) => {
+                        console.error('Geolocation error:', error);
+                        updateLocationText('Any Location');
+                        applyFilters();
+
+                        if (showAlert) {
                             alert(
                                 'Unable to get your location. Please enable location services or select manually.'
                             );
-                        }, {
-                            enableHighAccuracy: true,
-                            timeout: 20000,
-                            maximumAge: 0
                         }
-                    );
-                } else {
-                    alert('Geolocation is not supported by your browser');
-                }
+                    }, {
+                        enableHighAccuracy: true,
+                        timeout: 20000,
+                        maximumAge: 0
+                    }
+                );
             }
 
             // Cancel button functionality for location modal
@@ -1667,10 +1678,9 @@ select.form-control {
                 useCurrentLocation
             };
 
-            // Initial load - show all doctors until the user chooses a location
+            // Initial load - show doctors around the user's current location when permission is available.
             window.addEventListener('DOMContentLoaded', () => {
-                updateLocationText('Any Location');
-                applyFilters();
+                useCurrentLocation(false);
             });
 
         })();
