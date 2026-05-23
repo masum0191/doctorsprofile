@@ -1117,11 +1117,13 @@ select.form-control {
             const locationModal = document.getElementById('locationModal');
             const useCurrentLocationBtn = document.getElementById('useCurrentLocation');
             const applyLocationBtn = document.getElementById('applyLocation');
+            const clearLocationBtn = document.getElementById('clearLocationBtn');
             const nearMeBtn = document.getElementById('near-me');
             const searchForm = document.getElementById('searchForm');
             const doctorSearchEl = document.getElementById('doctor-search');
             const specialtyEl = document.getElementById('specialty');
             const filterBadges = document.querySelectorAll('.filter-badge');
+            const quickLocationBtns = document.querySelectorAll('.quick-location');
 
             // Bangladeshi cities with coordinates
             const cities = {
@@ -1247,8 +1249,79 @@ select.form-control {
 
             // Update location text
             function updateLocationText(cityName) {
-                locationText.textContent = cityName || 'Set Location';
+                locationText.textContent = cityName || 'Any Location';
                 currentLocation.name = cityName || 'Custom Location';
+            }
+
+            function closeLocationModal() {
+                locationModal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+
+            function setLocation(lat, lng, cityName, shouldApply = false) {
+                setLatLng(Number(lat), Number(lng));
+                initMap(Number(lat), Number(lng));
+                updateLocationText(cityName || 'Selected Location');
+
+                if (shouldApply) {
+                    closeLocationModal();
+                    applyFilters();
+                }
+            }
+
+            async function geocodeCity(cityName, shouldApply = false) {
+                const city = String(cityName || '').trim();
+                if (!city) return;
+
+                const cityKey = findCityKey(city);
+                if (cityKey && cities[cityKey]) {
+                    setLocation(cities[cityKey].lat, cities[cityKey].lng, cities[cityKey].name, shouldApply);
+                    return;
+                }
+
+                updateLocationText(city);
+
+                try {
+                    const response = await fetch(`/geo/forward?city=${encodeURIComponent(city)}`, {
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('City not found');
+                    }
+
+                    const data = await response.json();
+                    if (data.lat && data.lng) {
+                        setLocation(parseFloat(data.lat), parseFloat(data.lng), city, shouldApply);
+                    }
+                } catch (error) {
+                    console.error('City geocoding error:', error);
+                    if (shouldApply) {
+                        closeLocationModal();
+                        applyFilters();
+                    }
+                }
+            }
+
+            function clearLocation() {
+                latEl.value = '';
+                lngEl.value = '';
+                updateLocationText('Any Location');
+                cityInput.value = '';
+                manualCityContainer.style.display = 'none';
+
+                if (citySelect) {
+                    citySelect.value = '';
+                    if (citySelect.tomselect) {
+                        citySelect.tomselect.clear();
+                    }
+                }
+
+                closeLocationModal();
+                applyFilters();
             }
 
             // Reverse geocode coordinates to city name
@@ -1448,6 +1521,7 @@ select.form-control {
             // Use current location
             function useCurrentLocation() {
                 if (navigator.geolocation) {
+                    updateLocationText('Finding location...');
                     navigator.geolocation.getCurrentPosition(
                         (position) => {
                             const lat = position.coords.latitude;
@@ -1463,6 +1537,7 @@ select.form-control {
                         },
                         (error) => {
                             console.error('Geolocation error:', error);
+                            updateLocationText('Any Location');
                             alert(
                                 'Unable to get your location. Please enable location services or select manually.'
                             );
@@ -1529,11 +1604,18 @@ select.form-control {
             // Location modal event listeners
             document.getElementById('locationSelector').addEventListener('click', toggleLocationModal);
             applyLocationBtn.addEventListener('click', () => {
-                toggleLocationModal();
+                closeLocationModal();
                 applyFilters();
             });
 
             useCurrentLocationBtn.addEventListener('click', useCurrentLocation);
+            clearLocationBtn?.addEventListener('click', clearLocation);
+
+            quickLocationBtns.forEach((button) => {
+                button.addEventListener('click', () => {
+                    setLocation(button.dataset.lat, button.dataset.lng, button.dataset.city, true);
+                });
+            });
 
             citySelect.addEventListener('change', function() {
                 if (this.value === 'other') {
@@ -1548,6 +1630,8 @@ select.form-control {
                         setLatLng(city.lat, city.lng);
                         initMap(city.lat, city.lng);
                         updateLocationText(city.name);
+                    } else if (this.value) {
+                        geocodeCity(this.value);
                     }
                 }
             });
@@ -1556,8 +1640,7 @@ select.form-control {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     if (this.value.trim()) {
-                        updateLocationText(this.value.trim());
-                        // Here you could add geocoding for manual city input
+                        geocodeCity(this.value.trim(), true);
                     }
                 }
             });
@@ -1574,9 +1657,20 @@ select.form-control {
             }
         });
 
-            // Initial load - try to get user location first
+            window.doctorSearchLocation = {
+                applyFilters,
+                clearLocation,
+                closeLocationModal,
+                geocodeCity,
+                selectCityByName: geocodeCity,
+                setLocation,
+                useCurrentLocation
+            };
+
+            // Initial load - show all doctors until the user chooses a location
             window.addEventListener('DOMContentLoaded', () => {
-                useCurrentLocation();
+                updateLocationText('Any Location');
+                applyFilters();
             });
 
         })();
@@ -1799,6 +1893,11 @@ class LocationSelector {
     // Handle city selection
     onCitySelected(cityName) {
         console.log('City selected callback:', cityName);
+        if (window.doctorSearchLocation?.selectCityByName) {
+            window.doctorSearchLocation.selectCityByName(cityName, true);
+            return;
+        }
+
         updateLocationText(cityName);
         closeLocationModal();
         if (typeof applyFilters === 'function') {
@@ -1893,6 +1992,10 @@ class LocationSelector {
 
     // Setup event listeners
     setupEventListeners() {
+        if (window.doctorSearchLocation) {
+            return;
+        }
+
         document.getElementById('useCurrentLocation')?.addEventListener('click', () => {
             this.useCurrentLocation();
         });
@@ -1916,6 +2019,11 @@ class LocationSelector {
 
     // Get current location
     async useCurrentLocation() {
+        if (window.doctorSearchLocation?.useCurrentLocation) {
+            window.doctorSearchLocation.useCurrentLocation();
+            return;
+        }
+
         if (!navigator.geolocation) {
             alert('Geolocation is not supported by your browser');
             return;
@@ -1988,7 +2096,7 @@ function closeLocationModal() {
 function updateLocationText(text) {
     const locationText = document.getElementById('locationText');
     if (locationText) {
-        locationText.textContent = text;
+        locationText.textContent = text || 'Any Location';
     }
 }
 

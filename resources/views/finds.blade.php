@@ -53,7 +53,7 @@
                 <div id="locationSelector" class="flex items-center bg-gray-100 rounded-2xl px-5 py-4 border-2 border-transparent focus-within:border-[#318069] focus-within:bg-white transition-all cursor-pointer">
                     <i class="ri-map-pin-line text-2xl text-gray-400 mr-3 w-6 h-6 flex items-center justify-center"></i>
                     <div class="flex-1 flex items-center justify-between">
-                        <span id="locationText" class="text-base text-gray-700">Detecting...</span>
+                        <span id="locationText" class="text-base text-gray-700">Any Location</span>
                         <i class="ri-arrow-down-s-line text-xl text-gray-500"></i>
                     </div>
                     <input type="hidden" id="latInput" value="">
@@ -98,6 +98,17 @@
         </div>
     </div>
 
+    <!-- Quick City Choices -->
+    <div class="mb-4">
+        <label class="text-xs text-start font-medium text-gray-500 mb-2 block">Popular Cities</label>
+        <div class="grid grid-cols-2 gap-2">
+            <button type="button" class="quick-location px-3 py-2 rounded-lg border border-gray-200 text-xs font-medium text-gray-700 hover:bg-[#318069] hover:text-white hover:border-[#318069] transition-colors" data-city="Dhaka" data-lat="23.8103" data-lng="90.4125">Dhaka</button>
+            <button type="button" class="quick-location px-3 py-2 rounded-lg border border-gray-200 text-xs font-medium text-gray-700 hover:bg-[#318069] hover:text-white hover:border-[#318069] transition-colors" data-city="Chattogram" data-lat="22.3569" data-lng="91.7832">Chattogram</button>
+            <button type="button" class="quick-location px-3 py-2 rounded-lg border border-gray-200 text-xs font-medium text-gray-700 hover:bg-[#318069] hover:text-white hover:border-[#318069] transition-colors" data-city="Sylhet" data-lat="24.8949" data-lng="91.8687">Sylhet</button>
+            <button type="button" class="quick-location px-3 py-2 rounded-lg border border-gray-200 text-xs font-medium text-gray-700 hover:bg-[#318069] hover:text-white hover:border-[#318069] transition-colors" data-city="Khulna" data-lat="22.8456" data-lng="89.5403">Khulna</button>
+        </div>
+    </div>
+
     <!-- Manual City Input (for Other option) -->
     <div id="manualCityContainer" class="mt-3 hidden">
         <label class="text-xs text-start font-medium text-gray-500 mb-1 block">Enter City Name</label>
@@ -123,21 +134,25 @@
 
     <!-- Map -->
     <div class="mb-4">
-        <label class="text-xs font-medium text-gray-500 mb-1 block">Map View</label>
+        <label class="text-xs font-medium text-gray-500 mb-1 block">Map Pin</label>
+        <p class="text-xs text-gray-500 mb-2 text-left">Click the map or drag the pin to search around that area.</p>
         <div id="map" class="h-40 sm:h-48 rounded-xl overflow-hidden border border-gray-300"></div>
     </div>
 
     <!-- Actions -->
     <div class="mt-4 flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3">
         <button type="button" id="useCurrentLocation" class="text-sm font-medium text-[#318069] hover:text-[#276854] py-2 sm:py-0 transition-colors text-left">
-            <i class="ri-crosshair-line mr-1"></i>Current Location
+            <i class="ri-crosshair-line mr-1"></i>Use My Location
         </button>
         <div class="flex gap-2">
+            <button type="button" id="clearLocationBtn" class="px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-50 text-sm font-medium transition-colors">
+                Clear
+            </button>
             <button type="button" id="cancelLocationBtn" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 text-sm font-medium transition-colors">
                 Cancel
             </button>
             <button type="button" id="applyLocation" class="px-4 py-2 bg-[#318069] text-white rounded-lg hover:bg-[#276854] text-sm font-medium transition-colors">
-                Apply
+                Show Doctors
             </button>
         </div>
     </div>
