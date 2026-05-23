@@ -92,6 +92,22 @@ public function scopeNearby($q, float $lat, float $lng, int $radiusKm = 25)
         ->having('distance_km','<=',$radiusKm);
 }
 
+public function scopeMatchingSpecialty($query, string $specialty)
+{
+    $escaped = addcslashes($specialty, '\\%_');
+
+    return $query->where(function ($q) use ($specialty, $escaped) {
+        $q->where('specialization', $specialty)
+            ->orWhere('specialization', 'LIKE', '%"' . $escaped . '"%')
+            ->orWhere('specialization', 'LIKE', $escaped . ',%')
+            ->orWhere('specialization', 'LIKE', '%, ' . $escaped . ',%')
+            ->orWhere('specialization', 'LIKE', '%,' . $escaped . ',%')
+            ->orWhere('specialization', 'LIKE', '%, ' . $escaped)
+            ->orWhere('specialization', 'LIKE', '%,' . $escaped)
+            ->orWhere('specialization', 'LIKE', '%' . $escaped . '%');
+    });
+}
+
 protected $casts = [
         'is_available_today' => 'boolean',
         'accepts_virtual_visits' => 'boolean',

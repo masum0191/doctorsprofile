@@ -390,11 +390,12 @@
 
             @foreach ($specialtyModel->get()->take(12) as $index => $item)
                 @php $color = $colors[$index % count($colors)]; @endphp
-@php $doctors_count = User::where('role','tenant')
+@php
+    $doctors_count = User::where('role','tenant')
         ->where('status',1)
-        ->whereJsonContains('specialization', $item->name)
+        ->matchingSpecialty($item->name)
         ->count();
-        @endphp
+@endphp
                 <a href="{{ url('specialty/' . $item->id) }}" class="group block">
                     <div class="rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-{{ $color }}-200 bg-{{ $color }}-500/10 transition-all duration-300 hover:-translate-y-2 h-full flex flex-col items-center text-center">
                         <div class="w-12 h-12 sm:w-14 md:w-16 bg-white rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 transition-transform shadow-sm">
@@ -454,7 +455,7 @@
                         </h3>
                         <div class="mt-1 sm:mt-2">
                     @php
-                        $specializations = json_decode($featuredDoctor->specialization, true) ?? ['General'];
+                        $specializations = $featuredDoctor->specializationList() ?: ['General'];
                     @endphp
 
                     <div class="flex flex-wrap gap-1 sm:gap-2">

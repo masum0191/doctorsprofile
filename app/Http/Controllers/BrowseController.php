@@ -131,7 +131,7 @@ class BrowseController extends Controller
 
     // Apply specialty filter
     if ($specialty !== '') {
-        $query->where('specialization', $specialty);
+        $query->matchingSpecialty($specialty);
     }
 
     // --- NEW: Apply badge filter queries ---
@@ -199,7 +199,7 @@ class BrowseController extends Controller
 
     $doctors = User::where('role', 'tenant')
         ->where('status', 1)
-        ->whereJsonContains('specialization', $specialty->name)
+        ->matchingSpecialty($specialty->name)
         ->get();
 
     return view('by-specialty', compact('specialty', 'doctors'));

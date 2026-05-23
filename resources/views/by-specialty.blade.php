@@ -55,7 +55,7 @@
                             </h3>
                             <div class="mt-1 sm:mt-2">
                     @php
-                        $specializations = json_decode($doctor->specialization, true) ?? ['General'];
+                        $specializations = $doctor->specializationList() ?: ['General'];
                     @endphp
 
                     <div class="flex flex-wrap gap-1 sm:gap-2">
