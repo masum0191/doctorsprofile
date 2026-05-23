@@ -1310,6 +1310,7 @@ select.form-control {
                 latEl.value = '';
                 lngEl.value = '';
                 updateLocationText('Any Location');
+                window.detectedLocationSelection = null;
                 cityInput.value = '';
                 manualCityContainer.style.display = 'none';
 
@@ -1322,6 +1323,42 @@ select.form-control {
 
                 closeLocationModal();
                 applyFilters();
+            }
+
+            function syncLocationSelects(countryName, cityName) {
+                window.detectedLocationSelection = {
+                    country: countryName || '',
+                    city: cityName || ''
+                };
+
+                const countrySelect = document.getElementById('countrySelect');
+                const countryTomSelect = countrySelect?.tomselect;
+
+                if (countryName && countryTomSelect) {
+                    const normalizedCountry = countryName.toLowerCase();
+                    const matchedCountry = Object.entries(countryTomSelect.options).find(([, option]) => {
+                        return String(option.text || '').toLowerCase() === normalizedCountry ||
+                            String(option.value || '').toLowerCase() === normalizedCountry;
+                    });
+
+                    if (matchedCountry) {
+                        countryTomSelect.setValue(matchedCountry[0]);
+                    }
+                }
+
+                const cityTomSelect = citySelect?.tomselect;
+                if (cityName && cityTomSelect) {
+                    if (!cityTomSelect.options[cityName]) {
+                        cityTomSelect.addOption({
+                            value: cityName,
+                            text: cityName
+                        });
+                    }
+
+                    cityTomSelect.setValue(cityName, true);
+                } else if (cityName && citySelect && !citySelect.tomselect) {
+                    citySelect.value = cityName;
+                }
             }
 
             // Reverse geocode coordinates to city name
@@ -1345,6 +1382,7 @@ select.form-control {
                 data.address.village ||
                 data.address.county ||
                 data.address.state;
+            const country = data.address.country;
 
             if (!city) {
                 console.warn("No city found in response");
@@ -1352,6 +1390,7 @@ select.form-control {
             }
 
             updateLocationText(city);
+            syncLocationSelects(country, city);
 
             const cityKey = findCityKey(city);
 
@@ -1784,6 +1823,8 @@ class LocationSelector {
                 }
             }
         });
+
+        this.applyDetectedCountry();
     }
 
     // Load cities for selected country
@@ -1896,8 +1937,39 @@ class LocationSelector {
                 this.onCitySelected(value);
             }
         });
+
+        this.applyDetectedCity();
         
         console.log('City select initialized successfully');
+    }
+
+    applyDetectedCountry() {
+        const detected = window.detectedLocationSelection;
+        if (!detected?.country || !this.countrySelectInstance) return;
+
+        const normalizedCountry = detected.country.toLowerCase();
+        const matchedCountry = Object.entries(this.countrySelectInstance.options).find(([, option]) => {
+            return String(option.text || '').toLowerCase() === normalizedCountry ||
+                String(option.value || '').toLowerCase() === normalizedCountry;
+        });
+
+        if (matchedCountry && this.countrySelectInstance.getValue() !== matchedCountry[0]) {
+            this.countrySelectInstance.setValue(matchedCountry[0]);
+        }
+    }
+
+    applyDetectedCity() {
+        const detected = window.detectedLocationSelection;
+        if (!detected?.city || !this.citySelectInstance) return;
+
+        if (!this.citySelectInstance.options[detected.city]) {
+            this.citySelectInstance.addOption({
+                value: detected.city,
+                text: detected.city
+            });
+        }
+
+        this.citySelectInstance.setValue(detected.city, true);
     }
 
     // Handle city selection
@@ -1980,6 +2052,8 @@ class LocationSelector {
                 }
             }
         });
+
+        this.applyDetectedCountry();
     }
 
     // Fallback cities
