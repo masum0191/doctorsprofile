@@ -39,6 +39,11 @@ class DoctorPostController extends Controller
 
         // slug
         if (empty($data['slug'])) $data['slug'] = DoctorPost::makeSlug($data['title']);
+        if (!empty($data['is_published'])) {
+            $data['published_at'] = $data['published_at'] ?? now();
+        } else {
+            $data['published_at'] = null;
+        }
         if ($request->hasFile('cover_image')) {
                 $folder = 'uploads/doctor-posts';
                 if (!file_exists(public_path($folder))) {
@@ -73,6 +78,11 @@ class DoctorPostController extends Controller
 
         if (empty($data['slug']) || $data['title'] !== $post->title) {
             $data['slug'] = DoctorPost::makeSlug($data['title']);
+        }
+        if (!empty($data['is_published'])) {
+            $data['published_at'] = $data['published_at'] ?? now();
+        } else {
+            $data['published_at'] = null;
         }
 
         $post->update($data);

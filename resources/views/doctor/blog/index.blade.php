@@ -105,7 +105,7 @@
                             <i class="ri-edit-line"></i>
                         </a>
 
-                        @if($p->is_published)
+                        @if($p->is_published && (!$p->published_at || $p->published_at->lte(now())))
                             <a href="{{ route('articles.show',$p->slug) }}"
                                target="_blank"
                                class="btn btn-sm btn-outline-success">

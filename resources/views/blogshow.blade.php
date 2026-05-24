@@ -50,7 +50,7 @@
         </li>
         <li><i class="bi bi-chevron-right text-slate-400"></i></li>
         <li>
-          <a href="{{ route('articles.index', $doctor->id) }}" class="hover:text-blue-600 transition-colors duration-200">
+          <a href="{{ route('articles.index') }}" class="hover:text-blue-600 transition-colors duration-200">
             Health Blog
           </a>
         </li>
@@ -256,7 +256,7 @@
               </span>
             </div>
 
-            <a href="{{ route('articles.show', [$doctor->id, $r->slug]) }}"
+            <a href="{{ route('articles.show', $r->slug) }}"
                class="mt-4 inline-flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700 transition-colors duration-200 group/btn">
               Read Article
               <i class="bi bi-arrow-right group-hover/btn:translate-x-1 transition-transform duration-200"></i>

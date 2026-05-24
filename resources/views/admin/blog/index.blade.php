@@ -542,7 +542,7 @@
                                     <a href="{{ route('posts.edit', $p) }}" class="action-btn action-edit" title="Edit Post">
                                         <i class="ri-edit-line"></i>
                                     </a>
-                                    @if($p->is_published)
+                                    @if($p->is_published && (!$p->published_at || $p->published_at->lte(now())))
                                         <a href="{{ url('singles-article', $p->slug) }}" target="_blank" class="action-btn action-view" title="View Post">
                                             <i class="ri-eye-line"></i>
                                         </a>

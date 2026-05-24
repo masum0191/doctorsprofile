@@ -67,7 +67,7 @@
             </div>
 
             <div class="text-center mt-12">
-                <a href="{{ route('articles.index', ['doctor' => $doctor->id]) }}"
+                <a href="{{ route('articles.index') }}"
                     class="bg-gray-900 text-white px-8 py-4 rounded-xl font-semibold hover:bg-gray-800 inline-flex items-center gap-2">
                     View All Articles <i class="ri-arrow-right-line"></i>
                 </a>

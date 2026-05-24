@@ -27,8 +27,10 @@ class DoctorPost extends Model
     public function scopePublished($q)
     {
         return $q->where('is_published', true)
-                 ->whereNotNull('published_at')
-                 ->where('published_at', '<=', now());
+                 ->where(function ($query) {
+                     $query->whereNull('published_at')
+                           ->orWhere('published_at', '<=', now());
+                 });
     }
 
     /* Relations */

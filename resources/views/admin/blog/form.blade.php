@@ -496,7 +496,7 @@
                 <a href="{{ route('admin.posts.index') }}" class="btn btn-outline-secondary">
                     <i class="fas fa-arrow-left me-2"></i>Back
                 </a>
-                @if($post->exists && $post->is_published)
+                @if($post->exists && $post->is_published && (!$post->published_at || $post->published_at->lte(now())))
                 <a href="{{ url('singles-article', [$post->slug]) }}"
                    target="_blank"
                    class="btn btn-outline-success">

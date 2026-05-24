@@ -496,8 +496,8 @@
                 <a href="{{ route('posts.index') }}" class="btn btn-outline-secondary">
                     <i class="fas fa-arrow-left me-2"></i>Back
                 </a>
-                @if($post->exists && $post->is_published)
-                <a href="{{ route('articles.show', [auth()->user()->id, $post->slug]) }}"
+                @if($post->exists && $post->is_published && (!$post->published_at || $post->published_at->lte(now())))
+                <a href="{{ route('articles.show', $post->slug) }}"
                    target="_blank"
                    class="btn btn-outline-success">
                     <i class="fas fa-external-link-alt me-2"></i>View Live

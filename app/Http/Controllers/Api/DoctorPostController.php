@@ -107,12 +107,17 @@ class DoctorPostController extends Controller
     ========================== */
     public function show(Request $request, $id)
     {
-        $user = $this->initTenant($request);
+        $this->initTenant($request);
 
         try {
             $post = DoctorPost::with(['category', 'type'])
-                ->where('user_id', $user->id)
-                ->findOrFail($id);
+                ->where(function ($query) use ($id) {
+                    $query->where('slug', $id);
+                    if (is_numeric($id)) {
+                        $query->orWhere('id', $id);
+                    }
+                })
+                ->firstOrFail();
 
             return response()->json($post);
         } finally {
