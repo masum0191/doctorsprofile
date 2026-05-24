@@ -5,23 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>@yield('title')</title>
-  
-  <!-- Meta Tags (Same as before) -->
-  <meta name="description" content="{{@$setting->meta_description}}">
-  <meta name="keywords" content="{{@$setting->keywords}}">
-  <meta name="robots" content="{{ @$setting->robots }}">
-  <meta property="og:title" content="{{@$setting->ogtitle}}" />
-  <meta property="og:description" content="{{@$setting->ogdescription}}" />
-  <meta property="og:type" content="{{@$setting->ogtype}}" />
-  <meta property="og:url" content="{{@$setting->ogurl}}" />
-  <meta property="og:image" content="{{ url('storage/' . @$setting->site_logo) }}" />
-  <meta name="twitter:title" content="{{@$setting->site_name}}" />
-  <meta name="twitter:description" content="{{@$setting->meta_description}}" />
-  <meta name="twitter:card" content="{{@$setting->site_name}}" />
-  <meta name="twitter:site" content="{{ url('storage/' . @$setting->site_logo) }}" />
-  <meta name="twitter:url" content="{{@$setting->ogurl}}" />
-  <meta name="twitter:image" content="{{ url('storage/' . @$setting->site_logo) }}" />
+  @include('partials.seo')
   <meta name="theme-color" content="#1e3a8a">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">

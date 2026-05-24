@@ -66,6 +66,23 @@ class DoctorPost extends Model
         return $ids->map(fn ($id) => $posts->get($id))->filter()->values();
     }
 
+    public function getTagsAttribute()
+    {
+        $keywords = $this->meta_keywords;
+
+        if (is_string($keywords)) {
+            $decoded = json_decode($keywords, true);
+            $keywords = json_last_error() === JSON_ERROR_NONE ? $decoded : explode(',', $keywords);
+        }
+
+        return collect($keywords ?: [])
+            ->flatten()
+            ->map(fn ($tag) => trim((string) $tag))
+            ->filter()
+            ->unique()
+            ->values();
+    }
+
     /* Accessors */
     public function readTime(): Attribute
     {

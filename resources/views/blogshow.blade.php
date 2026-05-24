@@ -1,8 +1,8 @@
 @extends('layouts.forntend')
 <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 
-@section('title', $post->meta_title ?? $post->title)
-@section('meta_description', $post->meta_description ?? Str::limit(strip_tags($post->excerpt), 160))
+@section('title', $post->meta_title ?: $post->title)
+@section('meta_description', $post->meta_description ?: Str::limit(strip_tags($post->excerpt ?: $post->body), 160))
 @section('meta_keywords', is_array($post->meta_keywords) ? implode(',', $post->meta_keywords) : $post->meta_keywords)
 @section('canonical', route('articles.show', $post->slug))
 @section('ogtype', 'article')
@@ -16,8 +16,8 @@
     $articleSchema = [
         '@context' => 'https://schema.org',
         '@type' => 'Article',
-        'headline' => $post->meta_title ?? $post->title,
-        'description' => $post->meta_description ?? Str::limit(strip_tags($post->excerpt), 160),
+        'headline' => $post->meta_title ?: $post->title,
+        'description' => $post->meta_description ?: Str::limit(strip_tags($post->excerpt ?: $post->body), 160),
         'image' => $articleSeoImage,
         'datePublished' => optional($post->published_at)->toAtomString(),
         'dateModified' => optional($post->updated_at)->toAtomString(),
