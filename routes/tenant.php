@@ -19,6 +19,7 @@ use App\Models\Test;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SslCommerzPaymentController;
+use App\Http\Controllers\SubmissionsController;
 use App\Http\Controllers\ChamberController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\Doctor\DoctorAppointmentController;
@@ -35,7 +36,7 @@ use App\Http\Controllers\Doctor\DoctorFaqController;
 use App\Http\Controllers\Doctor\DoctorBillingController;
 
 
-use App\Http\Controllers\AIContentController;
+use App\Http\Controllers\Admin\AIContentController;
 use App\Http\Controllers\Setting\CategoryController;
 use App\Http\Controllers\Setting\PostTypeController;
 use App\Http\Controllers\Setting\MedicineTemplateController;

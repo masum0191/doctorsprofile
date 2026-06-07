@@ -1,9 +1,8 @@
-@extends('layouts.sass')
-@section('title', 'Find Doctors Nearby')
-@section('meta_description', 'Find doctors, specialists, appointment options, and trusted medical profiles.')
-@section('canonical', url('/'))
+<?php $__env->startSection('title', 'Find Doctors Nearby'); ?>
+<?php $__env->startSection('meta_description', 'Find doctors, specialists, appointment options, and trusted medical profiles.'); ?>
+<?php $__env->startSection('canonical', url('/')); ?>
 
-@php
+<?php
     use Illuminate\Support\Str;
     use App\Models\Specialty;
     use App\Models\User;
@@ -30,9 +29,9 @@
             $databaseReady = false;
         }
     }
-@endphp
+?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 <!-- Hero Section - Fully Responsive -->
 <section class="relative min-h-[600px] sm:min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 via-white to-teal-50/30 pt-12 sm:pt-16">
@@ -78,9 +77,9 @@
                             <select id="specialty"
                                 class="flex-1 outline-none appearance-none bg-transparent text-sm sm:text-base text-gray-700 cursor-pointer pr-6">
                                 <option value="">All specialty</option>
-                                @foreach ($specialties as $specialty)
-                                    <option value="{{ $specialty->name }}">{{ Str::title($specialty->name) }}</option>
-                                @endforeach
+                                <?php $__currentLoopData = $specialties; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $specialty): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <option value="<?php echo e($specialty->name); ?>"><?php echo e(Str::title($specialty->name)); ?></option>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </select>
                             <div class="pointer-events-none absolute right-3 sm:right-4 flex items-center text-gray-500">
                                 <i class="ri-arrow-down-s-line text-xl"></i>
@@ -302,7 +301,7 @@
                         Join thousands of patients who trust us for their healthcare needs.
                     </p>
                     <div class="flex flex-wrap gap-3 sm:gap-4 justify-center px-4">
-                        <a href="{{ url('/package') }}" class="w-full sm:w-auto">
+                        <a href="<?php echo e(url('/package')); ?>" class="w-full sm:w-auto">
                             <button class="w-full sm:w-auto bg-white hover:bg-gray-50 text-[#318069] px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold transition-all hover:shadow-xl whitespace-nowrap inline-flex items-center justify-center gap-2 text-sm sm:text-base">
                                 Create Doctor Website
                                 <i class="ri-arrow-right-line"></i>
@@ -412,32 +411,33 @@
 
         <!-- Specialty Grid - Responsive -->
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4 md:gap-6">
-            @php
+            <?php
                 $colors = ['blue', 'emerald', 'rose', 'amber', 'purple', 'teal', 'indigo', 'pink', 'cyan', 'orange', 'lime', 'fuchsia'];
-            @endphp
+            ?>
 
-            @foreach ($specialties->take(12) as $index => $item)
-                @php $color = $colors[$index % count($colors)]; @endphp
-@php
+            <?php $__currentLoopData = $specialties->take(12); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php $color = $colors[$index % count($colors)]; ?>
+<?php
     $doctors_count = User::where('role','tenant')
         ->where('status',1)
         ->matchingSpecialty($item->name)
         ->count();
-@endphp
-                <a href="{{ url('specialty/' . $item->id) }}" class="group block">
-                    <div class="rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-{{ $color }}-200 bg-{{ $color }}-500/10 transition-all duration-300 hover:-translate-y-2 h-full flex flex-col items-center text-center">
+?>
+                <a href="<?php echo e(url('specialty/' . $item->id)); ?>" class="group block">
+                    <div class="rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-<?php echo e($color); ?>-200 bg-<?php echo e($color); ?>-500/10 transition-all duration-300 hover:-translate-y-2 h-full flex flex-col items-center text-center">
                         <div class="w-12 h-12 sm:w-14 md:w-16 bg-white rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 transition-transform shadow-sm">
-                            <i class="ri-{{ $item->icon }}-line text-xl sm:text-2xl md:text-3xl text-{{ $color }}-600"></i>
+                            <i class="ri-<?php echo e($item->icon); ?>-line text-xl sm:text-2xl md:text-3xl text-<?php echo e($color); ?>-600"></i>
                         </div>
                         <h3 class="text-xs sm:text-sm md:text-base font-bold text-gray-900 mb-1 sm:mb-2 line-clamp-2">
-                            {{ $item->name }}
+                            <?php echo e($item->name); ?>
+
                         </h3>
                         <p class="text-xs text-gray-600">
-                            {{ $doctors_count ?? 0 }}+ Doctors
+                            <?php echo e($doctors_count ?? 0); ?>+ Doctors
                         </p>
                     </div>
                 </a>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
     </div>
 </section>
@@ -454,17 +454,17 @@
 
         <!-- Featured Doctors Grid -->
         <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
-            @foreach ($featuredDoctors as $featuredDoctor)
-                @php
+            <?php $__currentLoopData = $featuredDoctors; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $featuredDoctor): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php
                     $domain = App\Models\Domain::where('tenant_id', $featuredDoctor->tenant_id)->first();
-                @endphp
+                ?>
 
-                <a href="{{ route('doc-details', ['doctor' => $featuredDoctor->id, 'slug' => \Illuminate\Support\Str::slug($featuredDoctor->name)]) }}" class="bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group">
+                <a href="<?php echo e(route('doc-details', ['doctor' => $featuredDoctor->id, 'slug' => \Illuminate\Support\Str::slug($featuredDoctor->name)])); ?>" class="bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group">
                     <!-- Image - Responsive height -->
                     <div class="relative h-40 sm:h-44 md:h-48 lg:h-52 overflow-hidden bg-gray-100">
-                        <img src="{{ $featuredDoctor->photo ? url($featuredDoctor->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($featuredDoctor->name) . '&background=318069&color=fff&size=400' }}"
+                        <img src="<?php echo e($featuredDoctor->photo ? url($featuredDoctor->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($featuredDoctor->name) . '&background=318069&color=fff&size=400'); ?>"
                             class="w-full h-full object-contain object-top group-hover:scale-105 transition-transform duration-300"
-                            alt="Dr. {{ $featuredDoctor->name }}"
+                            alt="Dr. <?php echo e($featuredDoctor->name); ?>"
                             loading="lazy">
 
                         <!-- Badges - Responsive positioning and sizing -->
@@ -472,31 +472,35 @@
                             ⭐ Featured
                         </span>
                         <span class="absolute top-2 sm:top-3 right-2 sm:right-3 bg-[#318069] text-white px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-medium">
-                            {{ $featuredDoctor->is_available_today ? 'Available' : 'Unavailable' }}
+                            <?php echo e($featuredDoctor->is_available_today ? 'Available' : 'Unavailable'); ?>
+
                         </span>
                     </div>
 
                     <!-- Content - Responsive padding and text -->
                     <div class="p-3 sm:p-4 md:p-5">
                         <h3 class="text-sm sm:text-base md:text-lg font-bold text-gray-900 mb-1 line-clamp-1">
-                            Dr. {{ $featuredDoctor->name }}
+                            Dr. <?php echo e($featuredDoctor->name); ?>
+
                         </h3>
                         <div class="mt-1 sm:mt-2">
-                    @php
+                    <?php
                         $specializations = $featuredDoctor->specializationList() ?: ['General'];
-                    @endphp
+                    ?>
 
                     <div class="flex flex-wrap gap-1 sm:gap-2">
-                        @foreach(array_slice($specializations, 0, 2) as $spec)
+                        <?php $__currentLoopData = array_slice($specializations, 0, 2); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $spec): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <span class="px-2 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs rounded-full bg-blue-100 text-blue-700">
-                                {{ $spec ?? 'General' }}
+                                <?php echo e($spec ?? 'General'); ?>
+
                             </span>
-                        @endforeach
-                        @if(count($specializations) > 2)
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        <?php if(count($specializations) > 2): ?>
                             <span class="px-2 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs rounded-full bg-gray-100 text-gray-700">
-                                +{{ count($specializations) - 2 }}
+                                +<?php echo e(count($specializations) - 2); ?>
+
                             </span>
-                        @endif
+                        <?php endif; ?>
                     </div>
                 </div>
 
@@ -504,7 +508,8 @@
                         <div class="flex items-center gap-1 sm:gap-2 mt-1 mb-2 sm:mb-3">
                             <i class="ri-star-fill text-[#FFC107] text-xs sm:text-sm"></i>
                             <span class="font-bold text-gray-900 text-xs sm:text-sm">
-                                {{ $featuredDoctor->rating ?? '4.5' }}
+                                <?php echo e($featuredDoctor->rating ?? '4.5'); ?>
+
                             </span>
                         </div>
 
@@ -512,26 +517,26 @@
                         <div class="space-y-1 sm:space-y-2 text-xs text-gray-600">
                             <div class="flex items-center gap-1 sm:gap-2 truncate">
                                 <i class="ri-briefcase-line text-gray-400 flex-shrink-0"></i>
-                                <span class="truncate">{{ $featuredDoctor->experience_years ?? 1 }} years exp.</span>
+                                <span class="truncate"><?php echo e($featuredDoctor->experience_years ?? 1); ?> years exp.</span>
                             </div>
                             <div class="flex items-center gap-1 sm:gap-2 truncate">
                                 <i class="ri-hospital-line text-gray-400 flex-shrink-0"></i>
-                                <span class="truncate">{{ $featuredDoctor->city ?? 'Medical Center' }}</span>
+                                <span class="truncate"><?php echo e($featuredDoctor->city ?? 'Medical Center'); ?></span>
                             </div>
                         </div>
 
                         <!-- View Details Button -->
-                        <!-- <a href="{{ route('doc-details', ['doctor' => $featuredDoctor->id, 'slug' => \Illuminate\Support\Str::slug($featuredDoctor->name)]) }}"
+                        <!-- <a href="<?php echo e(route('doc-details', ['doctor' => $featuredDoctor->id, 'slug' => \Illuminate\Support\Str::slug($featuredDoctor->name)])); ?>"
                             class="block text-center bg-[#318069] hover:bg-[#276854] text-white py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-medium transition">
                             View Details
                         </a> -->
                     </div>
 </a>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
 
         <div class="text-center mt-8">
-            <a href="{{ route('featured.doctors') }}" class="inline-block w-full sm:w-auto">
+            <a href="<?php echo e(route('featured.doctors')); ?>" class="inline-block w-full sm:w-auto">
                 <button class="w-full sm:w-auto bg-gray-100 hover:bg-[#318069] hover:text-white text-gray-700 px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg font-medium transition-colors whitespace-nowrap text-sm sm:text-base">
                     View All Featured Doctors
                     <i class="ri-arrow-right-line ml-2"></i>
@@ -621,46 +626,48 @@
 
         <!-- Blog Posts Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            @foreach ($posts as $post)
-                <a href="{{ url('singles-article', $post->slug) }}" class="bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer group">
+            <?php $__currentLoopData = $posts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $post): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <a href="<?php echo e(url('singles-article', $post->slug)); ?>" class="bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer group">
                     <div class="relative overflow-hidden">
-                        <img alt="{{ $post->title }}"
+                        <img alt="<?php echo e($post->title); ?>"
                             class="w-full h-40 sm:h-48 md:h-56 object-cover object-top group-hover:scale-110 transition-transform duration-500"
-                            src="{{ $post->cover_image ?: 'https://via.placeholder.com/600x400?text=Blog' }}"
+                            src="<?php echo e($post->cover_image ?: 'https://via.placeholder.com/600x400?text=Blog'); ?>"
                             loading="lazy">
-                        @if ($post->category)
+                        <?php if($post->category): ?>
                             <div class="absolute top-3 left-3 sm:top-4 sm:left-4 bg-cyan-600 text-white px-2 sm:px-3 py-1 rounded-full text-xs font-semibold">
-                                {{ $post->category->name }}
+                                <?php echo e($post->category->name); ?>
+
                             </div>
-                        @endif
+                        <?php endif; ?>
                     </div>
 
                     <div class="p-4 sm:p-5 md:p-6">
                         <div class="flex items-center gap-3 sm:gap-4 text-xs text-gray-500 mb-2 sm:mb-3">
                             <div class="flex items-center gap-1">
                                 <i class="ri-calendar-line"></i>
-                                <span>{{ optional($post->published_at)->format('M d, Y') }}</span>
+                                <span><?php echo e(optional($post->published_at)->format('M d, Y')); ?></span>
                             </div>
                             <div class="flex items-center gap-1">
                                 <i class="ri-time-line"></i>
-                                <span>{{ $post->readTime }} min</span>
+                                <span><?php echo e($post->readTime); ?> min</span>
                             </div>
                         </div>
 
                         <h3 class="text-sm sm:text-base md:text-lg font-bold text-gray-900 mb-2 group-hover:text-cyan-600 transition-colors line-clamp-2">
-                            {{ $post->title }}
+                            <?php echo e($post->title); ?>
+
                         </h3>
 
-                        @if ($post->excerpt)
-                            <p class="text-xs sm:text-sm text-gray-600 mb-3 line-clamp-2">{{ $post->excerpt }}</p>
-                        @endif
+                        <?php if($post->excerpt): ?>
+                            <p class="text-xs sm:text-sm text-gray-600 mb-3 line-clamp-2"><?php echo e($post->excerpt); ?></p>
+                        <?php endif; ?>
 
                         <div class="flex items-center justify-between pt-3 border-t border-gray-100">
                             <div class="flex items-center gap-2">
                                 <div class="w-6 h-6 sm:w-7 sm:h-7 bg-gradient-to-br from-cyan-500 to-teal-500 rounded-full flex items-center justify-center">
                                     <i class="ri-user-line text-white text-xs"></i>
                                 </div>
-                                <span class="text-xs font-medium text-gray-700">{{ data_get($doctor, 'name', 'Doctors Profile') }}</span>
+                                <span class="text-xs font-medium text-gray-700"><?php echo e(data_get($doctor, 'name', 'Doctors Profile')); ?></span>
                             </div>
                             <div 
                                 class="text-cyan-600 font-semibold text-xs flex items-center gap-1 hover:gap-2 transition-all">
@@ -669,7 +676,7 @@
                         </div>
                     </div>
                 </a>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
 
         <!-- View All Button -->
@@ -684,4 +691,6 @@
     </div>
 </section>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.sass', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\doctorprofiles\resources\views/sass.blade.php ENDPATH**/ ?>

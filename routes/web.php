@@ -237,7 +237,7 @@ Route::get(
 )->name('appointment.confirmation.legacy');
 
 // ->name('ssl.initiate');
-Route::post('/appointments/{appointment}/ssl-initiate', 'BrowseController@initiateSSLCommerce')
+Route::post('/appointments/{appointment}/ssl-initiate', [BrowseController::class, 'initiateSSLCommerce'])
     ->name('ssl.initiate');
 Route::get('/doctors/nearby', [BrowseController::class, 'nearby'])->name('doctors.nearby'); // AJAX
 Route::get('/geo/reverse', [GeoController::class, 'reverse'])->name('geo.reverse');

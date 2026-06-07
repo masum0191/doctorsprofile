@@ -8,6 +8,7 @@ use App\Models\Setting;
 use App\Models\Tenant;
 use App\Models\User;
 use App\Models\CompanySetting;
+use App\Support\DatabaseAvailability;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
@@ -41,11 +42,16 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
 
-        // setting table value share
-        $companysetting = CompanySetting::first();
+        $companysetting = new CompanySetting();
 
-        if ($companysetting) {
-            View::share('companysetting', $companysetting);
+        if (! $this->app->runningInConsole() && DatabaseAvailability::check()) {
+            try {
+                $companysetting = CompanySetting::first() ?? $companysetting;
+            } catch (\Throwable) {
+                //
+            }
         }
+
+        View::share('companysetting', $companysetting);
     }
 }

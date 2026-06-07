@@ -9,13 +9,13 @@
     ?>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="{{ url($favicon) }}" type="image/x-icon" />
-    @include('partials.seo')
+    <link rel="icon" href="<?php echo e(url($favicon)); ?>" type="image/x-icon" />
+    <?php echo $__env->make('partials.seo', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
-    {{-- CSRF Token --}}
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 
-    {{-- Google Fonts --}}
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap"
@@ -508,15 +508,15 @@ select.form-control {
 </head>
 
 <body>
-    @include('partials.analytics-body')
+    <?php echo $__env->make('partials.analytics-body', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
     <div class="bg-white">
         <header id="mainHeader" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent">
             <div class="max-w-7xl mx-auto px-3 md:px-6 py-3">
                 <div class="grid grid-cols-12 gap-4 items-center">
                     <div class="col-span-6">
-                        <a href="{{ url('/') }}">
+                        <a href="<?php echo e(url('/')); ?>">
                             <img alt="Doctor Directory Logo" class="h-8 md:h-12  w-auto object-contain"
-                                src="{{ url($headerLogo) }}">
+                                src="<?php echo e(url($headerLogo)); ?>">
                         </a>
                     </div>
                     <!-- <div class="col-span-6">
@@ -533,7 +533,7 @@ select.form-control {
                     <div class="col-span-6 flex justify-end">
                          <div class="flex items-center gap-8">
 
-                        <a href="{{ url('/package') }}"
+                        <a href="<?php echo e(url('/package')); ?>"
                         class="bg-[#318069] hover:bg-[#276854] text-white px-5 py-3 rounded-full md:text-[15px] text-xs font-medium transition-colors whitespace-nowrap">Create Doctor Website</a>
                 </div>
                     </div>
@@ -542,20 +542,20 @@ select.form-control {
         </header>
 
         <main class="flex-grow-1">
-            {{-- flash message --}}
-            @if (session('success'))
+            
+            <?php if(session('success')): ?>
                 <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
                     role="alert">
                     <strong class="font-bold">Success!</strong>
-                    <span class="block sm:inline">{{ session('success') }}</span>
+                    <span class="block sm:inline"><?php echo e(session('success')); ?></span>
                 </div>
-            @elseif(session('error'))
+            <?php elseif(session('error')): ?>
                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                     <strong class="font-bold">Error!</strong>
-                    <span class="block sm:inline">{{ session('error') }}</span>
+                    <span class="block sm:inline"><?php echo e(session('error')); ?></span>
                 </div>
-            @endif
-            @yield('content')
+            <?php endif; ?>
+            <?php echo $__env->yieldContent('content'); ?>
         </main>
 
 
@@ -598,7 +598,7 @@ select.form-control {
 
                         <!-- Brand -->
                         <div>
-                            <img src="{{ url('images/logo.png') }}" class="h-16 mb-6 filter invert brightness-0"
+                            <img src="<?php echo e(url('images/logo.png')); ?>" class="h-16 mb-6 filter invert brightness-0"
                                 alt="Doctors Profile XYZ">
                             <p class="text-slate-100 text-sm leading-relaxed mb-6">
                                 <strong>Doctors Profile XYZ</strong> is a Trust-IT-BD product that helps patients
@@ -630,7 +630,7 @@ select.form-control {
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('admin.login') }}"
+                                    <a href="<?php echo e(route('admin.login')); ?>"
                                         class="flex items-center gap-2 hover:text-[#FFC107] transition">
                                         <i class="ri-arrow-right-s-line text-xs"></i> Login
                                     </a>
@@ -671,7 +671,8 @@ select.form-control {
                                     </div>
                                     <p>
                                         <strong>Office</strong><br>
-                                        {{ data_get($settingModel, 'address', 'N/A') }}
+                                        <?php echo e(data_get($settingModel, 'address', 'N/A')); ?>
+
                                     </p>
                                 </div>
 
@@ -679,14 +680,14 @@ select.form-control {
                                     <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
                                         <i class="ri-phone-line text-lg"></i>
                                     </div>
-                                    <p><strong>Phone</strong><br>{{ data_get($settingModel, 'phone', 'N/A') }}</p>
+                                    <p><strong>Phone</strong><br><?php echo e(data_get($settingModel, 'phone', 'N/A')); ?></p>
                                 </div>
 
                                 <div class="flex gap-4">
                                     <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
                                         <i class="ri-mail-line text-lg"></i>
                                     </div>
-                                    <p><strong>E-mail</strong><br>{{ data_get($settingModel, 'email', 'N/A') }}</p>
+                                    <p><strong>E-mail</strong><br><?php echo e(data_get($settingModel, 'email', 'N/A')); ?></p>
                                 </div>
                             </div>
                         </div>
@@ -782,8 +783,8 @@ select.form-control {
             </div>
         </div>
 
-        <form id="bookingForm" action="{{ route('appointments.store') }}" method="POST">
-            @csrf
+        <form id="bookingForm" action="<?php echo e(route('appointments.store')); ?>" method="POST">
+            <?php echo csrf_field(); ?>
             <input type="hidden" id="doctor_id" name="doctor_id">
             <input type="hidden" id="appointment_date" name="appointment_date">
             <input type="hidden" id="appointment_time" name="appointment_time">
@@ -815,7 +816,7 @@ select.form-control {
                 <!-- Date -->
                 <div class="form-group mb-4">
                     <label class="block text-sm font-semibold mb-2 text-gray-700">Date</label>
-                    <input type="date" id="datePicker" class="form-control" min="{{ date('Y-m-d') }}" required>
+                    <input type="date" id="datePicker" class="form-control" min="<?php echo e(date('Y-m-d')); ?>" required>
                 </div>
 
                 <!-- Time -->
@@ -1036,7 +1037,7 @@ select.form-control {
 
 
 <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
-    {{-- jQuery CDN --}}
+    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->
@@ -1054,52 +1055,7 @@ select.form-control {
         });
     </script>
 
-    {{-- <script>
-    // Mobile Menu Toggle
-    document.addEventListener('DOMContentLoaded', function() {
-      const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-      const mobileMenu = document.querySelector('.mobile-menu');
-
-      if (mobileMenuBtn && mobileMenu) {
-        mobileMenuBtn.addEventListener('click', function() {
-          mobileMenu.classList.toggle('hidden');
-          mobileMenuBtn.innerHTML = mobileMenu.classList.contains('hidden') ?
-            '<i class="bi bi-list text-xl"></i>' :
-            '<i class="bi bi-x-lg text-xl"></i>';
-        });
-      }
-
-      // Back to Top Button
-      const backToTop = document.getElementById('backToTop');
-
-      window.addEventListener('scroll', function() {
-        if (window.pageYOffset > 300) {
-          backToTop.classList.add('visible');
-        } else {
-          backToTop.classList.remove('visible');
-        }
-      });
-
-      backToTop.addEventListener('click', function(e) {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-
-      // Smooth scrolling for anchor links
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-          e.preventDefault();
-          const target = document.querySelector(this.getAttribute('href'));
-          if (target) {
-            target.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start'
-            });
-          }
-        });
-      });
-    });
-  </script> --}}
+    
 
 
 
@@ -2873,7 +2829,8 @@ document.getElementById('cancelLocationBtn')?.addEventListener('click', function
     });
 </script>
 
-    @stack('scripts')
+    <?php echo $__env->yieldPushContent('scripts'); ?>
 </body>
 
 </html>
+<?php /**PATH D:\doctorprofiles\resources\views/layouts/sass.blade.php ENDPATH**/ ?>

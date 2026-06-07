@@ -27,6 +27,8 @@ return [
     //   
     'doctorsprofile.xyz',
 'www.doctorsprofile.xyz',
+    'localhost',
+    '127.0.0.1',
       
 
 

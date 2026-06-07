@@ -33,10 +33,9 @@
     29 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
     30 => 'Termwind\\Laravel\\TermwindServiceProvider',
     31 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
-    32 => 'Srmklive\\PayPal\\Providers\\PayPalServiceProvider',
-    33 => 'Stancl\\Tenancy\\TenancyServiceProvider',
-    34 => 'App\\Providers\\AppServiceProvider',
-    35 => 'App\\Providers\\TenancyServiceProvider',
+    32 => 'Stancl\\Tenancy\\TenancyServiceProvider',
+    33 => 'App\\Providers\\AppServiceProvider',
+    34 => 'App\\Providers\\TenancyServiceProvider',
   ),
   'eager' => 
   array (
@@ -56,10 +55,9 @@
     13 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
     14 => 'Termwind\\Laravel\\TermwindServiceProvider',
     15 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
-    16 => 'Srmklive\\PayPal\\Providers\\PayPalServiceProvider',
-    17 => 'Stancl\\Tenancy\\TenancyServiceProvider',
-    18 => 'App\\Providers\\AppServiceProvider',
-    19 => 'App\\Providers\\TenancyServiceProvider',
+    16 => 'Stancl\\Tenancy\\TenancyServiceProvider',
+    17 => 'App\\Providers\\AppServiceProvider',
+    18 => 'App\\Providers\\TenancyServiceProvider',
   ),
   'deferred' => 
   array (
