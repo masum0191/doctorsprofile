@@ -4,8 +4,9 @@
 <head>
     <?php
     $settingModel = $companysetting ?? $setting ?? new \App\Models\CompanySetting();
+    $fallbackLogo = 'images/logo.svg';
     $favicon = data_get($settingModel, 'favicon') ?: 'favicon.ico';
-    $headerLogo = data_get($settingModel, 'logo') ?: 'images/logo.png';
+    $siteLogo = data_get($settingModel, 'logo') ?: $fallbackLogo;
     ?>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -516,7 +517,7 @@ select.form-control {
                     <div class="col-span-6">
                         <a href="{{ url('/') }}">
                             <img alt="Doctor Directory Logo" class="h-8 md:h-12  w-auto object-contain"
-                                src="{{ url($headerLogo) }}">
+                                src="{{ url($siteLogo) }}" onerror="this.onerror=null;this.src='{{ url($fallbackLogo) }}';">
                         </a>
                     </div>
                     <!-- <div class="col-span-6">
@@ -598,7 +599,8 @@ select.form-control {
 
                         <!-- Brand -->
                         <div>
-                            <img src="{{ url('images/logo.png') }}" class="h-16 mb-6 filter invert brightness-0"
+                            <img src="{{ url($siteLogo) }}" class="h-16 mb-6 filter invert brightness-0"
+                                onerror="this.onerror=null;this.src='{{ url($fallbackLogo) }}';"
                                 alt="Doctors Profile XYZ">
                             <p class="text-slate-100 text-sm leading-relaxed mb-6">
                                 <strong>Doctors Profile XYZ</strong> is a Trust-IT-BD product that helps patients

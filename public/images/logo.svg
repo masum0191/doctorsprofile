@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="96" viewBox="0 0 420 96" role="img" aria-labelledby="title desc">
+  <title id="title">Doctors Profile XYZ</title>
+  <desc id="desc">Doctors Profile XYZ logo</desc>
+  <rect width="420" height="96" rx="18" fill="#ffffff"/>
+  <circle cx="48" cy="48" r="30" fill="#318069"/>
+  <path d="M46 29h8v15h15v8H54v15h-8V52H31v-8h15z" fill="#ffffff"/>
+  <text x="92" y="43" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#1f2937">Doctors Profile</text>
+  <text x="93" y="68" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="600" fill="#318069">XYZ</text>
+</svg>

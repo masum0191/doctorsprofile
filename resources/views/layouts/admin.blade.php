@@ -5,6 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Doctor Dashboard')</title>
+    @php
+        $settingModel = $companysetting ?? new \App\Models\CompanySetting();
+        $fallbackLogo = 'images/logo.svg';
+        $adminLogo = data_get($settingModel, 'logo') ?: $fallbackLogo;
+        $adminFavicon = data_get($settingModel, 'favicon') ?: $adminLogo;
+    @endphp
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -12,7 +18,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     {{-- favicon --}}
-    <link rel="icon" type="image/png" href="{{ url(auth()->user()->photo) }}">
+    <link rel="icon" type="image/png" href="{{ url($adminFavicon) }}">
 
     <style>
         /* ===== Sidebar Active Color Override ===== */
@@ -1241,7 +1247,7 @@
             <div class="sidebar-header">
                 <div class="brand-img d-flex">
                     <img alt="Doctor Directory Logo" class="h-12 w-auto object-contain"
-                        src="{{ auth()->user()->photo ? url(auth()->user()->photo) : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) . '&background=318069&color=fff' }}" height="50">
+                        src="{{ url($adminLogo) }}" onerror="this.onerror=null;this.src='{{ url($fallbackLogo) }}';" height="50">
                 </div>
                 <button class="toggle-btn d-none" id="sidebarToggle">
                     <i class="ri-arrow-left-s-line"></i>
@@ -1576,7 +1582,7 @@
             <div class="top-bar">
                <div class=" d-flex d-md-none">
                     <img alt="Doctor Directory Logo" class="mob-logo"
-                        src="https://doctorsprofile.xyz/uploads/settings/logo_HsNogj4w3l.png" height="50">
+                        src="{{ url($adminLogo) }}" onerror="this.onerror=null;this.src='{{ url($fallbackLogo) }}';" height="50">
                 </div>
 
                 
