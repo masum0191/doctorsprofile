@@ -19,16 +19,14 @@ return [
      * Only relevant if you're using the domain or subdomain identification middleware.
      */
     'central_domains' => [
-     //'localgovbd.com',
        // 'doctor.localgovbd.com',
        // 'www.doctor.localgovbd.com',
-        //'www.localgovbd.com',
-      //  'www.localgovbd.com',
+       
     //   
     'doctorsprofile.xyz',
 'www.doctorsprofile.xyz',
-    'localhost',
-    '127.0.0.1',
+   // 'localhost',
+   // '127.0.0.1',
       
 
 
