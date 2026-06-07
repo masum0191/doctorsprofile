@@ -915,7 +915,7 @@ $settingModel = \App\Models\CompanySetting::first();
             <div class="sidebar-header">
                 <div class="brand d-flex">
                     <img alt="Doctor Directory Logo" class="h-12 w-auto object-contain"
-                        src="{{ url('images/logo.png') }}">
+                        src=" {{ url($settingModel->logo) }}">
                 </div>
                 <!-- <button class="toggle-btn" id="sidebarToggle">
                     <i class="ri-arrow-left-s-line"></i>
