@@ -1128,6 +1128,8 @@ select.form-control {
             const specialtyEl = document.getElementById('specialty');
             const filterBadges = document.querySelectorAll('.filter-badge');
             const quickLocationBtns = document.querySelectorAll('.quick-location');
+            const locationSelectorEl = document.getElementById('locationSelector');
+            const fixedLocation = locationSelectorEl?.dataset.locationFixed === 'true';
 
             // Bangladeshi cities with coordinates
             const cities = {
@@ -1211,6 +1213,9 @@ select.form-control {
 
             // Initialize map in modal
             function initMap(lat, lng) {
+                const mapEl = document.getElementById('map');
+                if (!mapEl) return;
+
                 if (!map) {
                     map = L.map('map').setView([lat, lng], 12);
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -1258,7 +1263,7 @@ select.form-control {
             }
 
             function closeLocationModal() {
-                locationModal.classList.add('hidden');
+                locationModal?.classList.add('hidden');
                 document.body.style.overflow = '';
             }
 
@@ -1313,10 +1318,10 @@ select.form-control {
             function clearLocation() {
                 latEl.value = '';
                 lngEl.value = '';
-                updateLocationText('Any Location');
+                updateLocationText(fixedLocation ? 'Location unavailable' : 'Any Location');
                 window.detectedLocationSelection = null;
-                cityInput.value = '';
-                manualCityContainer.style.display = 'none';
+                if (cityInput) cityInput.value = '';
+                if (manualCityContainer) manualCityContainer.style.display = 'none';
 
                 if (citySelect) {
                     citySelect.value = '';
@@ -1508,7 +1513,7 @@ select.form-control {
                                 <!-- Description -->
                                 <p class="text-gray-600 text-center max-w-md mb-6">
                                 We couldn’t find any doctors matching your search.
-                                Try changing your location, specialty, or increasing the search radius.
+                                Try changing the search term, specialty, or selected filters.
                                 </p>
 
                                 <!-- Action Buttons -->
@@ -1519,11 +1524,6 @@ select.form-control {
                                     Modify Search
                                 </button>
 
-                                <button
-                                    onclick="document.getElementById('near-me')?.click()"
-                                    class="px-5 py-2.5 rounded-lg border border-gray-300 text-gray-700 text-sm font-medium hover:bg-gray-50 transition">
-                                    Use Near Me
-                                </button>
                                 </div>
 
                             </div>
@@ -1555,6 +1555,10 @@ select.form-control {
 
             // Toggle location modal
             function toggleLocationModal() {
+                if (fixedLocation || !locationModal) {
+                    return;
+                }
+
                 locationModal.classList.toggle('hidden');
                 if (!locationModal.classList.contains('hidden')) {
                     initMap(currentLocation.lat, currentLocation.lng);
@@ -1564,7 +1568,7 @@ select.form-control {
             // Use current location
             function useCurrentLocation(showAlert = true) {
                 if (!navigator.geolocation) {
-                    updateLocationText('Any Location');
+                    updateLocationText(fixedLocation ? 'Location unavailable' : 'Any Location');
                     applyFilters();
 
                     if (showAlert) {
@@ -1590,12 +1594,14 @@ select.form-control {
                     },
                     (error) => {
                         console.error('Geolocation error:', error);
-                        updateLocationText('Any Location');
+                        updateLocationText(fixedLocation ? 'Location unavailable' : 'Any Location');
                         applyFilters();
 
                         if (showAlert) {
                             alert(
-                                'Unable to get your location. Please enable location services or select manually.'
+                                fixedLocation
+                                    ? 'Unable to get your location. Please enable location services.'
+                                    : 'Unable to get your location. Please enable location services or select manually.'
                             );
                         }
                     }, {
@@ -1651,18 +1657,18 @@ select.form-control {
                 });
             });
 
-            nearMeBtn.addEventListener('click', () => {
+            nearMeBtn?.addEventListener('click', () => {
                 useCurrentLocation();
             });
 
             // Location modal event listeners
-            document.getElementById('locationSelector').addEventListener('click', toggleLocationModal);
-            applyLocationBtn.addEventListener('click', () => {
+            locationSelectorEl?.addEventListener('click', toggleLocationModal);
+            applyLocationBtn?.addEventListener('click', () => {
                 closeLocationModal();
                 applyFilters();
             });
 
-            useCurrentLocationBtn.addEventListener('click', useCurrentLocation);
+            useCurrentLocationBtn?.addEventListener('click', useCurrentLocation);
             clearLocationBtn?.addEventListener('click', clearLocation);
 
             quickLocationBtns.forEach((button) => {
@@ -1671,7 +1677,7 @@ select.form-control {
                 });
             });
 
-            citySelect.addEventListener('change', function() {
+            citySelect?.addEventListener('change', function() {
                 if (this.value === 'other') {
                     manualCityContainer.style.display = 'block';
                     cityInput.focus();
@@ -1690,7 +1696,7 @@ select.form-control {
                 }
             });
 
-            cityInput.addEventListener('keypress', function(e) {
+            cityInput?.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     if (this.value.trim()) {
@@ -1701,11 +1707,15 @@ select.form-control {
 
             // Close modal when clicking outside
            document.addEventListener('click', (e) => {
-            const locationSelector = document.getElementById('locationSelector') ||
+            if (fixedLocation || !locationModal) {
+                return;
+            }
+
+            const locationSelector = locationSelectorEl ||
                                     document.querySelector('.md\\:col-span-3 .flex.items-center');
 
             if (!locationModal.contains(e.target) &&
-                !locationSelector.contains(e.target) &&
+                !locationSelector?.contains(e.target) &&
                 !locationModal.classList.contains('hidden')) {
                 locationModal.classList.add('hidden');
             }

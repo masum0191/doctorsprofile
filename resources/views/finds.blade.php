@@ -50,11 +50,11 @@
                 </select>
             </div>
             <div class="md:col-span-3 relative">
-                <div id="locationSelector" class="flex items-center bg-gray-100 rounded-2xl px-5 py-4 border-2 border-transparent focus-within:border-[#318069] focus-within:bg-white transition-all cursor-pointer">
+                <div id="locationSelector" data-location-fixed="true" class="flex items-center bg-gray-100 rounded-2xl px-5 py-4 border-2 border-transparent transition-all">
                     <i class="ri-map-pin-line text-2xl text-gray-400 mr-3 w-6 h-6 flex items-center justify-center"></i>
                     <div class="flex-1 flex items-center justify-between">
-                        <span id="locationText" class="text-base text-gray-700">Any Location</span>
-                        <i class="ri-arrow-down-s-line text-xl text-gray-500"></i>
+                        <span id="locationText" class="text-base text-gray-700">Detecting location...</span>
+                        <i class="ri-lock-line text-lg text-gray-400"></i>
                     </div>
                     <input type="hidden" id="latInput" value="">
                     <input type="hidden" id="lngInput" value="">
@@ -170,7 +170,6 @@
             <button type="button" data-filter="top_rated" class="filter-badge px-5 py-2 bg-gray-50 hover:bg-[#318069] hover:text-white text-gray-700 rounded-full text-sm font-medium transition-all hover:shadow-md whitespace-nowrap cursor-pointer border border-gray-200 hover:border-[#318069]">Top Rated</button>
             <button type="button" data-filter="available_today" class="filter-badge px-5 py-2 bg-gray-50 hover:bg-[#318069] hover:text-white text-gray-700 rounded-full text-sm font-medium transition-all hover:shadow-md whitespace-nowrap cursor-pointer border border-gray-200 hover:border-[#318069]">Available Today</button>
             <button type="button" data-filter="virtual_visits" class="filter-badge px-5 py-2 bg-gray-50 hover:bg-[#318069] hover:text-white text-gray-700 rounded-full text-sm font-medium transition-all hover:shadow-md whitespace-nowrap cursor-pointer border border-gray-200 hover:border-[#318069]">Virtual Visits</button>
-            <button type="button" id="near-me" class="px-5 py-2 bg-gray-50 hover:bg-[#318069] hover:text-white text-gray-700 rounded-full text-sm font-medium transition-all hover:shadow-md whitespace-nowrap cursor-pointer border border-gray-200 hover:border-[#318069]">Near Me</button>
             <button type="button" data-filter="accepts_insurance" class="filter-badge px-5 py-2 bg-gray-50 hover:bg-[#318069] hover:text-white text-gray-700 rounded-full text-sm font-medium transition-all hover:shadow-md whitespace-nowrap cursor-pointer border border-gray-200 hover:border-[#318069]">Accepts Insurance</button>
         </div>
     </div>

@@ -88,13 +88,13 @@
                         </div>
                     </div>
 
-                    <!-- Location Selector - Full width on mobile -->
+                    <!-- Fixed Location - Full width on mobile -->
                     <div class="w-full md:col-span-3 relative">
-                        <div id="locationSelector" class="flex items-center bg-gray-100 rounded-xl sm:rounded-2xl px-3 sm:px-5 py-3 sm:py-4 border-2 border-transparent focus-within:border-[#318069] focus-within:bg-white transition-all cursor-pointer">
+                        <div id="locationSelector" data-location-fixed="true" class="flex items-center bg-gray-100 rounded-xl sm:rounded-2xl px-3 sm:px-5 py-3 sm:py-4 border-2 border-transparent transition-all">
                             <i class="ri-map-pin-line text-xl sm:text-2xl text-gray-400 mr-2 sm:mr-3 flex-shrink-0"></i>
                             <div class="flex-1 flex items-center justify-between min-w-0">
-                                <span id="locationText" class="text-sm sm:text-base text-gray-700 truncate">Any Location</span>
-                                <i class="ri-arrow-down-s-line text-xl text-gray-500 flex-shrink-0 ml-2"></i>
+                                <span id="locationText" class="text-sm sm:text-base text-gray-700 truncate">Detecting location...</span>
+                                <i class="ri-lock-line text-lg text-gray-400 flex-shrink-0 ml-2"></i>
                             </div>
                             <input type="hidden" id="latInput" value="">
                             <input type="hidden" id="lngInput" value="">
@@ -225,10 +225,6 @@
                     <button type="button" data-filter="virtual_visits"
                         class="filter-badge px-3 sm:px-5 py-1.5 sm:py-2 bg-gray-50 hover:bg-[#318069] hover:text-white text-gray-700 rounded-full text-xs sm:text-sm font-medium transition-all hover:shadow-md whitespace-nowrap cursor-pointer border border-gray-200 hover:border-[#318069]">
                         Virtual Visits
-                    </button>
-                    <button type="button" id="near-me"
-                        class="px-3 sm:px-5 py-1.5 sm:py-2 bg-gray-50 hover:bg-[#318069] hover:text-white text-gray-700 rounded-full text-xs sm:text-sm font-medium transition-all hover:shadow-md whitespace-nowrap cursor-pointer border border-gray-200 hover:border-[#318069]">
-                        Near Me
                     </button>
                     <button type="button" data-filter="accepts_insurance"
                         class="filter-badge px-3 sm:px-5 py-1.5 sm:py-2 bg-gray-50 hover:bg-[#318069] hover:text-white text-gray-700 rounded-full text-xs sm:text-sm font-medium transition-all hover:shadow-md whitespace-nowrap cursor-pointer border border-gray-200 hover:border-[#318069]">
