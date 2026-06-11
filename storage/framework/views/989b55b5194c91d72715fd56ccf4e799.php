@@ -1,8 +1,8 @@
-@extends('layouts.sass')
 
-@section('title', 'Doctor Registration')
 
-@section('content')
+<?php $__env->startSection('title', 'Doctor Registration'); ?>
+
+<?php $__env->startSection('content'); ?>
     <div class="flex-1 pt-20 sm:pt-24 md:pt-28 pb-8 sm:pb-12 px-4 sm:px-6">
         <div class="max-w-6xl mx-auto">
 
@@ -35,15 +35,15 @@
                     </div>
                 </div>
 
-                <form id="doctorRegistrationForm" method="post" action="{{ route('doctor.store') }}"
+                <form id="doctorRegistrationForm" method="post" action="<?php echo e(route('doctor.store')); ?>"
                     enctype="multipart/form-data">
-                    @csrf
+                    <?php echo csrf_field(); ?>
                     <!-- Hidden Fields -->
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
                     <input type="hidden" name="latitude" id="latitude">
                     <input type="hidden" name="longitude" id="longitude">
                     <input type="hidden" name="city" id="city">
-                    <input type="hidden" name="country" id="country" value="{{ old('country', $pricingContext['country'] ?? '') }}">
+                    <input type="hidden" name="country" id="country" value="<?php echo e(old('country', $pricingContext['country'] ?? '')); ?>">
                     <input type="hidden" id="selectedBillingCycle" name="selected_billing_cycle" value="monthly">
                     <input type="hidden" id="selectedCoupon" name="coupon_id" value="">
                     <input type="hidden" id="finalPackagePrice" name="package_price" value="0">
@@ -56,50 +56,51 @@
 
                     <!-- Package Cards - Fully Responsive Grid -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-8 max-w-6xl mx-auto mb-6 sm:mb-8">
-                        @foreach ($packages as $index => $package)
+                        <?php $__currentLoopData = $packages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $package): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <div class="relative bg-white rounded-xl sm:rounded-2xl border-2 transition-all hover:shadow-2xl
-                        {{ $index == 1 ? 'border-[#318069] shadow-xl scale-105 z-10' : 'border-gray-200 hover:border-[#318069]/50' }}
-                        flex flex-col h-full package-card"
-                                data-package-id="{{ $package->id }}"
-                                data-package-free="{{ $package->price_monthly == 0 ? 'true' : 'false' }}"
-                                data-package-price-monthly="{{ $package->price_monthly }}"
-                                data-package-price-yearly="{{ $package->price_yearly }}"
-                                data-package-features='@json($package->featureMap())'>
+                        <?php echo e($index == 1 ? 'border-[#318069] shadow-xl scale-105 z-10' : 'border-gray-200 hover:border-[#318069]/50'); ?>
 
-                                @if ($index == 1)
+                        flex flex-col h-full package-card"
+                                data-package-id="<?php echo e($package->id); ?>"
+                                data-package-free="<?php echo e($package->price_monthly == 0 ? 'true' : 'false'); ?>"
+                                data-package-price-monthly="<?php echo e($package->price_monthly); ?>"
+                                data-package-price-yearly="<?php echo e($package->price_yearly); ?>"
+                                data-package-features='<?php echo json_encode($package->featureMap(), 15, 512) ?>'>
+
+                                <?php if($index == 1): ?>
                                     <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-full px-4">
                                         <div class="bg-[#FFC107] text-gray-900 px-3 sm:px-6 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-bold shadow-lg inline-block mx-auto">
                                             Most Popular
                                         </div>
                                     </div>
-                                @endif
+                                <?php endif; ?>
 
-                                <div class="p-4 sm:p-6 md:p-8 flex flex-col flex-1 {{ $index == 1 ? 'pt-6 sm:pt-8' : '' }}">
+                                <div class="p-4 sm:p-6 md:p-8 flex flex-col flex-1 <?php echo e($index == 1 ? 'pt-6 sm:pt-8' : ''); ?>">
                                     <div class="mb-4 sm:mb-6 md:mb-8">
-                                        <h3 class="text-xl sm:text-2xl font-bold text-gray-900 text-center mb-3 sm:mb-5">{{ $package->name }}</h3>
+                                        <h3 class="text-xl sm:text-2xl font-bold text-gray-900 text-center mb-3 sm:mb-5"><?php echo e($package->name); ?></h3>
                                         <div class="flex items-end justify-center gap-1 flex-wrap">
                                             <span class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 package-price"
-                                                data-monthly="{{ $package->price_monthly }}"
-                                                data-yearly="{{ $package->price_yearly }}">
-                                                <span class="currency-symbol">{{ $pricingContext['currency_symbol'] }}</span>
-                                                <span class="price-amount">{{ number_format(round($package->price_monthly * ($pricingContext['exchange_rate'] ?? 1)), 0) }}</span>
+                                                data-monthly="<?php echo e($package->price_monthly); ?>"
+                                                data-yearly="<?php echo e($package->price_yearly); ?>">
+                                                <span class="currency-symbol"><?php echo e($pricingContext['currency_symbol']); ?></span>
+                                                <span class="price-amount"><?php echo e(number_format(round($package->price_monthly * ($pricingContext['exchange_rate'] ?? 1)), 0)); ?></span>
                                             </span>
                                             <span class="text-gray-600 mb-1 sm:mb-2 package-period text-sm sm:text-base">/month</span>
                                         </div>
-                                        @if ($package->price_monthly > 0)
+                                        <?php if($package->price_monthly > 0): ?>
                                             <div class="mt-2 sm:mt-4 text-center text-xs sm:text-sm text-gray-500">
                                                 <i class="ri-checkbox-circle-line text-[#318069] mr-1"></i>
                                                 <span class="billing-savings text-xs sm:text-sm"
-                                                    data-yearly-savings="{{ $package->price_monthly > 0 ? round((1 - $package->price_yearly / ($package->price_monthly * 12)) * 100) : 0 }}%">
-                                                    Save {{ $package->price_monthly > 0 ? round((1 - $package->price_yearly / ($package->price_monthly * 12)) * 100) : 0 }}%
+                                                    data-yearly-savings="<?php echo e($package->price_monthly > 0 ? round((1 - $package->price_yearly / ($package->price_monthly * 12)) * 100) : 0); ?>%">
+                                                    Save <?php echo e($package->price_monthly > 0 ? round((1 - $package->price_yearly / ($package->price_monthly * 12)) * 100) : 0); ?>%
                                                     <span class="hidden sm:inline">with yearly billing</span>
                                                 </span>
                                             </div>
-                                        @endif
+                                        <?php endif; ?>
                                     </div>
 
                                     <div class="space-y-2 sm:space-y-3 mb-4 sm:mb-6 md:mb-8 flex-1">
-                                        @php
+                                        <?php
                                             libxml_use_internal_errors(true);
                                             $dom = new DOMDocument();
                                             $dom->loadHTML(mb_convert_encoding($package->description, 'HTML-ENTITIES', 'UTF-8'));
@@ -108,43 +109,51 @@
                                             foreach ($lis as $li) {
                                                 $features[] = trim($li->textContent);
                                             }
-                                        @endphp
+                                        ?>
 
-                                        @foreach (array_slice($features, 0, 10) as $feature)
+                                        <?php $__currentLoopData = array_slice($features, 0, 10); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $feature): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <div class="flex items-start gap-2 sm:gap-3">
                                                 <div class="w-4 h-4 sm:w-5 sm:h-5 bg-[#318069]/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                                                     <i class="ri-check-line text-[#318069] text-xs sm:text-sm"></i>
                                                 </div>
                                                 <span class="text-xs sm:text-sm text-gray-700 line-clamp-2">
-                                                    {{ $feature }}
+                                                    <?php echo e($feature); ?>
+
                                                 </span>
                                             </div>
-                                        @endforeach
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </div>
 
                                     <div class="pt-2 sm:pt-4 mt-auto">
-                                        <button type="button" onclick="selectPackage({{ $package->id }})"
+                                        <button type="button" onclick="selectPackage(<?php echo e($package->id); ?>)"
                                             class="package-select-btn w-full py-3 sm:py-4 rounded-xl font-bold transition-all whitespace-nowrap text-sm sm:text-base
-                                    {{ $index == 1 ? 'bg-[#318069] hover:bg-[#276854] text-white shadow-lg hover:shadow-xl' : 'bg-gray-100 hover:bg-gray-200 text-gray-700' }}">
-                                            <span class="package-btn-text">Select {{ $package->name }}</span>
+                                    <?php echo e($index == 1 ? 'bg-[#318069] hover:bg-[#276854] text-white shadow-lg hover:shadow-xl' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'); ?>">
+                                            <span class="package-btn-text">Select <?php echo e($package->name); ?></span>
                                             <i class="ri-arrow-right-line ml-1 sm:ml-2 package-btn-icon"></i>
                                         </button>
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </div>
 
-                    @error('package_id')
+                    <?php $__errorArgs = ['package_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                         <div class="max-w-6xl mx-auto mb-6 sm:mb-8 px-4">
                             <div class="border-2 border-red-200 bg-red-50 rounded-xl p-3 sm:p-4">
                                 <div class="flex items-center gap-2 sm:gap-3">
                                     <i class="ri-close-circle-line text-red-600 text-lg sm:text-xl"></i>
-                                    <span class="text-sm sm:text-base text-red-700">{{ $message }}</span>
+                                    <span class="text-sm sm:text-base text-red-700"><?php echo e($message); ?></span>
                                 </div>
                             </div>
                         </div>
-                    @enderror
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
             </div>
 
             <!-- Step 2: Domain Setup - Fully Responsive -->
@@ -199,10 +208,10 @@
                                                     <input type="text" id="subdomain_name" name="subdomain_name"
                                                         placeholder="yourname"
                                                         class="w-full px-3 sm:px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#318069] focus:outline-none text-sm sm:text-base pr-20 sm:pr-32"
-                                                        value="{{ old('subdomain_name') }}" oninput="validateSubdomain()"
+                                                        value="<?php echo e(old('subdomain_name')); ?>" oninput="validateSubdomain()"
                                                         autocomplete="off">
                                                     <div class="absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                                                        <span class="text-xs sm:text-sm text-gray-600 font-medium">.{{ config('app.domain', 'doctorsprofile.xyz') }} </span>
+                                                        <span class="text-xs sm:text-sm text-gray-600 font-medium">.<?php echo e(config('app.domain', 'doctorsprofile.xyz')); ?> </span>
                                                     </div>
                                                 </div>
                                                 <div class="flex gap-2">
@@ -282,7 +291,7 @@
                                                         <input type="text" id="new_domain_name" name="new_domain_name"
                                                             placeholder="yourclinic"
                                                             class="w-full pl-12 pr-3 py-3 border-2 border-gray-300 rounded-lg focus:border-[#318069] focus:outline-none text-sm sm:text-base"
-                                                            value="{{ old('new_domain_name') }}"
+                                                            value="<?php echo e(old('new_domain_name')); ?>"
                                                             oninput="validateDomainFormat()" autocomplete="off">
                                                     </div>
                                                     <div class="flex gap-2">
@@ -332,7 +341,8 @@
                                                 </div>
                                                 <div class="text-right w-full sm:w-auto">
                                                     <h4 class="font-bold text-[#318069] text-xl sm:text-2xl mb-0 domain-registration-fee" id="domain-price-display">
-                                                        {{ $pricingContext['currency_symbol'] }}{{ number_format(round((($pricingContext['domain_prices_usd']['.com'] ?? 14.99) * ($pricingContext['exchange_rate'] ?? 1))), 0) }}
+                                                        <?php echo e($pricingContext['currency_symbol']); ?><?php echo e(number_format(round((($pricingContext['domain_prices_usd']['.com'] ?? 14.99) * ($pricingContext['exchange_rate'] ?? 1))), 0)); ?>
+
                                                     </h4>
                                                     <p class="text-xs text-gray-600">per year</p>
                                                 </div>
@@ -378,7 +388,7 @@
                                                 <input type="text" id="existing_domain" name="existing_domain"
                                                     placeholder="yourdomain.com"
                                                     class="w-full px-3 sm:px-4 py-3 sm:py-4 border-2 border-gray-300 rounded-lg focus:border-[#318069] focus:outline-none text-sm sm:text-base pr-24 sm:pr-32"
-                                                    value="{{ old('existing_domain') }}"
+                                                    value="<?php echo e(old('existing_domain')); ?>"
                                                     oninput="validateExistingDomain()" autocomplete="off">
                                                 <button type="button" onclick="verifyDNS()"
                                                     class="absolute right-1 sm:right-2 top-1/2 transform -translate-y-1/2 bg-[#318069] hover:bg-[#276854] text-white px-2 sm:px-4 py-1 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all">
@@ -419,7 +429,7 @@
                                                 <div class="grid grid-cols-4 gap-1 sm:gap-3 text-xs sm:text-sm min-w-[400px] sm:min-w-0">
                                                     <div class="font-mono bg-gray-50 px-1 sm:px-2 py-1 rounded">CNAME</div>
                                                     <div class="font-mono bg-gray-50 px-1 sm:px-2 py-1 rounded">www</div>
-                                                    <div class="col-span-2 font-mono bg-gray-50 px-1 sm:px-2 py-1 rounded break-all">{{ config('app.domain', 'doctorsprofile.xyz') }}</div>
+                                                    <div class="col-span-2 font-mono bg-gray-50 px-1 sm:px-2 py-1 rounded break-all"><?php echo e(config('app.domain', 'doctorsprofile.xyz')); ?></div>
                                                 </div>
                                             </div>
 
@@ -474,12 +484,12 @@
                                 </div>
                                 <div class="w-full sm:w-auto">
                                     <p class="text-xs text-gray-600 mb-1">Selected Domain</p>
-                                    <p id="selected-domain" class="text-sm sm:text-base md:text-xl font-bold text-[#318069] break-all">yourname.{{ config('app.domain', 'doctorsprofile.xyz') }}</p>
+                                    <p id="selected-domain" class="text-sm sm:text-base md:text-xl font-bold text-[#318069] break-all">yourname.<?php echo e(config('app.domain', 'doctorsprofile.xyz')); ?></p>
                                 </div>
                                 <div class="w-full sm:w-auto text-left sm:text-right">
                                     <p class="text-xs text-gray-600 mb-1">Total Amount</p>
                                     <p id="package-total-amount" class="text-lg sm:text-xl md:text-2xl font-bold text-[#318069]">
-                                        {{ $pricingContext['currency_symbol'] }}0
+                                        <?php echo e($pricingContext['currency_symbol']); ?>0
                                     </p>
                                 </div>
                             </div>
@@ -498,15 +508,22 @@
                                             <i class="ri-user-line text-gray-400 text-base sm:text-lg"></i>
                                         </div>
                                         <input type="text" id="name" name="name" required
-                                            value="{{ old('name') }}"
+                                            value="<?php echo e(old('name')); ?>"
                                             class="w-full pl-9 sm:pl-12 pr-8 sm:pr-10 py-2 sm:py-3 border-2 rounded-lg focus:outline-none text-sm sm:text-base border-gray-300 focus:border-[#318069]"
                                             placeholder="Dr. Jane Smith" oninput="validateField('name')">
                                         <div id="name-icon" class="validation-icon absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2"></div>
                                     </div>
                                     <div id="name-error" class="error-message mt-1 hidden text-xs sm:text-sm">Please enter your full name (minimum 2 characters)</div>
-                                    @error('name')
-                                        <div class="text-danger small mt-1 text-xs sm:text-sm">{{ $message }}</div>
-                                    @enderror
+                                    <?php $__errorArgs = ['name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <div class="text-danger small mt-1 text-xs sm:text-sm"><?php echo e($message); ?></div>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                 </div>
 
                                 <!-- Email -->
@@ -517,15 +534,22 @@
                                             <i class="ri-mail-line text-gray-400 text-base sm:text-lg"></i>
                                         </div>
                                         <input type="email" id="email" name="email" required
-                                            value="{{ old('email') }}"
+                                            value="<?php echo e(old('email')); ?>"
                                             class="w-full pl-9 sm:pl-12 pr-8 sm:pr-10 py-2 sm:py-3 border-2 rounded-lg focus:outline-none text-sm sm:text-base border-gray-300 focus:border-[#318069]"
                                             placeholder="doctor@example.com" oninput="validateField('email')">
                                         <div id="email-icon" class="validation-icon absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2"></div>
                                     </div>
                                     <div id="email-error" class="error-message mt-1 hidden text-xs sm:text-sm">Please enter a valid email address</div>
-                                    @error('email')
-                                        <div class="text-danger small mt-1 text-xs sm:text-sm">{{ $message }}</div>
-                                    @enderror
+                                    <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <div class="text-danger small mt-1 text-xs sm:text-sm"><?php echo e($message); ?></div>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                 </div>
 
                                 <!-- Phone -->
@@ -536,15 +560,22 @@
                                             <i class="ri-phone-line text-gray-400 text-base sm:text-lg"></i>
                                         </div>
                                         <input type="tel" id="phone" name="phone" required
-                                            value="{{ old('phone') }}"
+                                            value="<?php echo e(old('phone')); ?>"
                                             class="w-full pl-9 sm:pl-12 pr-8 sm:pr-10 py-2 sm:py-3 border-2 rounded-lg focus:outline-none text-sm sm:text-base border-gray-300 focus:border-[#318069]"
                                             placeholder="+8801XXXXXXXXX" oninput="validateField('phone')">
                                         <div id="phone-icon" class="validation-icon absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2"></div>
                                     </div>
                                     <div id="phone-error" class="error-message mt-1 hidden text-xs sm:text-sm">Please enter a valid phone number (minimum 10 digits)</div>
-                                    @error('phone')
-                                        <div class="text-danger small mt-1 text-xs sm:text-sm">{{ $message }}</div>
-                                    @enderror
+                                    <?php $__errorArgs = ['phone'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <div class="text-danger small mt-1 text-xs sm:text-sm"><?php echo e($message); ?></div>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                 </div>
 
                                 <!-- Profile Photo - Responsive -->
@@ -581,9 +612,16 @@
                                         </div>
                                     </div>
                                     <div id="photo-error" class="error-message mt-1 hidden text-xs sm:text-sm">Please upload a professional photo</div>
-                                    @error('photo')
-                                        <div class="text-danger small mt-1 text-xs sm:text-sm">{{ $message }}</div>
-                                    @enderror
+                                    <?php $__errorArgs = ['photo'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <div class="text-danger small mt-1 text-xs sm:text-sm"><?php echo e($message); ?></div>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                 </div>
 
                                 <!-- Password -->
@@ -628,9 +666,16 @@
                                             <li class="criteria-item" id="criteria-special">One special character (!@#$%^&*)</li>
                                         </ul>
                                     </div>
-                                    @error('password')
-                                        <div class="text-danger small mt-1 text-xs sm:text-sm">{{ $message }}</div>
-                                    @enderror
+                                    <?php $__errorArgs = ['password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <div class="text-danger small mt-1 text-xs sm:text-sm"><?php echo e($message); ?></div>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                 </div>
 
                                 <!-- Confirm Password -->
@@ -663,9 +708,16 @@
                                         </span>
                                     </label>
                                     <div id="terms-error" class="error-message mt-1 hidden text-xs sm:text-sm">You must agree to the terms</div>
-                                    @error('terms')
-                                        <div class="text-danger small mt-1 text-xs sm:text-sm">{{ $message }}</div>
-                                    @enderror
+                                    <?php $__errorArgs = ['terms'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <div class="text-danger small mt-1 text-xs sm:text-sm"><?php echo e($message); ?></div>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
 
@@ -714,7 +766,7 @@
                                 <div class="w-full sm:w-auto text-left sm:text-right">
                                     <p class="text-xs text-gray-600 mb-1">Total Amount Due</p>
                                     <p id="summaryTotal" class="text-xl sm:text-2xl md:text-3xl font-bold text-[#318069]">
-                                        {{ $pricingContext['currency_symbol'] }}0
+                                        <?php echo e($pricingContext['currency_symbol']); ?>0
                                     </p>
                                     <p class="text-xs text-gray-600 mt-1">+ applicable taxes</p>
                                 </div>
@@ -829,24 +881,24 @@
                                     <div class="flex justify-between">
                                         <span class="text-gray-600">Package Fee:</span>
                                         <span id="summaryPackageFee" class="font-semibold">
-                                            {{ $pricingContext['currency_symbol'] }}0
+                                            <?php echo e($pricingContext['currency_symbol']); ?>0
                                         </span>
                                     </div>
                                     <div class="flex justify-between">
                                         <span class="text-gray-600">Domain Fee:</span>
                                         <span id="summaryDomainFee" class="font-semibold">
-                                            {{ $pricingContext['currency_symbol'] }}0
+                                            <?php echo e($pricingContext['currency_symbol']); ?>0
                                         </span>
                                     </div>
                                     <div class="flex justify-between text-green-600">
                                         <span>Discount:</span>
-                                        <span id="summaryDiscount">- {{ $pricingContext['currency_symbol'] }}0</span>
+                                        <span id="summaryDiscount">- <?php echo e($pricingContext['currency_symbol']); ?>0</span>
                                     </div>
                                     <div class="border-t pt-2 sm:pt-3 mt-1 sm:mt-2">
                                         <div class="flex justify-between font-bold text-sm sm:text-base">
                                             <span>Total Amount:</span>
                                             <span id="summaryTotalAmount">
-                                                {{ $pricingContext['currency_symbol'] }}0
+                                                <?php echo e($pricingContext['currency_symbol']); ?>0
                                             </span>
                                         </div>
                                     </div>
@@ -873,7 +925,7 @@
 
             <!-- Back to Home - Responsive -->
             <div class="text-center mt-6 sm:mt-8">
-                <a href="{{ url('/') }}"
+                <a href="<?php echo e(url('/')); ?>"
                     class="text-sm sm:text-base text-gray-600 hover:text-[#318069] transition-all inline-flex items-center gap-1 sm:gap-2">
                     <i class="ri-arrow-left-line"></i>
                     Return to Home
@@ -1161,17 +1213,17 @@
             }
         }
     </style>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@push('scripts')
+<?php $__env->startPush('scripts'); ?>
 <script>
     // ========== GLOBAL VARIABLES FROM PHP ==========
     const BASE_CURRENCY = 'USD';
-    const DISPLAY_CURRENCY = '{{ $pricingContext['currency_code'] ?? 'USD' }}';
-    const CURRENCY_SYMBOL = @json($pricingContext['currency_symbol'] ?? '$');
-    const EXCHANGE_RATE = {{ (float) ($pricingContext['exchange_rate'] ?? 1) }};
-    const DOMAIN_PRICING_USD = @json($pricingContext['domain_prices_usd'] ?? ['.com' => 14.99]);
-    const APP_DOMAIN = '{{ config('app.domain', 'doctorsprofile.xyz') }}';
+    const DISPLAY_CURRENCY = '<?php echo e($pricingContext['currency_code'] ?? 'USD'); ?>';
+    const CURRENCY_SYMBOL = <?php echo json_encode($pricingContext['currency_symbol'] ?? '$', 15, 512) ?>;
+    const EXCHANGE_RATE = <?php echo e((float) ($pricingContext['exchange_rate'] ?? 1)); ?>;
+    const DOMAIN_PRICING_USD = <?php echo json_encode($pricingContext['domain_prices_usd'] ?? ['.com' => 14.99], 15, 512) ?>;
+    const APP_DOMAIN = '<?php echo e(config('app.domain', 'doctorsprofile.xyz')); ?>';
 
     // ========== CURRENCY FORMATTING HELPER ==========
     function formatPrice(price, showDecimals = false) {
@@ -1762,7 +1814,7 @@ async function checkSubdomainAvailability() {
         // Get CSRF token
        // const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
 
-        const response = await fetch('{{ url("api/v1/check-subdomain") }}', {
+        const response = await fetch('<?php echo e(url("api/v1/check-subdomain")); ?>', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1927,7 +1979,7 @@ async function checkDomainAvailability() {
         // Get CSRF token
         const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
 
-        const response = await fetch('{{ url("api/v1/check-domain") }}', {
+        const response = await fetch('<?php echo e(url("api/v1/check-domain")); ?>', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -3359,4 +3411,6 @@ function useDomainSuggestion(suggestion) {
         return true;
     });
 </script>
-@endpush
+<?php $__env->stopPush(); ?>
+
+<?php echo $__env->make('layouts.sass', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\doctorprofiles\resources\views/tenants/create.blade.php ENDPATH**/ ?>

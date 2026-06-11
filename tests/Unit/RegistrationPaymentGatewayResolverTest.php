@@ -47,6 +47,12 @@ class RegistrationPaymentGatewayResolverTest extends TestCase
         $this->assertSame('stripe', $this->resolver->resolve(null));
     }
 
+    public function test_non_bangladesh_country_never_resolves_to_sslcommerz_when_requested(): void
+    {
+        $this->assertSame('stripe', $this->resolver->resolve('India', 'sslcommerz'));
+        $this->assertSame('stripe', $this->resolver->resolve('United States', 'ssl_commerz'));
+    }
+
     public function test_credentials_fall_back_to_config_values(): void
     {
         $this->assertSame('pk_test_config', $this->resolver->stripeKey());

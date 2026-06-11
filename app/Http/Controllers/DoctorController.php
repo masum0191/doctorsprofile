@@ -404,8 +404,18 @@ public function storeall(Request $request)
 //dd($validated);
         Log::info('Validation passed', ['email' => $validated['email']]);
 
-        $validated['payment_method'] = app(RegistrationPaymentGatewayResolver::class)->resolve(
-            $validated['country'] ?? 'Bangladesh',
+        $gatewayResolver = app(RegistrationPaymentGatewayResolver::class);
+        if (
+            ($validated['payment_method'] ?? null) === 'sslcommerz'
+            && !$gatewayResolver->isBangladesh($validated['country'] ?? null)
+        ) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'payment_method' => 'SSLCOMMERZ is available only for Bangladesh. Please use Stripe for international payment.',
+            ]);
+        }
+
+        $validated['payment_method'] = $gatewayResolver->resolve(
+            $validated['country'] ?? null,
             $validated['payment_method'] ?? null
         );
 
