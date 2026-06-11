@@ -1129,6 +1129,7 @@ select.form-control {
             const filterBadges = document.querySelectorAll('.filter-badge');
             const quickLocationBtns = document.querySelectorAll('.quick-location');
             const locationSelectorEl = document.getElementById('locationSelector');
+            const locationMapButton = document.getElementById('locationMapButton');
             const fixedLocation = locationSelectorEl?.dataset.locationFixed === 'true';
 
             if (fixedLocation && locationModal) {
@@ -1284,6 +1285,23 @@ select.form-control {
                 }
             }
 
+            function getSelectedCountryName() {
+                const countrySelect = document.getElementById('countrySelect');
+                const countryTomSelect = countrySelect?.tomselect;
+                const selectedValue = countryTomSelect?.getValue?.() || countrySelect?.value || '';
+                const tomOption = selectedValue ? countryTomSelect?.options?.[selectedValue] : null;
+
+                if (tomOption?.text) {
+                    return tomOption.text;
+                }
+
+                if (countrySelect?.selectedOptions?.[0]?.text) {
+                    return countrySelect.selectedOptions[0].text;
+                }
+
+                return '';
+            }
+
             async function geocodeCity(cityName, shouldApply = false) {
                 const city = String(cityName || '').trim();
                 if (!city) return;
@@ -1297,7 +1315,14 @@ select.form-control {
                 updateLocationText(city);
 
                 try {
-                    const response = await fetch(`/geo/forward?city=${encodeURIComponent(city)}`, {
+                    const country = getSelectedCountryName();
+                    const params = new URLSearchParams({ city });
+
+                    if (country) {
+                        params.set('country', country);
+                    }
+
+                    const response = await fetch(`/geo/forward?${params.toString()}`, {
                         headers: {
                             'Accept': 'application/json',
                             'X-Requested-With': 'XMLHttpRequest'
@@ -1582,6 +1607,7 @@ select.form-control {
                 locationModal.classList.toggle('hidden');
                 if (!locationModal.classList.contains('hidden')) {
                     initMap(currentLocation.lat || 23.8103, currentLocation.lng || 90.4125);
+                    setTimeout(() => map?.invalidateSize(), 0);
                 }
             }
 
@@ -1684,7 +1710,11 @@ select.form-control {
             });
 
             // Location modal event listeners
-            locationSelectorEl?.addEventListener('click', toggleLocationModal);
+            locationMapButton?.addEventListener('click', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                toggleLocationModal();
+            });
             applyLocationBtn?.addEventListener('click', () => {
                 closeLocationModal();
                 applyFilters();

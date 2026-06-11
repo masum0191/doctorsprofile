@@ -88,19 +88,21 @@
                         </div>
                     </div>
 
-                    <!-- Fixed Location - Full width on mobile -->
+                    <!-- Location Selector - Full width on mobile -->
                     <div class="w-full md:col-span-3 relative">
-                        <div id="locationSelector" data-location-fixed="true" class="flex items-center bg-gray-100 rounded-xl sm:rounded-2xl px-3 sm:px-5 py-3 sm:py-4 border-2 border-transparent transition-all">
-                            <i class="ri-map-pin-line text-xl sm:text-2xl text-gray-400 mr-2 sm:mr-3 flex-shrink-0"></i>
+                        <div id="locationSelector" data-location-fixed="false" class="flex items-center bg-gray-100 rounded-xl sm:rounded-2xl px-3 sm:px-5 py-3 sm:py-4 border-2 border-transparent focus-within:border-[#318069] focus-within:bg-white transition-all">
+                            <button type="button" id="locationMapButton" class="mr-2 sm:mr-3 flex-shrink-0 text-gray-400 hover:text-[#318069] transition-colors" aria-label="Change location">
+                                <i class="ri-map-pin-line text-xl sm:text-2xl"></i>
+                            </button>
                             <div class="flex-1 flex items-center justify-between min-w-0">
                                 <span id="locationText" class="text-sm sm:text-base text-gray-700 truncate">Detecting location...</span>
-                                <i class="ri-lock-line text-lg text-gray-400 flex-shrink-0 ml-2"></i>
+                                <i class="ri-arrow-down-s-line text-xl text-gray-500 flex-shrink-0 ml-2"></i>
                             </div>
                             <input type="hidden" id="latInput" value="">
                             <input type="hidden" id="lngInput" value="">
                         </div>
 
-                        <div id="locationModal" class="hidden" hidden style="display: none !important;"></div>
+                        @include('partials.search-location-modal')
                     </div>
 
                     <!-- Search Button - Full width on mobile -->

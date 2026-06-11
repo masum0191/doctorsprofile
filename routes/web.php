@@ -163,11 +163,14 @@ Route::middleware(['tenancy', 'auth'])->group(function () {
 });
 
 Route::get('/geo/forward', function (Request $request) {
-    $city = $request->query('city');
+    $city = trim((string) $request->query('city'));
+    $country = trim((string) $request->query('country', ''));
 
     if (!$city) {
         return response()->json(['error' => 'City parameter required'], 400);
     }
+
+    $query = $country !== '' ? "{$city}, {$country}" : $city;
 
     try {
         $response = Http::timeout(10)
@@ -175,7 +178,7 @@ Route::get('/geo/forward', function (Request $request) {
                 'User-Agent' => config('app.name') . ' (' . config('mail.from.address') . ')'
             ])
             ->get('https://nominatim.openstreetmap.org/search', [
-                'q' => $city . ', Bangladesh',
+                'q' => $query,
                 'format' => 'json',
                 'limit' => 1,
             ]);

@@ -50,16 +50,18 @@
                 </select>
             </div>
             <div class="md:col-span-3 relative">
-                <div id="locationSelector" data-location-fixed="true" class="flex items-center bg-gray-100 rounded-2xl px-5 py-4 border-2 border-transparent transition-all">
-                    <i class="ri-map-pin-line text-2xl text-gray-400 mr-3 w-6 h-6 flex items-center justify-center"></i>
-                    <div class="flex-1 flex items-center justify-between">
-                        <span id="locationText" class="text-base text-gray-700">Detecting location...</span>
-                        <i class="ri-lock-line text-lg text-gray-400"></i>
+                <div id="locationSelector" data-location-fixed="false" class="flex items-center bg-gray-100 rounded-2xl px-5 py-4 border-2 border-transparent focus-within:border-[#318069] focus-within:bg-white transition-all">
+                    <button type="button" id="locationMapButton" class="mr-3 w-6 h-6 flex items-center justify-center text-gray-400 hover:text-[#318069] transition-colors" aria-label="Change location">
+                        <i class="ri-map-pin-line text-2xl"></i>
+                    </button>
+                    <div class="flex-1 flex items-center justify-between min-w-0">
+                        <span id="locationText" class="text-base text-gray-700 truncate">Detecting location...</span>
+                        <i class="ri-arrow-down-s-line text-xl text-gray-500 flex-shrink-0 ml-2"></i>
                     </div>
                     <input type="hidden" id="latInput" value="">
                     <input type="hidden" id="lngInput" value="">
                 </div>
-                <div id="locationModal" class="hidden" hidden style="display: none !important;"></div>
+                @include('partials.search-location-modal')
             </div>
             <div class="md:col-span-1">
                 <button type="submit"
