@@ -31,6 +31,8 @@
     $ssl = $payment['sslcommerz'] ?? [];
     $stripe = $payment['stripe'] ?? [];
     $countryGateways = $payment['country_gateways'] ?? [];
+    $stripeConfigured = filled($stripe['key'] ?? null) && filled($stripe['secret'] ?? null);
+    $sslcommerzConfigured = filled($ssl['store_id'] ?? null) && filled($ssl['store_password'] ?? $ssl['secret'] ?? null);
 @endphp
 
 <form method="POST" action="{{ route('superadmin.payment.settings.update') }}">
@@ -52,6 +54,12 @@
                         <label class="form-check-label fw-semibold">Enable SSLCommerz</label>
                     </div>
 
+                    @if (($ssl['enabled'] ?? false) && !$sslcommerzConfigured)
+                        <div class="alert alert-warning small">
+                            SSLCommerz is enabled, but Store ID or Store Password is missing.
+                        </div>
+                    @endif
+
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Store ID</label>
                         <input class="form-control" name="sslcommerz_store_id"
@@ -60,8 +68,12 @@
 
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Store Password</label>
-                        <input class="form-control" name="sslcommerz_store_password"
-                            value="{{ old('sslcommerz_store_password', $ssl['store_password'] ?? $ssl['secret'] ?? '') }}">
+                        <input type="password" class="form-control" name="sslcommerz_store_password"
+                            autocomplete="new-password"
+                            placeholder="{{ filled($ssl['store_password'] ?? $ssl['secret'] ?? null) ? 'Saved - leave blank to keep current password' : 'Enter SSLCommerz store password' }}">
+                        @if (filled($ssl['store_password'] ?? $ssl['secret'] ?? null))
+                            <small class="text-success d-block mt-1">Store password is saved.</small>
+                        @endif
                     </div>
 
                     <div class="form-check form-switch">
@@ -88,16 +100,37 @@
                         <label class="form-check-label fw-semibold">Enable Stripe</label>
                     </div>
 
+                    @if (($stripe['enabled'] ?? false) && !$stripeConfigured)
+                        <div class="alert alert-warning small">
+                            Stripe is enabled, but Publishable Key or Secret Key is missing.
+                        </div>
+                    @endif
+
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Publishable Key</label>
-                        <input class="form-control" name="stripe_key"
+                        <input class="form-control @error('stripe_key') is-invalid @enderror" name="stripe_key"
+                            autocomplete="off"
                             value="{{ old('stripe_key', $stripe['key'] ?? '') }}">
+                        @error('stripe_key')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Secret Key</label>
-                        <input class="form-control" name="stripe_secret"
-                            value="{{ old('stripe_secret', $stripe['secret'] ?? '') }}">
+                        <input type="password" class="form-control @error('stripe_secret') is-invalid @enderror"
+                            name="stripe_secret"
+                            autocomplete="new-password"
+                            placeholder="{{ filled($stripe['secret'] ?? null) ? 'Saved - leave blank to keep current secret key' : 'Enter Stripe secret key' }}">
+                        @error('stripe_secret')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                        @if (filled($stripe['secret'] ?? null))
+                            <small class="text-success d-block mt-1">Secret key is saved.</small>
+                        @endif
+                        <small class="text-muted d-block mt-1">
+                            Add your Stripe publishable key and secret key here for international doctor registration payments.
+                        </small>
                     </div>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-$settingModel = \App\Models\CompanySetting::first();
+$settingModel = \App\Models\CompanySetting::first() ?? new \App\Models\CompanySetting();
 ?>
 <head>
     <meta charset="UTF-8">
@@ -13,7 +13,7 @@ $settingModel = \App\Models\CompanySetting::first();
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     {{-- icon link --}}
-    <link rel="icon" href="{{ url($settingModel->favicon) }}" type="image/x-icon" />
+    <link rel="icon" href="{{ $settingModel->favicon ? url($settingModel->favicon) : asset('favicon.ico') }}" type="image/x-icon" />
     <style>
         :root {
             --primary: #318069;
@@ -915,7 +915,7 @@ $settingModel = \App\Models\CompanySetting::first();
             <div class="sidebar-header">
                 <div class="brand d-flex">
                     <img alt="Doctor Directory Logo" class="h-12 w-auto object-contain"
-                        src=" {{ url($settingModel->logo) }}">
+                        src="{{ $settingModel->logo ? url($settingModel->logo) : asset('assets/images/logo.png') }}">
                 </div>
                 <!-- <button class="toggle-btn" id="sidebarToggle">
                     <i class="ri-arrow-left-s-line"></i>

@@ -6,6 +6,8 @@ use App\Models\CompanySetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
+
 class CompanySettingController extends Controller
 {
     public function edit()
@@ -97,6 +99,36 @@ class CompanySettingController extends Controller
             'country_gateways' => ['nullable', 'string'],
         ]);
 
+        $setting = CompanySetting::first() ?? new CompanySetting();
+        $existingPayment = $setting->payment_gateway ?? [];
+        $existingSslcommerz = $existingPayment['sslcommerz'] ?? [];
+        $existingStripe = $existingPayment['stripe'] ?? [];
+
+        $sslcommerzStorePassword = trim((string) ($validated['sslcommerz_store_password'] ?? ''));
+        if ($sslcommerzStorePassword === '') {
+            $sslcommerzStorePassword = $existingSslcommerz['store_password'] ?? $existingSslcommerz['secret'] ?? null;
+        }
+
+        $stripeKey = trim((string) ($validated['stripe_key'] ?? ''));
+        $stripeSecret = trim((string) ($validated['stripe_secret'] ?? ''));
+        if ($stripeSecret === '') {
+            $stripeSecret = $existingStripe['secret'] ?? null;
+        }
+
+        if ($request->boolean('stripe_enabled') && ($stripeKey === '' || empty($stripeSecret))) {
+            $errors = [];
+
+            if ($stripeKey === '') {
+                $errors['stripe_key'] = 'Stripe publishable key is required when Stripe is enabled.';
+            }
+
+            if (empty($stripeSecret)) {
+                $errors['stripe_secret'] = 'Stripe secret key is required when Stripe is enabled.';
+            }
+
+            throw ValidationException::withMessages($errors);
+        }
+
         $countryGateways = [];
         foreach (preg_split('/\r\n|\r|\n/', (string) ($validated['country_gateways'] ?? '')) as $line) {
             $line = trim($line);
@@ -110,19 +142,18 @@ class CompanySettingController extends Controller
             }
         }
 
-        $setting = CompanySetting::first() ?? new CompanySetting();
         $setting->payment_gateway = [
             'sslcommerz' => [
                 'enabled' => $request->boolean('sslcommerz_enabled'),
                 'store_id' => $validated['sslcommerz_store_id'] ?? null,
-                'store_password' => $validated['sslcommerz_store_password'] ?? null,
-                'secret' => $validated['sslcommerz_store_password'] ?? null,
+                'store_password' => $sslcommerzStorePassword,
+                'secret' => $sslcommerzStorePassword,
                 'test_mode' => $request->boolean('sslcommerz_test_mode'),
             ],
             'stripe' => [
                 'enabled' => $request->boolean('stripe_enabled'),
-                'key' => $validated['stripe_key'] ?? null,
-                'secret' => $validated['stripe_secret'] ?? null,
+                'key' => $stripeKey ?: null,
+                'secret' => $stripeSecret ?: null,
             ],
             'country_gateways' => $countryGateways,
         ];
