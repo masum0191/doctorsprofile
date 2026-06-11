@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\Subscription;
+use Illuminate\Support\Facades\Mail;
 
 class SendRenewalReminders extends Command
 {
@@ -31,8 +32,12 @@ class SendRenewalReminders extends Command
         now()->addDay()->toDateString(),
     ];
 
-    $subscriptions = Subscription::where('status','active')
-        ->whereDate('ends_at', $reminderDates)
+    $subscriptions = Subscription::where('status', 'active')
+        ->where(function ($query) use ($reminderDates) {
+            foreach ($reminderDates as $date) {
+                $query->orWhereDate('ends_at', $date);
+            }
+        })
         ->with('doctor')
         ->get();
 

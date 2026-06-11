@@ -6,4 +6,5 @@
 /storage/logs/*.log
 /public/storage
 /bootstrap/cache/*.php
+/.phpunit.result.cache
 /.vscode

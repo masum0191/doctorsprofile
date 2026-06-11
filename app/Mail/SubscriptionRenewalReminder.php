@@ -13,12 +13,16 @@ class SubscriptionRenewalReminder extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public int $daysLeft;
+
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(public $subscription)
     {
-        //
+        $this->daysLeft = (int) now()
+            ->startOfDay()
+            ->diffInDays($subscription->ends_at->copy()->startOfDay(), false);
     }
 
     /**
@@ -33,7 +37,11 @@ class SubscriptionRenewalReminder extends Mailable
 public function build()
 {
     return $this->subject('Your Subscription is Expiring Soon')
-        ->view('emails.subscription_reminder');
+        ->view('emails.subscription_reminder')
+        ->with([
+            'subscription' => $this->subscription,
+            'daysLeft' => $this->daysLeft,
+        ]);
 }
     /**
      * Get the message content definition.
