@@ -1131,6 +1131,12 @@ select.form-control {
             const locationSelectorEl = document.getElementById('locationSelector');
             const fixedLocation = locationSelectorEl?.dataset.locationFixed === 'true';
 
+            if (fixedLocation && locationModal) {
+                locationModal.innerHTML = '';
+                locationModal.hidden = true;
+                locationModal.style.setProperty('display', 'none', 'important');
+            }
+
             // Bangladeshi cities with coordinates
             const cities = {
                 'dhaka': {
@@ -1404,12 +1410,12 @@ select.form-control {
             const cityKey = findCityKey(city);
 
             if (cityKey) {
-                citySelect.value = cityKey;
-                manualCityContainer.style.display = 'none';
+                if (citySelect) citySelect.value = cityKey;
+                if (manualCityContainer) manualCityContainer.style.display = 'none';
             } else {
-                citySelect.value = 'other';
-                manualCityContainer.style.display = 'block';
-                cityInput.value = city;
+                if (citySelect) citySelect.value = 'other';
+                if (manualCityContainer) manualCityContainer.style.display = 'block';
+                if (cityInput) cityInput.value = city;
             }
         }
 
@@ -1454,7 +1460,7 @@ select.form-control {
                 if (latEl.value && lngEl.value) {
                     params.lat = latEl.value;
                     params.lng = lngEl.value;
-                    params.radius = radEl.value || 25;
+                    params.radius = radEl?.value || 25;
                 }
 
                 return params;
@@ -1755,6 +1761,10 @@ class LocationSelector {
 
     // Initialize the selector
     async init() {
+        if (document.getElementById('locationSelector')?.dataset.locationFixed === 'true' || !document.getElementById('countrySelect')) {
+            return;
+        }
+
         console.log('Initializing Location Selector...');
         await this.loadCountries();
         this.setupEventListeners();
