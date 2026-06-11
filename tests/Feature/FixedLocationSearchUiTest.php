@@ -33,4 +33,12 @@ class FixedLocationSearchUiTest extends TestCase
         $this->assertStringNotContainsString('id="map"', $html);
         $this->assertStringNotContainsString('Select Your Location', $html);
     }
+
+    public function test_locked_location_script_does_not_default_to_dhaka(): void
+    {
+        $script = file_get_contents(resource_path('views/layouts/sass.blade.php'));
+
+        $this->assertMatchesRegularExpression("/let currentLocation = \\{\\R\\s+lat: null,\\R\\s+lng: null,\\R\\s+name: ''/", $script);
+        $this->assertStringContainsString('runWhenDomReady', $script);
+    }
 }

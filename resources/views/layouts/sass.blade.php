@@ -1201,9 +1201,9 @@ select.form-control {
             let map = null;
             let marker = null;
             let currentLocation = {
-                lat: 23.8103,
-                lng: 90.4125,
-                name: 'Dhaka'
+                lat: null,
+                lng: null,
+                name: ''
             };
 
             // Debounce helper
@@ -1401,7 +1401,7 @@ select.form-control {
 
             if (!city) {
                 console.warn("No city found in response");
-                return;
+                return null;
             }
 
             updateLocationText(city);
@@ -1417,10 +1417,15 @@ select.form-control {
                 if (manualCityContainer) manualCityContainer.style.display = 'block';
                 if (cityInput) cityInput.value = city;
             }
+
+            return city;
         }
+
+        return null;
 
     } catch (error) {
         console.error('Reverse geocoding error:', error);
+        return null;
     }
 }
 
@@ -1560,6 +1565,15 @@ select.form-control {
             }
 
             // Toggle location modal
+            function runWhenDomReady(callback) {
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', callback, { once: true });
+                    return;
+                }
+
+                callback();
+            }
+
             function toggleLocationModal() {
                 if (fixedLocation || !locationModal) {
                     return;
@@ -1567,7 +1581,7 @@ select.form-control {
 
                 locationModal.classList.toggle('hidden');
                 if (!locationModal.classList.contains('hidden')) {
-                    initMap(currentLocation.lat, currentLocation.lng);
+                    initMap(currentLocation.lat || 23.8103, currentLocation.lng || 90.4125);
                 }
             }
 
@@ -1586,17 +1600,19 @@ select.form-control {
 
                 updateLocationText('Finding location...');
                 navigator.geolocation.getCurrentPosition(
-                    (position) => {
+                    async (position) => {
                         const lat = position.coords.latitude;
                         const lng = position.coords.longitude;
 
                         setLatLng(lat, lng);
                         initMap(lat, lng);
-                        reverseGeocode(lat, lng);
-                        updateLocationText('Current Location');
+                        const city = await reverseGeocode(lat, lng);
+                        if (!city) {
+                            updateLocationText('Current Location');
+                        }
 
                         // Apply filters after getting location
-                        setTimeout(() => applyFilters(), 1000);
+                        applyFilters();
                     },
                     (error) => {
                         console.error('Geolocation error:', error);
@@ -1738,7 +1754,7 @@ select.form-control {
             };
 
             // Initial load - show doctors around the user's current location when permission is available.
-            window.addEventListener('DOMContentLoaded', () => {
+            runWhenDomReady(() => {
                 useCurrentLocation(false);
             });
 
