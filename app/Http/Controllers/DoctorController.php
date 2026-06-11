@@ -389,10 +389,11 @@ public function storeall(Request $request)
             'total_amount'    => ['required', 'numeric', 'min:0'],
 
             // optional
-            'country'   => ['nullable', 'string', 'max:100'],
-            'latitude'  => ['nullable', 'numeric', 'between:-90,90'],
-            'longitude' => ['nullable', 'numeric', 'between:-180,180'],
-            'city'      => ['nullable', 'string', 'max:255'],
+            'country'       => ['nullable', 'string', 'max:100'],
+            'currency_code' => ['nullable', 'string', 'max:10'],
+            'latitude'      => ['nullable', 'numeric', 'between:-90,90'],
+            'longitude'     => ['nullable', 'numeric', 'between:-180,180'],
+            'city'          => ['nullable', 'string', 'max:255'],
 
         ], [
             'photo.required' => 'Please upload your professional photo',
@@ -405,19 +406,27 @@ public function storeall(Request $request)
         Log::info('Validation passed', ['email' => $validated['email']]);
 
         $gatewayResolver = app(RegistrationPaymentGatewayResolver::class);
+        $isOnlinePayment = ($validated['payment_option'] ?? null) === 'online';
+        $sslcommerzAllowed = $gatewayResolver->canUseSslcommerz(
+            $validated['country'] ?? null,
+            $validated['currency_code'] ?? null
+        );
+
         if (
+            $isOnlinePayment &&
             ($validated['payment_method'] ?? null) === 'sslcommerz'
-            && !$gatewayResolver->isBangladesh($validated['country'] ?? null)
+            && !$sslcommerzAllowed
         ) {
             throw \Illuminate\Validation\ValidationException::withMessages([
                 'payment_method' => 'SSLCOMMERZ is available only for Bangladesh. Please use Stripe for international payment.',
             ]);
         }
 
-        $validated['payment_method'] = $gatewayResolver->resolve(
-            $validated['country'] ?? null,
-            $validated['payment_method'] ?? null
-        );
+        if ($isOnlinePayment) {
+            $validated['payment_method'] = $sslcommerzAllowed
+                ? $gatewayResolver->resolve($validated['country'] ?? null, $validated['payment_method'] ?? null)
+                : RegistrationPaymentGatewayResolver::DEFAULT_INTERNATIONAL_GATEWAY;
+        }
 
         Log::info('Creating registration records');
 

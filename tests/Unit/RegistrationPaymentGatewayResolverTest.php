@@ -3,6 +3,9 @@
 namespace Tests\Unit;
 
 use App\Services\RegistrationPaymentGatewayResolver;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 
 class RegistrationPaymentGatewayResolverTest extends TestCase
@@ -51,6 +54,33 @@ class RegistrationPaymentGatewayResolverTest extends TestCase
     {
         $this->assertSame('stripe', $this->resolver->resolve('India', 'sslcommerz'));
         $this->assertSame('stripe', $this->resolver->resolve('United States', 'ssl_commerz'));
+    }
+
+    public function test_sslcommerz_requires_bangladesh_and_bdt_currency(): void
+    {
+        $this->assertTrue($this->resolver->canUseSslcommerz('Bangladesh', 'BDT'));
+        $this->assertFalse($this->resolver->canUseSslcommerz('Bangladesh', 'EUR'));
+        $this->assertFalse($this->resolver->canUseSslcommerz('India', 'BDT'));
+    }
+
+    public function test_country_gateway_mapping_cannot_enable_sslcommerz_outside_bangladesh(): void
+    {
+        if (!Schema::connection('mysql')->hasTable('company_settings')) {
+            Schema::connection('mysql')->create('company_settings', function (Blueprint $table): void {
+                $table->id();
+                $table->json('payment_gateway')->nullable();
+            });
+        }
+
+        DB::connection('mysql')->table('company_settings')->insert([
+            'payment_gateway' => json_encode([
+                'country_gateways' => [
+                    'India' => 'sslcommerz',
+                ],
+            ]),
+        ]);
+
+        $this->assertSame('stripe', $this->resolver->resolve('India'));
     }
 
     public function test_credentials_fall_back_to_config_values(): void

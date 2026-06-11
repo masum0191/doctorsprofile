@@ -2,6 +2,14 @@
 
 @section('title', 'Doctor Registration')
 
+@php
+    $initialCountry = old('country', $pricingContext['country'] ?? '');
+    $initialCurrencyCode = strtoupper((string) old('currency_code', $pricingContext['currency_code'] ?? 'USD'));
+    $normalizedInitialCountry = strtolower(trim(str_replace(['_', '-'], ' ', (string) $initialCountry)));
+    $initialSslcommerzAvailable = in_array($normalizedInitialCountry, ['bangladesh', 'bd', 'ban'], true)
+        && $initialCurrencyCode === 'BDT';
+@endphp
+
 @section('content')
     <div class="flex-1 pt-20 sm:pt-24 md:pt-28 pb-8 sm:pb-12 px-4 sm:px-6">
         <div class="max-w-6xl mx-auto">
@@ -43,7 +51,8 @@
                     <input type="hidden" name="latitude" id="latitude">
                     <input type="hidden" name="longitude" id="longitude">
                     <input type="hidden" name="city" id="city">
-                    <input type="hidden" name="country" id="country" value="{{ old('country', $pricingContext['country'] ?? '') }}">
+                    <input type="hidden" name="country" id="country" value="{{ $initialCountry }}">
+                    <input type="hidden" name="currency_code" id="currency_code" value="{{ $initialCurrencyCode }}">
                     <input type="hidden" id="selectedBillingCycle" name="selected_billing_cycle" value="monthly">
                     <input type="hidden" id="selectedCoupon" name="coupon_id" value="">
                     <input type="hidden" id="finalPackagePrice" name="package_price" value="0">
@@ -730,7 +739,8 @@
                                 <label class="block text-xs sm:text-sm font-semibold text-gray-900 mb-2 sm:mb-3">Select Payment Method</label>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                                     <button type="button" id="sslcommerz-payment-card" onclick="selectPaymentMethod('sslcommerz', this)"
-                                        class="payment-method-card flex flex-col items-center text-center p-4 sm:p-6 border-2 border-gray-200 rounded-xl hover:border-[#318069] hover:bg-[#318069]/5 transition-all">
+                                        class="payment-method-card flex flex-col items-center text-center p-4 sm:p-6 border-2 border-gray-200 rounded-xl hover:border-[#318069] hover:bg-[#318069]/5 transition-all {{ $initialSslcommerzAvailable ? '' : 'hidden' }}"
+                                        @if (!$initialSslcommerzAvailable) disabled @endif>
                                         <div class="mb-2 sm:mb-3">
                                             <div class="bg-blue-600 text-white px-3 sm:px-4 py-1 sm:py-2 rounded-lg text-xs sm:text-sm font-bold">
                                                 SSLCOMMERZ
@@ -740,7 +750,8 @@
                                         <p class="text-gray-600 text-xs mt-1 hidden sm:block">Credit/Debit Cards, Mobile Banking</p>
                                     </button>
                                     <button type="button" id="stripe-payment-card" onclick="selectPaymentMethod('stripe', this)"
-                                        class="payment-method-card flex flex-col items-center text-center p-4 sm:p-6 border-2 border-gray-200 rounded-xl hover:border-[#318069] hover:bg-[#318069]/5 transition-all hidden">
+                                        class="payment-method-card flex flex-col items-center text-center p-4 sm:p-6 border-2 border-gray-200 rounded-xl hover:border-[#318069] hover:bg-[#318069]/5 transition-all {{ $initialSslcommerzAvailable ? 'hidden' : '' }}"
+                                        @if ($initialSslcommerzAvailable) disabled @endif>
                                         <div class="mb-2 sm:mb-3">
                                             <div class="bg-indigo-600 text-white px-3 sm:px-4 py-1 sm:py-2 rounded-lg text-xs sm:text-sm font-bold">
                                                 STRIPE
@@ -1321,12 +1332,20 @@
         return document.getElementById('country')?.value || '';
     }
 
+    function selectedCurrencyCode() {
+        return String(document.getElementById('currency_code')?.value || DISPLAY_CURRENCY || '').trim().toUpperCase();
+    }
+
     function isBangladeshCountry(value = selectedCountry()) {
         return ['bangladesh', 'bd', 'ban'].includes(normalizeCountry(value));
     }
 
+    function sslcommerzAvailableForSelectedLocation() {
+        return isBangladeshCountry() && selectedCurrencyCode() === 'BDT';
+    }
+
     function preferredOnlinePaymentMethod() {
-        return isBangladeshCountry() ? 'sslcommerz' : 'stripe';
+        return sslcommerzAvailableForSelectedLocation() ? 'sslcommerz' : 'stripe';
     }
 
     // ========== UPDATE DOMAIN REGISTRATION FEE ==========
@@ -2454,7 +2473,9 @@ function useDomainSuggestion(suggestion) {
 
         selectedPaymentMethod = paymentMethodField.value;
 
-        if (selectedPaymentMethod === 'sslcommerz' && !isBangladeshCountry()) {
+        const allowSslcommerz = sslcommerzAvailableForSelectedLocation();
+
+        if (selectedPaymentMethod === 'sslcommerz' && !allowSslcommerz) {
             alert('SSLCOMMERZ is available only for Bangladesh. Please use Stripe for international payment.');
             updatePaymentUI();
             return false;
@@ -2465,12 +2486,12 @@ function useDomainSuggestion(suggestion) {
             return false;
         }
 
-        if (isBangladeshCountry() && selectedPaymentMethod !== 'sslcommerz') {
+        if (allowSslcommerz && selectedPaymentMethod !== 'sslcommerz') {
             alert('Only SSLCOMMERZ payment is available for Bangladesh.');
             return false;
         }
 
-        if (!isBangladeshCountry() && selectedPaymentMethod !== 'stripe') {
+        if (!allowSslcommerz && selectedPaymentMethod !== 'stripe') {
             alert('Only Stripe payment is available outside Bangladesh.');
             return false;
         }
@@ -2814,7 +2835,7 @@ function useDomainSuggestion(suggestion) {
 
     // ========== PAYMENT FUNCTIONS ==========
     function selectPaymentMethod(method, trigger = null) {
-        if (method === 'sslcommerz' && !isBangladeshCountry()) {
+        if (method === 'sslcommerz' && !sslcommerzAvailableForSelectedLocation()) {
             alert('SSLCOMMERZ is available only for Bangladesh. Please use Stripe for international payment.');
             method = 'stripe';
         }
@@ -2867,9 +2888,9 @@ function useDomainSuggestion(suggestion) {
         const paymentMethodField = document.getElementById('payment_method');
         const sslCard = document.getElementById('sslcommerz-payment-card');
         const stripeCard = document.getElementById('stripe-payment-card');
-        const allowSslcommerz = isBangladeshCountry();
+        const allowSslcommerz = sslcommerzAvailableForSelectedLocation();
 
-        console.log('Updating payment UI - isFreePackage:', isFreePackage, 'totalAmount:', totalAmount);
+        console.log('Updating payment UI - isFreePackage:', isFreePackage, 'totalAmount:', totalAmount, 'country:', selectedCountry(), 'currency:', selectedCurrencyCode());
 
         if (isFreePackage || totalAmount <= 0) {
             console.log('Hiding payment options for free/zero amount package');

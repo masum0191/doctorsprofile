@@ -15,17 +15,33 @@ class RegistrationPaymentGatewayResolver
     {
         $country = $this->normalizeCountry($country);
         $requestedGateway = $this->normalizeGateway($requestedGateway);
+        $isBangladesh = $this->isBangladesh($country);
 
         $countryGateway = $this->countryGateway($country);
         if ($countryGateway !== null) {
+            if ($countryGateway === self::DEFAULT_LOCAL_GATEWAY && !$isBangladesh) {
+                return self::DEFAULT_INTERNATIONAL_GATEWAY;
+            }
+
             return $countryGateway;
         }
 
-        if ($this->isBangladesh($country)) {
+        if ($isBangladesh) {
             return self::DEFAULT_LOCAL_GATEWAY;
         }
 
         return self::DEFAULT_INTERNATIONAL_GATEWAY;
+    }
+
+    public function canUseSslcommerz(?string $country, ?string $currencyCode = null): bool
+    {
+        if (!$this->isBangladesh($country)) {
+            return false;
+        }
+
+        $currencyCode = strtoupper(trim((string) $currencyCode));
+
+        return $currencyCode === '' || $currencyCode === 'BDT';
     }
 
     public function isBangladesh(?string $country): bool
