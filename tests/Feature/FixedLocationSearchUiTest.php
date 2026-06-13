@@ -12,6 +12,8 @@ class FixedLocationSearchUiTest extends TestCase
         $html = view('sass', ['specialties' => collect()])->render();
 
         $this->assertStringContainsString('data-location-fixed="false"', $html);
+        $this->assertStringContainsString('role="button"', $html);
+        $this->assertStringContainsString('tabindex="0"', $html);
         $this->assertStringContainsString('id="locationMapButton"', $html);
         $this->assertStringContainsString('Detecting location...', $html);
         $this->assertStringContainsString('id="countrySelect"', $html);
@@ -27,6 +29,8 @@ class FixedLocationSearchUiTest extends TestCase
         $html = view('finds')->render();
 
         $this->assertStringContainsString('data-location-fixed="false"', $html);
+        $this->assertStringContainsString('role="button"', $html);
+        $this->assertStringContainsString('tabindex="0"', $html);
         $this->assertStringContainsString('id="locationMapButton"', $html);
         $this->assertStringContainsString('Detecting location...', $html);
         $this->assertStringContainsString('id="countrySelect"', $html);
@@ -43,8 +47,11 @@ class FixedLocationSearchUiTest extends TestCase
 
         $this->assertMatchesRegularExpression("/let currentLocation = \\{\\R\\s+lat: null,\\R\\s+lng: null,\\R\\s+name: ''/", $script);
         $this->assertStringContainsString('runWhenDomReady', $script);
+        $this->assertStringContainsString('function openLocationModal()', $script);
+        $this->assertStringContainsString('typeof L === \'undefined\'', $script);
         $this->assertStringContainsString('const locationMapButton = document.getElementById(\'locationMapButton\');', $script);
-        $this->assertStringContainsString('locationMapButton?.addEventListener(\'click\'', $script);
+        $this->assertStringContainsString('locationMapButton?.addEventListener(\'click\', handleLocationPickerOpen);', $script);
+        $this->assertStringContainsString('locationSelectorEl?.addEventListener(\'click\', handleLocationPickerOpen);', $script);
         $this->assertStringContainsString('params.set(\'country\', country);', $script);
     }
 

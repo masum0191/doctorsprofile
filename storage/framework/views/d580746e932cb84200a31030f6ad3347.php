@@ -1,13 +1,12 @@
-@extends('layouts.sass')
-@section('title', 'Find Doctors Nearby')
-@section('meta_description', 'Search doctors by specialty, city, availability, and care options.')
-@section('canonical', route('finds'))
+<?php $__env->startSection('title', 'Find Doctors Nearby'); ?>
+<?php $__env->startSection('meta_description', 'Search doctors by specialty, city, availability, and care options.'); ?>
+<?php $__env->startSection('canonical', route('finds')); ?>
 
-@php
+<?php
     use Illuminate\Support\Str;
-@endphp
+?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 <!-- Hero Section -->
 <section id="search-section"
@@ -61,7 +60,7 @@
                     <input type="hidden" id="latInput" value="">
                     <input type="hidden" id="lngInput" value="">
                 </div>
-                @include('partials.search-location-modal')
+                <?php echo $__env->make('partials.search-location-modal', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
             </div>
             <div class="md:col-span-1">
                 <button type="submit"
@@ -102,4 +101,6 @@
 
 
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.sass', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\doctorprofiles\resources\views/finds.blade.php ENDPATH**/ ?>
