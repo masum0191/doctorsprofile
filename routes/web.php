@@ -293,6 +293,9 @@ Route::put('coupons/{coupon}/toggle', [CouponController::class, 'toggle'])->name
 
 Route::middleware(['auth'])->prefix('superadmin')->name('superadmin.')->group(function () {
 
+Route::get('/crm', [\App\Http\Controllers\Admin\CrmController::class, 'index'])
+    ->name('crm.index');
+
     // The base URL for this resource is now /superadmin/templates
     Route::resource('templates', TemplateController::class)->except([
         'destroy',
