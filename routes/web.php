@@ -23,6 +23,7 @@ use App\Http\Controllers\CompanySettingController;
 use App\Http\Controllers\Admin\SpecialtyController;
 use App\Http\Controllers\Admin\CompanyIncomeController;
 use App\Http\Controllers\Admin\AdminSubscriptionController;
+use App\Http\Controllers\Admin\UserRoleController;
 use App\Http\Controllers\SeoController;
 
 
@@ -247,14 +248,14 @@ Route::get('/geo/reverse', [GeoController::class, 'reverse'])->name('geo.reverse
 Route::get('/specialty/{slug}', [BrowseController::class, 'bySpecialty'])
     ->name('specialty.doctors');
 // articals
-Route::resource('categories', CategoryController::class)->middleware('auth');
-Route::resource('post-types', PostTypeController::class)->middleware('auth');
-Route::get('posts',           [DoctorPostController::class, 'index'])->name('posts.index')->middleware('auth');
-Route::get('posts/create',     [DoctorPostController::class, 'create'])->name('posts.create')->middleware('auth');
-Route::post('posts',           [DoctorPostController::class, 'store'])->name('posts.store')->middleware('auth');
-Route::get('posts/{post}/edit',[DoctorPostController::class, 'edit'])->name('posts.edit')->middleware('auth');
-Route::put('posts/{post}',     [DoctorPostController::class, 'update'])->name('posts.update')->middleware('auth');
-Route::delete('posts/{post}',  [DoctorPostController::class, 'destroy'])->name('posts.destroy')->middleware('auth');
+Route::resource('categories', CategoryController::class)->middleware(['auth', 'role:superadmin,admin']);
+Route::resource('post-types', PostTypeController::class)->middleware(['auth', 'role:superadmin,admin']);
+Route::get('posts',           [DoctorPostController::class, 'index'])->name('posts.index')->middleware(['auth', 'role:superadmin,admin']);
+Route::get('posts/create',     [DoctorPostController::class, 'create'])->name('posts.create')->middleware(['auth', 'role:superadmin,admin']);
+Route::post('posts',           [DoctorPostController::class, 'store'])->name('posts.store')->middleware(['auth', 'role:superadmin,admin']);
+Route::get('posts/{post}/edit',[DoctorPostController::class, 'edit'])->name('posts.edit')->middleware(['auth', 'role:superadmin,admin']);
+Route::put('posts/{post}',     [DoctorPostController::class, 'update'])->name('posts.update')->middleware(['auth', 'role:superadmin,admin']);
+Route::delete('posts/{post}',  [DoctorPostController::class, 'destroy'])->name('posts.destroy')->middleware(['auth', 'role:superadmin,admin']);
     // SSL
 
 // admin login route
@@ -269,32 +270,36 @@ Route::post('/admin/password/reset', [\App\Http\Controllers\AdminAuthController:
 // admin dashboard route
 // Route::get('/superadmin/dashboard', function () {
 //     return view('admin.dashboard');
-Route::get('/superadmin/dashboard', [\App\Http\Controllers\AdminAuthController::class, 'dashboard'])->middleware('auth')->name('admin.dashboard');
+Route::get('/superadmin/dashboard', [\App\Http\Controllers\AdminAuthController::class, 'dashboard'])->middleware(['auth', 'role:superadmin,admin,tenant'])->name('admin.dashboard');
 // tenant user list
-Route::get('/users', [\App\Http\Controllers\TenantController::class, 'userIndex'])->name('user.index')->middleware('auth');
-Route::get('/users/{id}', [\App\Http\Controllers\TenantController::class, 'userShow'])->name('user.show')->middleware('auth');
-Route::match(['put', 'patch'], '/users/{id}', [\App\Http\Controllers\TenantController::class, 'userUpdate'])->name('user.update')->middleware('auth');
-Route::delete('/users/{id}', [\App\Http\Controllers\TenantController::class, 'destroy'])->name('user.destroy')->middleware('auth');
+Route::get('/users', [\App\Http\Controllers\TenantController::class, 'userIndex'])->name('user.index')->middleware(['auth', 'role:superadmin,admin']);
+Route::get('/users/{id}', [\App\Http\Controllers\TenantController::class, 'userShow'])->name('user.show')->middleware(['auth', 'role:superadmin,admin']);
+Route::match(['put', 'patch'], '/users/{id}', [\App\Http\Controllers\TenantController::class, 'userUpdate'])->name('user.update')->middleware(['auth', 'role:superadmin,admin']);
+Route::delete('/users/{id}', [\App\Http\Controllers\TenantController::class, 'destroy'])->name('user.destroy')->middleware(['auth', 'role:superadmin,admin']);
 // routes/web.php
 Route::post('/tenant/{id}/{status}', [\App\Http\Controllers\TenantController::class, 'toggleUserStatus'])
     ->name('tenant.toggle')
-    ->middleware('auth');
+    ->middleware(['auth', 'role:superadmin,admin']);
 Route::post('/doctor/feature-toggle/{id}', [\App\Http\Controllers\TenantController::class, 'toggleFeature'])
-    ->name('doctor.feature.toggle')->middleware('auth');
+    ->name('doctor.feature.toggle')->middleware(['auth', 'role:superadmin,admin']);
 
 Route::post('/purchase.store', [\App\Http\Controllers\PurchaseController::class, 'store'])
     ->name('purchase.store')
     ->middleware('auth');
-Route::resource('packages', PackageController::class)->middleware('auth');
-Route::resource('coupons', CouponController::class)->middleware('auth');
-Route::put('coupons/{coupon}/toggle', [CouponController::class, 'toggle'])->name('coupons.toggle')->middleware('auth');
+Route::resource('packages', PackageController::class)->middleware(['auth', 'role:superadmin,admin']);
+Route::resource('coupons', CouponController::class)->middleware(['auth', 'role:superadmin,admin']);
+Route::put('coupons/{coupon}/toggle', [CouponController::class, 'toggle'])->name('coupons.toggle')->middleware(['auth', 'role:superadmin,admin']);
 ;
 // template create
 
-Route::middleware(['auth'])->prefix('superadmin')->name('superadmin.')->group(function () {
+Route::middleware(['auth', 'role:superadmin,admin'])->prefix('superadmin')->name('superadmin.')->group(function () {
 
 Route::get('/crm', [\App\Http\Controllers\Admin\CrmController::class, 'index'])
     ->name('crm.index');
+
+Route::patch('/users/{user}/status', [UserRoleController::class, 'status'])
+    ->name('users.status');
+Route::resource('users', UserRoleController::class)->except(['show']);
 
     // The base URL for this resource is now /superadmin/templates
     Route::resource('templates', TemplateController::class)->except([

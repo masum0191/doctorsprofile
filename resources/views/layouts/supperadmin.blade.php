@@ -1009,6 +1009,14 @@ $settingModel = \App\Models\CompanySetting::first() ?? new \App\Models\CompanySe
                 </a>
             </li>
 
+            <li class="nav-item">
+                <a href="{{ route('superadmin.users.index') }}"
+                   class="nav-link {{ request()->is('superadmin/users*') ? 'active' : '' }}">
+                    <i class="ri-admin-line nav-icon"></i>
+                    <span class="nav-text">User Roles</span>
+                </a>
+            </li>
+
             {{-- Marketing --}}
             <li class="nav-item dropdown
                 {{ request()->is('superadmin/marketing/*') ? 'active' : '' }}">
@@ -1197,6 +1205,9 @@ $settingModel = \App\Models\CompanySetting::first() ?? new \App\Models\CompanySe
                         <li>
                             <a class="dropdown-item" href="{{ route('superadmin.crm.index') }}">
                                 <i class="ri-shake-hands-line me-2"></i>CRM Admin</a></li>
+                        <li>
+                            <a class="dropdown-item" href="{{ route('superadmin.users.create') }}">
+                                <i class="ri-admin-line me-2"></i>Create User</a></li>
                         <li>
                             <a class="dropdown-item" href="{{ url('superadmin/specialties') }}">
                                 <i class="ri-stethoscope-line me-2"></i>Update Specialties</a></li>

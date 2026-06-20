@@ -26,6 +26,28 @@ class AdminAuthController extends Controller
         ]);
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            $user = $request->user();
+
+            if (!in_array($user->role, ['superadmin', 'admin', 'tenant'], true)) {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                throw ValidationException::withMessages([
+                    'email' => ['This account is not allowed to access the admin area.'],
+                ]);
+            }
+
+            if ((string) $user->status === '0') {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                throw ValidationException::withMessages([
+                    'email' => ['This account is inactive. Please contact support.'],
+                ]);
+            }
+
             $request->session()->regenerate();
             return redirect()->intended('/superadmin/dashboard');
         }

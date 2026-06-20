@@ -10,9 +10,9 @@ class UserTypeMiddleware
     /**
      * Handle an incoming request.
      */
-    public function handle(Request $request, Closure $next, $type): Response
+    public function handle(Request $request, Closure $next, string ...$roles): Response
     {
-        if (!auth()->check() || auth()->user()->role !== $type) {
+        if (!auth()->check() || !in_array(auth()->user()->role, $roles, true)) {
             abort(403, 'Unauthorized access');
         }
 
