@@ -7,12 +7,14 @@
     "require": {
         "php": "^8.2",
         "barryvdh/laravel-dompdf": "^3.1",
-        "laravel/framework": "^11.0",
+        "fr3on/laravel-drift": "^0.0.1",
+        "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "stancl/tenancy": "^3.9"
     },
     "require-dev": {
+        "andreapollastri/checkpoint": "^1.1",
         "fakerphp/faker": "^1.23",
         "laravel/breeze": "^2.0",
         "laravel/pint": "^1.13",
@@ -54,6 +56,9 @@
     "extra": {
         "laravel": {
             "dont-discover": []
+        },
+        "security": {
+            "policy.advisories.ignore": ["PKSA-m5cs-t1y6-qpcs", "PKSA-3r5d-mb8f-1qw9", "PKSA-mdq4-51ck-6kdq", "PKSA-8qx3-n5y5-vvnd", "PKSA-q46n-4fdk-zjr4", "PKSA-qzrn-rnz3-85w1", "PKSA-w7xr-vk7n-rstm"]
         }
     },
     "config": {
