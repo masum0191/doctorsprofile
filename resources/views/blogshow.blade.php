@@ -23,6 +23,7 @@
         'dateModified' => optional($post->updated_at)->toAtomString(),
         'mainEntityOfPage' => route('articles.show', $post->slug),
     ];
+    $safeArticleBody = \App\Support\HtmlSanitizer::clean($post->body);
 @endphp
 
 @if($articleSeoImage)
@@ -123,7 +124,7 @@
       <div class="px-6 md:px-12 py-8">
         <div class="prose prose-lg max-w-none mx-auto">
           <div class="article-content text-slate-700 leading-relaxed text-lg">
-            {!! $post->body !!}
+            {!! $safeArticleBody !!}
           </div>
         </div>
 

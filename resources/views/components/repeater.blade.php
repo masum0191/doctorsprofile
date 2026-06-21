@@ -6,12 +6,7 @@
     'schema' => []
 ])
 
-@php
-    $schemaJson = json_encode($schema, JSON_UNESCAPED_UNICODE);
-    $itemsJson = json_encode($items, JSON_UNESCAPED_UNICODE);
-@endphp
-
-<div x-data="repeater('{{ $name }}', {!! $schemaJson !!}, {!! $itemsJson !!})"
+<div x-data="repeater(@js($name), @js($schema), @js($items))"
      class="bg-white shadow rounded-xl p-6 mb-8">
     <div class="flex items-center justify-between mb-4">
         <h2 class="text-xl font-semibold">{{ $title }}</h2>

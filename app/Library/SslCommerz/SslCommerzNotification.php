@@ -54,13 +54,8 @@ class SslCommerzNotification extends AbstractSslCommerz
             curl_setopt($handle, CURLOPT_URL, $requested_url);
             curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
 
-            if ($this->config['connect_from_localhost']) {
-                curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, 0);
-                curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, 0);
-            } else {
-                curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, 2);
-                curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, 2);
-            }
+            curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, 2);
+            curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, true);
 
 
             $result = curl_exec($handle);
@@ -165,7 +160,8 @@ class SslCommerzNotification extends AbstractSslCommerz
             }
             $hash_string = rtrim($hash_string, '&');
 
-            if (md5($hash_string) == $post_data['verify_sign']) {
+            // SSLCommerz legacy signature validation requires MD5; use hash_equals to avoid timing leaks.
+            if (hash_equals(md5($hash_string), (string) $post_data['verify_sign'])) {
 
                 return true;
             } else {

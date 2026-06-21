@@ -9,5 +9,6 @@ class Upazila extends Model
 {
     use HasFactory;
     protected $table = 'upazilas';
+    protected $guarded = ['id'];
     public $timestamps = false;
 }

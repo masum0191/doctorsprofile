@@ -40,6 +40,7 @@
   $shareText = urlencode($post->title);
   $tags = collect($post->tags ?? [])->filter();
   $articleSummary = $post->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($post->body), 210);
+  $safeArticleBody = \App\Support\HtmlSanitizer::clean($post->body);
 @endphp
 
 <div class="relative overflow-hidden bg-gradient-to-br from-emerald-50/40 via-white to-teal-50/30 pt-24 pb-16">
@@ -145,7 +146,7 @@
       <article class="bg-white rounded-2xl border border-gray-100 shadow-lg overflow-hidden">
         <div class="px-6 py-8 sm:px-8 lg:px-10">
           <div class="article-content prose prose-lg prose-emerald max-w-none">
-            {!! $post->body !!}
+            {!! $safeArticleBody !!}
           </div>
 
           <!-- Tags -->

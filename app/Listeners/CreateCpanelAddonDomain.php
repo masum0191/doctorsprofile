@@ -29,9 +29,20 @@ class CreateCpanelAddonDomain // Renamed for clarity
         $whmToken = config('services.whm.token');
         $cpUser   = config('services.whm.user', 'localgovbd');
 
+        if (blank($whmHost) || blank($whmToken) || blank($cpUser)) {
+            Log::error('WHM credentials are not configured for cPanel alias creation', [
+                'tenant' => $tenant->id,
+                'domain' => $domain,
+            ]);
+            return;
+        }
+
+        $whmHost = rtrim((string) $whmHost, '/');
+
         try {
-            $response = Http::withoutVerifying()
-                ->asForm() // This is correct
+            $response = Http::asForm()
+                ->timeout(120)
+                ->connectTimeout(10)
                 ->withHeaders([
                     'Authorization' => "whm root:{$whmToken}",
                 ])
@@ -53,7 +64,7 @@ class CreateCpanelAddonDomain // Renamed for clarity
             } else {
                 Log::error('cPanel API failed to create alias for ' . $domain, [
                     'tenant' => $tenant->id,
-                    'response' => $result
+                    'errors' => data_get($result, 'result.errors') ?? data_get($result, 'metadata.reason')
                 ]);
             }
 

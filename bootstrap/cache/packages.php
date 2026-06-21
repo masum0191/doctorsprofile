@@ -1,4 +1,11 @@
 <?php return array (
+  'andreapollastri/checkpoint' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Checkpoint\\CheckpointServiceProvider',
+    ),
+  ),
   'barryvdh/laravel-dompdf' => 
   array (
     'aliases' => 
@@ -9,6 +16,17 @@
     'providers' => 
     array (
       0 => 'Barryvdh\\DomPDF\\ServiceProvider',
+    ),
+  ),
+  'fr3on/laravel-drift' => 
+  array (
+    'aliases' => 
+    array (
+      'Drift' => 'Fr3on\\Drift\\Facades\\Drift',
+    ),
+    'providers' => 
+    array (
+      0 => 'Fr3on\\Drift\\DriftServiceProvider',
     ),
   ),
   'laravel/breeze' => 

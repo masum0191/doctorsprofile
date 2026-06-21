@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
+use RuntimeException;
 
 class CpanelService
 {
@@ -11,6 +12,12 @@ class CpanelService
         $host = config('services.cpanel.host');
         $user = config('services.cpanel.user');
         $token = config('services.cpanel.token');
+
+        if (blank($host) || blank($user) || blank($token)) {
+            throw new RuntimeException('cPanel credentials are not configured.');
+        }
+
+        $host = preg_replace('#^https?://#', '', rtrim((string) $host, '/'));
 
         return Http::withHeaders([
             'Authorization' => "cpanel $user:$token"

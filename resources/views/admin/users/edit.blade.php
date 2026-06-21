@@ -17,6 +17,8 @@
         </div>
         <div class="card-body">
             <form action="{{ route('superadmin.users.update', $managedUser) }}" method="POST">
+                @csrf
+                @method('PUT')
                 @include('admin.users._form')
             </form>
         </div>

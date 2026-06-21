@@ -9,5 +9,6 @@ class Union extends Model
 {
     use HasFactory;
     protected $table = 'unions';
+    protected $guarded = ['id'];
     public $timestamps = false;
 }

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
+use RuntimeException;
 
 class CpanelDomainService
 {
@@ -19,6 +20,14 @@ class CpanelDomainService
         $this->user           = (string) config('services.cpanel.user', env('CPANEL_USER'));
         $this->token          = (string) config('services.cpanel.token', env('CPANEL_TOKEN'));
         $this->defaultDocroot = (string) config('services.cpanel.docroot', env('CPANEL_DOCROOT', 'public_html'));
+
+        if (blank($this->host) || blank($this->user) || blank($this->token)) {
+            throw new RuntimeException('cPanel credentials are not configured.');
+        }
+
+        if (!preg_match('#^https?://#i', $this->host)) {
+            $this->host = 'https://' . $this->host . ':2083';
+        }
 
         $this->http = new Client([
             'base_uri' => $this->host,

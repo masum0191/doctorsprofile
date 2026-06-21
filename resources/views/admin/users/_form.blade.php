@@ -5,11 +5,6 @@
     $selectedStatus = (string) old('status', isset($managedUser) ? (int) $managedUser->status : 1);
 @endphp
 
-@csrf
-@if($isEdit)
-    @method('PUT')
-@endif
-
 <div class="row g-3">
     <div class="col-md-6">
         <label class="form-label fw-semibold">Name <span class="text-danger">*</span></label>

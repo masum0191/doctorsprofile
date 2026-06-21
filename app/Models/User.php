@@ -78,6 +78,17 @@ class User extends Authenticatable
 /** Nearby by Haversine (meters/km) */
 public function scopeNearby($q, float $lat, float $lng, int $radiusKm = 25)
 {
+    $lat = (float) $lat;
+    $lng = (float) $lng;
+
+    if ($lat < -90 || $lat > 90) {
+        throw new \InvalidArgumentException('Latitude must be between -90 and 90.');
+    }
+
+    if ($lng < -180 || $lng > 180) {
+        throw new \InvalidArgumentException('Longitude must be between -180 and 180.');
+    }
+
     $haversine = "
       (6371 * acos(
         cos(radians(?)) * cos(radians(latitude)) *
@@ -87,7 +98,7 @@ public function scopeNearby($q, float $lat, float $lng, int $radiusKm = 25)
     ";
 
     return $q->select('*')
-        ->selectRaw("$haversine AS distance_km", [$lat, $lng, $lat])
+        ->selectRaw($haversine . ' AS distance_km', [$lat, $lng, $lat])
         ->orderBy('distance_km')
         ->having('distance_km','<=',$radiusKm);
 }

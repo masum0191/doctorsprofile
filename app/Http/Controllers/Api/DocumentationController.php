@@ -104,8 +104,8 @@ class DocumentationController extends Controller
                     'fields' => [
                         'email' => 'doctor@example.com',
                         'phone' => '+8801712345678',
-                        'password' => 'password123',
-                        'password_confirmation' => 'password123',
+                        'password' => '<your-password>',
+                        'password_confirmation' => '<your-password>',
                         'photo' => 'file',
                         'package_id' => 1,
                         'selected_billing_cycle' => 'monthly',

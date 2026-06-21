@@ -11,6 +11,7 @@
         </div>
         <div class="card-body">
             <form action="{{ route('superadmin.users.store') }}" method="POST">
+                @csrf
                 @include('admin.users._form')
             </form>
         </div>

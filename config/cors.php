@@ -15,21 +15,11 @@ return [
     |
     */
 
-//     'paths' => ['api/*'],
-// 'allowed_methods' => ['*'],
-// 'allowed_origins' => ['http://localhost:3000'],
-// 'allowed_headers' => ['*'],
-// 'supports_credentials' => true,
-
-//return [
     'paths' => ['api/*', 'sanctum/csrf-cookie'],
-    'allowed_methods' => ['*'],
-    'allowed_origins' => [env('CORS_ALLOWED_ORIGINS')],
-    'allowed_headers' => ['*'],
+    'allowed_methods' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    'allowed_origins' => array_values(array_filter(array_map('trim', explode(',', env('CORS_ALLOWED_ORIGINS', 'https://doctorsprofile.xyz,https://www.doctorsprofile.xyz'))))),
+    'allowed_headers' => ['Accept', 'Authorization', 'Content-Type', 'X-CSRF-TOKEN', 'X-Requested-With', 'X-XSRF-TOKEN'],
     'exposed_headers' => [],
     'max_age' => 0,
     'supports_credentials' => true,  // Important for cookies
-//];
-
-
 ];

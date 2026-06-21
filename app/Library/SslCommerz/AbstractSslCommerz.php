@@ -47,13 +47,8 @@ abstract class AbstractSslCommerz implements SslCommerzInterface
     {
         $curl = curl_init();
 
-        if (!$setLocalhost) {
-            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
-            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2); // The default value for this option is 2. It means, it has to have the same name in the certificate as is in the URL you operate against.
-        } else {
-            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0); // When the verify value is 0, the connection succeeds regardless of the names in the certificate.
-        }
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
 
         curl_setopt($curl, CURLOPT_URL, $this->getApiUrl());
         curl_setopt($curl, CURLOPT_HEADER, 0);
@@ -121,8 +116,40 @@ abstract class AbstractSslCommerz implements SslCommerzInterface
      */
     public function redirect($url, $permanent = false)
     {
+        if (!$this->isTrustedRedirectUrl($url)) {
+            throw new \InvalidArgumentException('Blocked untrusted redirect URL.');
+        }
+
         header('Location: ' . $url, true, $permanent ? 301 : 302);
 
         exit();
+    }
+
+    protected function isTrustedRedirectUrl(?string $url): bool
+    {
+        $url = trim((string) $url);
+
+        if ($url === '') {
+            return false;
+        }
+
+        if (str_starts_with($url, '/') && !str_starts_with($url, '//')) {
+            return true;
+        }
+
+        $parts = parse_url($url);
+        if (!is_array($parts) || !in_array($parts['scheme'] ?? '', ['http', 'https'], true)) {
+            return false;
+        }
+
+        $host = strtolower((string) ($parts['host'] ?? ''));
+        $trustedHosts = array_filter(array_map('strtolower', [
+            parse_url((string) config('app.url'), PHP_URL_HOST),
+            parse_url((string) config('sslcommerz.apiDomain'), PHP_URL_HOST),
+            'securepay.sslcommerz.com',
+            'sandbox.sslcommerz.com',
+        ]));
+
+        return in_array($host, $trustedHosts, true);
     }
 }

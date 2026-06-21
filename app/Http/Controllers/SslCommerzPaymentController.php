@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use App\Models\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Library\SslCommerz\SslCommerzNotification;
 
 class SslCommerzPaymentController extends Controller
@@ -154,7 +155,9 @@ class SslCommerzPaymentController extends Controller
         $payment_options = $sslc->makePayment($post_data, 'hosted');
 
         if (!is_array($payment_options)) {
-            print_r($payment_options);
+            Log::warning('SSLCommerz hosted checkout did not return payment options.', [
+                'response_type' => gettype($payment_options),
+            ]);
             $payment_options = array();
         }
 
@@ -225,7 +228,9 @@ class SslCommerzPaymentController extends Controller
         $payment_options = $sslc->makePayment($post_data, 'checkout', 'json');
 
         if (!is_array($payment_options)) {
-            print_r($payment_options);
+            Log::warning('SSLCommerz checkout did not return payment options.', [
+                'response_type' => gettype($payment_options),
+            ]);
             $payment_options = array();
         }
 

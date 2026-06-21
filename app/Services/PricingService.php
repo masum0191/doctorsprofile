@@ -216,7 +216,7 @@ class PricingService
                 
                 $response = Http::timeout(10)
                     ->withOptions([
-                        'verify' => false, // Bypass SSL verification if needed
+                        'verify' => true,
                         'headers' => [
                             'User-Agent' => 'Mozilla/5.0 (compatible; PricingBot/1.0)',
                         ]
@@ -259,8 +259,8 @@ class PricingService
                         'timeout' => 10,
                     ],
                     'ssl' => [
-                        'verify_peer' => false,
-                        'verify_peer_name' => false,
+                        'verify_peer' => true,
+                        'verify_peer_name' => true,
                     ]
                 ]);
                 
@@ -299,8 +299,8 @@ class PricingService
                 curl_setopt($ch, CURLOPT_URL, $url);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
                 curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; PricingBot/1.0)');
                 
                 $response = curl_exec($ch);
@@ -397,7 +397,7 @@ class PricingService
             return '';
         }
 
-        $cacheKey = 'pricing:country-ip:' . md5($ip);
+        $cacheKey = 'pricing:country-ip:' . hash('sha256', $ip);
         $ttl = (int) config('pricing.country_detection.cache_ttl_seconds', 86400);
 
         return (string) $this->plainCacheRemember($cacheKey, $ttl, function () use ($ip) {
@@ -411,7 +411,7 @@ class PricingService
             foreach ($services as $url) {
                 try {
                     $response = Http::timeout(5)
-                        ->withOptions(['verify' => false])
+                        ->withOptions(['verify' => true])
                         ->get($url);
                     
                     if ($response->successful()) {
