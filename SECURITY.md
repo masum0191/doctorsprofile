@@ -42,3 +42,13 @@ Set `CORS_ALLOWED_ORIGINS` to a comma-separated list of real frontend/admin orig
 ```env
 CORS_ALLOWED_ORIGINS=https://doctorsprofile.xyz,https://www.doctorsprofile.xyz
 ```
+
+## WHM host TLS
+
+Set `WHM_HOST` to the WHM/cPanel server hostname that appears on the server's SSL certificate, not the server IP address. Example:
+
+```env
+WHM_HOST=https://server.example.com:2087
+```
+
+Do not disable TLS verification to work around certificate hostname errors; fix the hostname or server certificate instead.

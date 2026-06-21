@@ -20,7 +20,15 @@ class CreateCpanelDomainAlias
             return;
         }
 
-        $whmHost = rtrim((string) $whmHost, '/');
+        $whmHost = $this->normalizeWhmHost((string) $whmHost);
+        if (!$this->hasCertificateHostname($whmHost)) {
+            Log::error('WHM_HOST must be a hostname that matches the WHM SSL certificate, not an IP address.', [
+                'domain' => $domain,
+                'whm_host' => $whmHost,
+            ]);
+            return;
+        }
+
         $authorization = sprintf('whm root:%s', $whmToken);
 
         Log::info('CreateCpanelDomainAlias calling', compact('domain','whmHost','cpUser'));
@@ -52,5 +60,27 @@ class CreateCpanelDomainAlias
                 'domain' => $domain,
                 'reason' => data_get($json, 'metadata.reason'),
             ]);
+    }
+
+    private function normalizeWhmHost(string $host): string
+    {
+        $host = rtrim(trim($host), '/');
+
+        if (!preg_match('#^https?://#i', $host)) {
+            $host = 'https://' . $host;
+        }
+
+        if (parse_url($host, PHP_URL_PORT) === null) {
+            $host .= ':2087';
+        }
+
+        return $host;
+    }
+
+    private function hasCertificateHostname(string $host): bool
+    {
+        $hostname = parse_url($host, PHP_URL_HOST);
+
+        return is_string($hostname) && !filter_var($hostname, FILTER_VALIDATE_IP);
     }
 }
