@@ -120,6 +120,7 @@ abstract class AbstractSslCommerz implements SslCommerzInterface
             throw new \InvalidArgumentException('Blocked untrusted redirect URL.');
         }
 
+        // URL was validated against same-domain/internal and SSLCommerz hosts before redirecting.
         header('Location: ' . $url, true, $permanent ? 301 : 302);
 
         exit();

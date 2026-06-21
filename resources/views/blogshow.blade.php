@@ -124,6 +124,7 @@
       <div class="px-6 md:px-12 py-8">
         <div class="prose prose-lg max-w-none mx-auto">
           <div class="article-content text-slate-700 leading-relaxed text-lg">
+            {{-- Article body is allowlist-sanitized by App\Support\HtmlSanitizer before rich HTML rendering. --}}
             {!! $safeArticleBody !!}
           </div>
         </div>

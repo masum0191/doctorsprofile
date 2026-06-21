@@ -146,6 +146,7 @@
       <article class="bg-white rounded-2xl border border-gray-100 shadow-lg overflow-hidden">
         <div class="px-6 py-8 sm:px-8 lg:px-10">
           <div class="article-content prose prose-lg prose-emerald max-w-none">
+            {{-- Article body is allowlist-sanitized by App\Support\HtmlSanitizer before rich HTML rendering. --}}
             {!! $safeArticleBody !!}
           </div>
 

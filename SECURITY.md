@@ -20,6 +20,21 @@ Never expose `.env` through the web root, logs, backups, or source control.
 
 PHP 8.2 is approaching end of life. Plan a staging compatibility check and upgrade path to PHP 8.3 or newer before the production runtime reaches EOL.
 
+## npm supply-chain protection
+
+For npm package-install protection, install and configure one trusted tool on developer and deployment machines:
+
+```bash
+npm install -g @aikidosec/safe-chain
+safe-chain setup
+```
+
+Alternatively:
+
+```bash
+npm install -g socket
+```
+
 ## CORS origins
 
 Set `CORS_ALLOWED_ORIGINS` to a comma-separated list of real frontend/admin origins, for example:

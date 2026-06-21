@@ -38,13 +38,14 @@ class CreateCpanelAddonDomain // Renamed for clarity
         }
 
         $whmHost = rtrim((string) $whmHost, '/');
+        $authorization = sprintf('whm root:%s', $whmToken);
 
         try {
             $response = Http::asForm()
                 ->timeout(120)
                 ->connectTimeout(10)
                 ->withHeaders([
-                    'Authorization' => "whm root:{$whmToken}",
+                    'Authorization' => $authorization,
                 ])
                 // Use the correct 'uapi' endpoint
                 ->post("{$whmHost}/json-api/uapi_cpanel", [

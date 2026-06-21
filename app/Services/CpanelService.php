@@ -18,9 +18,10 @@ class CpanelService
         }
 
         $host = preg_replace('#^https?://#', '', rtrim((string) $host, '/'));
+        $authorization = sprintf('cpanel %s:%s', $user, $token);
 
         return Http::withHeaders([
-            'Authorization' => "cpanel $user:$token"
+            'Authorization' => $authorization,
         ])->get("https://$host:2083/execute/DomainInfo/addon_domains_create", [
             'newdomain' => $domain,
             'dir' => $documentRoot,

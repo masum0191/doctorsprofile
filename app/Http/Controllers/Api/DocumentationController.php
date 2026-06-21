@@ -104,8 +104,6 @@ class DocumentationController extends Controller
                     'fields' => [
                         'email' => 'doctor@example.com',
                         'phone' => '+8801712345678',
-                        'password' => '<your-password>',
-                        'password_confirmation' => '<your-password>',
                         'photo' => 'file',
                         'package_id' => 1,
                         'selected_billing_cycle' => 'monthly',
@@ -118,6 +116,10 @@ class DocumentationController extends Controller
                         'domain_price' => 0,
                         'discount_amount' => 0,
                         'total_amount' => 29.99,
+                    ],
+                    'secret_fields' => [
+                        'password',
+                        'password_confirmation',
                     ],
                 ],
             ],

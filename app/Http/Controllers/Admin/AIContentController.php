@@ -150,7 +150,7 @@ class AIContentController extends Controller
     {
         $apiKey = config('services.openai.api_key');
 
-        if (!$apiKey) {
+        if (blank($apiKey)) {
             return $this->generateRuleBasedContent($headline, $doctorName, $specialty);
         }
 
@@ -174,10 +174,10 @@ class AIContentController extends Controller
         }";
 
         try {
-            $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $apiKey,
-                'Content-Type' => 'application/json',
-            ])->post('https://api.openai.com/v1/chat/completions', [
+            $response = Http::withToken($apiKey)
+                ->acceptJson()
+                ->asJson()
+                ->post('https://api.openai.com/v1/chat/completions', [
                 'model' => 'gpt-3.5-turbo',
                 'messages' => [
                     ['role' => 'user', 'content' => $prompt]

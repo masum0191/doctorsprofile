@@ -21,13 +21,14 @@ class CreateCpanelDomainAlias
         }
 
         $whmHost = rtrim((string) $whmHost, '/');
+        $authorization = sprintf('whm root:%s', $whmToken);
 
         Log::info('CreateCpanelDomainAlias calling', compact('domain','whmHost','cpUser'));
 
         $resp = Http::timeout(120)
     ->connectTimeout(10)
     ->retry(2, 1500)
-            ->withHeaders(['Authorization' => 'whm root:' . $whmToken])
+            ->withHeaders(['Authorization' => $authorization])
             ->get($whmHost . '/json-api/create_parked_domain_for_user', [
                 'api.version'      => 1,
                 'domain'           => $domain,

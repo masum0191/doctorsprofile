@@ -29,12 +29,14 @@ class CpanelDomainService
             $this->host = 'https://' . $this->host . ':2083';
         }
 
+        $authorization = sprintf('cpanel %s:%s', $this->user, $this->token);
+
         $this->http = new Client([
             'base_uri' => $this->host,
             'timeout'  => 20,
             'verify'   => true,
             'headers'  => [
-                'Authorization' => 'cpanel ' . $this->user . ':' . $this->token,
+                'Authorization' => $authorization,
                 'Accept'        => 'application/json',
             ],
         ]);
