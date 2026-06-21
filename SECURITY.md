@@ -18,7 +18,7 @@ Never expose `.env` through the web root, logs, backups, or source control.
 
 ## PHP runtime
 
-PHP 8.2 is approaching end of life. Plan a staging compatibility check and upgrade path to PHP 8.3 or newer before the production runtime reaches EOL.
+PHP 8.2 is in security-only support and approaching end of life. Plan a PHP 8.3+ upgrade after checking the Laravel version, Composer dependencies, hosting compatibility, and payment/cPanel integrations in staging.
 
 ## npm supply-chain protection
 
