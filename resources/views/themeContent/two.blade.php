@@ -691,7 +691,7 @@
                             <label class="mini-card chamber-card" data-chamber-id="{{ $chamber->id }}">
                                 <input type="radio" name="chamber_id" value="{{ $chamber->id }}" required
            data-fees="{{ $chamber->fees }}"
-           data-availability-url="{{ route('chambers.slots', ['chamber' => $chamber->id, 'date' => '__DATE__']) }}">
+           data-availability-url="{{ route('chambers.slots', ['doctor' => $doctor->id, 'chamber' => $chamber->id, 'date' => '__DATE__']) }}">
                                 <div class="mini-body">
                                     <h4>{{ $chamber->name }}</h4>
                                     <p>{{ $chamber->address }}, {{ $chamber->city }}</p>

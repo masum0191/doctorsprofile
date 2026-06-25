@@ -1235,7 +1235,7 @@
                                         @foreach ($chambers->where('is_active', true) as $chamber)
                                             <option value="{{ $chamber->id }}" data-fees="{{ $chamber->fees }}"
                                                 data-location="{{ $chamber->city }}"
-                                                data-availability-url="{{ route('chambers.slots', ['chamber' => $chamber->id, 'date' => '__DATE__']) }}">
+                                                data-availability-url="{{ route('chambers.slots', ['doctor' => $doctor->id, 'chamber' => $chamber->id, 'date' => '__DATE__']) }}">
                                                 {{ $chamber->name }}
                                                 <span class="option-tag fee">৳{{ number_format($chamber->fees) }}</span>
                                             </option>
