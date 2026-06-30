@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class PaymentSession extends Model
 {
+    protected $connection = 'mysql';
+
     protected $fillable = [
         'session_id',
         'tenant_id',
