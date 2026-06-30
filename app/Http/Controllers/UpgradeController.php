@@ -57,7 +57,7 @@ public function index()
 
 public function process(Request $request)
 {
-    return 1;
+   // return 1;
     $request->validate([
         'package_id' => 'required',
         'billing_cycle' => 'required|in:monthly,yearly'
@@ -124,7 +124,7 @@ public function process(Request $request)
         'status' => 'pending',
     ]);
 
-    return redirect()->route('admin.dashboard')
+    return back()
         ->with('success','Package upgrade request submitted. New package features will apply after superadmin approval.');
 }
 }
