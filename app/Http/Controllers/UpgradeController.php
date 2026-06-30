@@ -57,6 +57,7 @@ public function index()
 
 public function process(Request $request)
 {
+    return 1;
     $request->validate([
         'package_id' => 'required',
         'billing_cycle' => 'required|in:monthly,yearly'
