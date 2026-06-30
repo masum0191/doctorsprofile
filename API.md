@@ -257,6 +257,54 @@ Email settings update with `type=email` accepts:
 
 SMS/payment settings update with `type=sms` or `type=payment` expects nested `extra_data.sms` or `extra_data.payment`.
 
+### Superadmin Payment Gateway Settings
+
+Protected. Requires a `superadmin` or `admin` token. These routes manage central registration payment gateway settings used by web and API registration flows.
+
+| Method | Path | Body or Query | Description |
+| --- | --- | --- | --- |
+| `GET` | `/api/v1/payment-gateway-settings` | none | Get sanitized gateway settings |
+| `POST` | `/api/v1/payment-gateway-settings` | SSLCommerz, Stripe, and country gateway payload | Save gateway settings |
+| `GET` | `/api/v1/payment-gateways` | none | Alias for gateway settings |
+| `POST` | `/api/v1/payment-gateways` | SSLCommerz, Stripe, and country gateway payload | Alias for saving gateway settings |
+
+Nested JSON body:
+
+```json
+{
+  "sslcommerz": {
+    "enabled": true,
+    "store_id": "store_id",
+    "store_password": "store_password",
+    "test_mode": true
+  },
+  "stripe": {
+    "enabled": true,
+    "key": "pk_test_...",
+    "secret": "sk_test_..."
+  },
+  "country_gateways": {
+    "Bangladesh": "sslcommerz",
+    "India": "stripe"
+  }
+}
+```
+
+The API also accepts the same flat field names used by the web form, such as `sslcommerz_enabled`, `sslcommerz_store_id`, `sslcommerz_store_password`, `stripe_enabled`, `stripe_key`, `stripe_secret`, and `country_gateways`. Saved secrets are not returned; responses include `store_password_configured` and `secret_configured` flags instead.
+
+### Doctor Package Upgrade
+
+Protected. Uses the authenticated doctor's central `tenant_id`.
+
+| Method | Path | Body or Query | Description |
+| --- | --- | --- | --- |
+| `GET` | `/api/v1/doctor/packages` | none | List visible packages, current subscription, and pending upgrade |
+| `POST` | `/api/v1/doctor/packages/upgrade/quote` | `package_id`, `billing_cycle` | Calculate prorated upgrade amount |
+| `POST` | `/api/v1/doctor/packages/upgrade` | `package_id`, `billing_cycle`, optional `payment_method` | Submit package upgrade request and optionally start gateway payment |
+| `POST` | `/api/v1/packages/upgrade` | `package_id`, `billing_cycle`, optional `payment_method` | Alias for submitting package upgrade request |
+
+`billing_cycle` must be `monthly` or `yearly`. `payment_method` can be `stripe`, `sslcommerz`, `bank_transfer`, or `offline`. If `stripe` or `sslcommerz` is used and amount due is greater than zero, the response includes `payment_url` for checkout. Submitted upgrades create a pending subscription; successful gateway payment marks the upgrade payment completed, and package features still apply after superadmin approval.
+
 ## Resource Route Pattern
 
 The following resources use Laravel `apiResource` style routes:
@@ -570,6 +618,10 @@ This inventory is the expanded `php artisan route:list --path=api --except-vendo
 | --- | --- | --- |
 | `GET` | `/api/v1/auth-debug` | Closure |
 | `GET` | `/api/v1/me` | Closure |
+| `GET` | `/api/v1/payment-gateway-settings` | `Api\PaymentGatewaySettingController@show` |
+| `POST` | `/api/v1/payment-gateway-settings` | `Api\PaymentGatewaySettingController@update` |
+| `GET` | `/api/v1/payment-gateways` | `Api\PaymentGatewaySettingController@show` |
+| `POST` | `/api/v1/payment-gateways` | `Api\PaymentGatewaySettingController@update` |
 | `POST` | `/api/v1/change-password` | `Api\AuthController@changePassword` |
 | `POST` | `/api/v1/create-patient` | `Api\DoctorRegistrationController@createPatient` |
 | `POST` | `/api/v1/medicines` | `Api\ContactController@storeMedicine` |
@@ -600,6 +652,10 @@ This inventory is the expanded `php artisan route:list --path=api --except-vendo
 | `POST` | `/api/v1/doctor/appointments/{id}/reschedule` | `Api\DoctorAppointmentController@reschedule` |
 | `GET` | `/api/v1/doctor/billing` | `Api\DoctorBillingController@index` |
 | `GET` | `/api/v1/doctor/billing/report` | `Api\DoctorBillingController@report` |
+| `GET` | `/api/v1/doctor/packages` | `Api\DoctorPackageUpgradeController@index` |
+| `POST` | `/api/v1/doctor/packages/upgrade/quote` | `Api\DoctorPackageUpgradeController@quote` |
+| `POST` | `/api/v1/doctor/packages/upgrade` | `Api\DoctorPackageUpgradeController@store` |
+| `POST` | `/api/v1/packages/upgrade` | `Api\DoctorPackageUpgradeController@store` |
 | `POST` | `/api/v1/appointments/book` | `Api\AppointmentController@store` |
 | `POST` | `/api/v1/notifications/send` | `Api\NotificationMessageController@sendNotification` |
 | `GET` | `/api/v1/notifications/doctor` | `Api\NotificationMessageController@doctorNotifications` |

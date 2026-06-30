@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\CompanySetting;
+use App\Services\PaymentGatewaySettingsService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
 
 class CompanySettingController extends Controller
 {
@@ -86,78 +85,9 @@ class CompanySettingController extends Controller
         return view('settings.payment', compact('setting', 'payment'));
     }
 
-    public function paymentUpdate(Request $request)
+    public function paymentUpdate(Request $request, PaymentGatewaySettingsService $paymentGateways)
     {
-        $validated = $request->validate([
-            'sslcommerz_enabled' => ['nullable', 'boolean'],
-            'sslcommerz_store_id' => ['nullable', 'string', 'max:255'],
-            'sslcommerz_store_password' => ['nullable', 'string', 'max:255'],
-            'sslcommerz_test_mode' => ['nullable', 'boolean'],
-            'stripe_enabled' => ['nullable', 'boolean'],
-            'stripe_key' => ['nullable', 'string', 'max:255'],
-            'stripe_secret' => ['nullable', 'string', 'max:255'],
-            'country_gateways' => ['nullable', 'string'],
-        ]);
-
-        $setting = CompanySetting::first() ?? new CompanySetting();
-        $existingPayment = $setting->payment_gateway ?? [];
-        $existingSslcommerz = $existingPayment['sslcommerz'] ?? [];
-        $existingStripe = $existingPayment['stripe'] ?? [];
-
-        $sslcommerzStorePassword = trim((string) ($validated['sslcommerz_store_password'] ?? ''));
-        if ($sslcommerzStorePassword === '') {
-            $sslcommerzStorePassword = $existingSslcommerz['store_password'] ?? $existingSslcommerz['secret'] ?? null;
-        }
-
-        $stripeKey = trim((string) ($validated['stripe_key'] ?? ''));
-        $stripeSecret = trim((string) ($validated['stripe_secret'] ?? ''));
-        if ($stripeSecret === '') {
-            $stripeSecret = $existingStripe['secret'] ?? null;
-        }
-
-        if ($request->boolean('stripe_enabled') && ($stripeKey === '' || empty($stripeSecret))) {
-            $errors = [];
-
-            if ($stripeKey === '') {
-                $errors['stripe_key'] = 'Stripe publishable key is required when Stripe is enabled.';
-            }
-
-            if (empty($stripeSecret)) {
-                $errors['stripe_secret'] = 'Stripe secret key is required when Stripe is enabled.';
-            }
-
-            throw ValidationException::withMessages($errors);
-        }
-
-        $countryGateways = [];
-        foreach (preg_split('/\r\n|\r|\n/', (string) ($validated['country_gateways'] ?? '')) as $line) {
-            $line = trim($line);
-            if ($line === '' || !str_contains($line, '=')) {
-                continue;
-            }
-
-            [$country, $gateway] = array_map('trim', explode('=', $line, 2));
-            if ($country !== '' && $gateway !== '') {
-                $countryGateways[$country] = $gateway;
-            }
-        }
-
-        $setting->payment_gateway = [
-            'sslcommerz' => [
-                'enabled' => $request->boolean('sslcommerz_enabled'),
-                'store_id' => $validated['sslcommerz_store_id'] ?? null,
-                'store_password' => $sslcommerzStorePassword,
-                'secret' => $sslcommerzStorePassword,
-                'test_mode' => $request->boolean('sslcommerz_test_mode'),
-            ],
-            'stripe' => [
-                'enabled' => $request->boolean('stripe_enabled'),
-                'key' => $stripeKey ?: null,
-                'secret' => $stripeSecret ?: null,
-            ],
-            'country_gateways' => $countryGateways,
-        ];
-        $setting->save();
+        $paymentGateways->updateFromRequest($request);
 
         return back()->with('success', 'Payment gateway settings updated successfully');
     }

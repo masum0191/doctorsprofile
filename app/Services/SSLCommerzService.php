@@ -405,4 +405,29 @@ class SSLCommerzService
             'convenience_fee' => '0'
         ];
     }
+
+    public function createPackageUpgradeData($user, $package, $amount, $tranId = null)
+    {
+        $tranId = $tranId ?? $this->generateTransactionId('UPGRADE');
+
+        return [
+            'total_amount' => $this->formatAmount($amount),
+            'tran_id' => $tranId,
+            'cus_name' => $user->name ?? 'Doctor',
+            'cus_email' => $user->email,
+            'cus_phone' => $user->mobile ?? '01700000000',
+            'cus_add1' => $user->address ?? 'N/A',
+            'cus_city' => $user->city ?? 'N/A',
+            'cus_country' => $user->country ?? 'Bangladesh',
+            'product_name' => 'Package Upgrade - ' . ($package->name ?? 'Package'),
+            'product_category' => 'Healthcare',
+            'product_profile' => 'non-physical-goods',
+            'shipping_method' => 'NO',
+            'num_of_item' => '1',
+            'product_amount' => $this->formatAmount($amount),
+            'vat' => '0',
+            'discount_amount' => '0',
+            'convenience_fee' => '0',
+        ];
+    }
 }

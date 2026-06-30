@@ -51,6 +51,31 @@ class DocumentationController extends Controller
                     'url' => '/registration/status/{order_id}',
                     'description' => 'Check registration status',
                 ],
+                [
+                    'method' => 'GET',
+                    'url' => '/doctor/packages',
+                    'description' => 'Protected: list packages and current doctor package status',
+                ],
+                [
+                    'method' => 'POST',
+                    'url' => '/doctor/packages/upgrade/quote',
+                    'description' => 'Protected: calculate prorated package upgrade amount',
+                ],
+                [
+                    'method' => 'POST',
+                    'url' => '/doctor/packages/upgrade',
+                    'description' => 'Protected: submit a package upgrade request for approval',
+                ],
+                [
+                    'method' => 'GET',
+                    'url' => '/payment-gateway-settings',
+                    'description' => 'Protected admin: get sanitized central payment gateway settings',
+                ],
+                [
+                    'method' => 'POST',
+                    'url' => '/payment-gateway-settings',
+                    'description' => 'Protected admin: save central SSLCommerz, Stripe, and country gateway settings',
+                ],
             ],
 
             'examples' => [
@@ -120,6 +145,46 @@ class DocumentationController extends Controller
                     'secret_fields' => [
                         'password',
                         'password_confirmation',
+                    ],
+                ],
+
+                'doctor_package_upgrade' => [
+                    'method' => 'POST',
+                    'url' => '/doctor/packages/upgrade',
+                    'headers' => [
+                        'Authorization: Bearer <token>',
+                        'Content-Type: application/json',
+                    ],
+                    'body' => [
+                        'package_id' => 2,
+                        'billing_cycle' => 'monthly',
+                        'payment_method' => 'stripe',
+                    ],
+                ],
+
+                'payment_gateway_settings' => [
+                    'method' => 'POST',
+                    'url' => '/payment-gateway-settings',
+                    'headers' => [
+                        'Authorization: Bearer <admin-token>',
+                        'Content-Type: application/json',
+                    ],
+                    'body' => [
+                        'sslcommerz' => [
+                            'enabled' => true,
+                            'store_id' => 'store_id',
+                            'store_password' => 'store_password',
+                            'test_mode' => true,
+                        ],
+                        'stripe' => [
+                            'enabled' => true,
+                            'key' => 'pk_test_...',
+                            'secret' => 'sk_test_...',
+                        ],
+                        'country_gateways' => [
+                            'Bangladesh' => 'sslcommerz',
+                            'India' => 'stripe',
+                        ],
                     ],
                 ],
             ],

@@ -25,6 +25,7 @@ use App\Jobs\InitializeTenantData;
 use App\Services\PricingService;
 use App\Services\RegistrationPaymentGatewayResolver;
 use App\Services\StripeCheckoutService;
+use App\Services\PackageUpgradeService;
 
 class DoctorRegistrationController extends Controller
 {
@@ -1395,6 +1396,18 @@ public function sslcommerzIpn(Request $request)
             $session = PaymentSession::where('order_id', $tranId)->first();
 
             if ($session) {
+                $packageUpgrades = app(PackageUpgradeService::class);
+
+                if ($packageUpgrades->isUpgradeSession($session)) {
+                    $packageUpgrades->markGatewayPaymentCompleted($session, $tranId, [
+                        'card_type' => $cardType,
+                    ]);
+
+                    Log::info('Package upgrade IPN processed successfully', ['tran_id' => $tranId]);
+
+                    return response()->json(['status' => 'SUCCESS']);
+                }
+
                 DB::beginTransaction();
 
                 // Update payment status
@@ -1489,6 +1502,27 @@ public function sslcommerzSuccess(Request $request)
                 'success' => false,
                 'message' => 'Payment validation failed'
             ], 400);
+        }
+
+        $packageUpgrades = app(PackageUpgradeService::class);
+
+        if ($packageUpgrades->isUpgradeSession($session)) {
+            $payment = $packageUpgrades->markGatewayPaymentCompleted($session, $tranId, [
+                'card_type' => $validation['data']['card_type'] ?? null,
+                'card_last_four' => isset($validation['data']['card_no'])
+                    ? substr((string) $validation['data']['card_no'], -4)
+                    : null,
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Package upgrade payment successful. Upgrade request is waiting for superadmin approval.',
+                'data' => [
+                    'tenant_id' => $session->tenant_id,
+                    'payment_id' => $payment?->id,
+                    'transaction_id' => $tranId,
+                ],
+            ]);
         }
 
         DB::beginTransaction();
@@ -1602,7 +1636,13 @@ public function sslcommerzFail(Request $request)
     // Update payment session status
     $session = PaymentSession::where('order_id', $tranId)->first();
     if ($session) {
-        $session->update(['status' => 'failed']);
+        $packageUpgrades = app(PackageUpgradeService::class);
+
+        if ($packageUpgrades->isUpgradeSession($session)) {
+            $packageUpgrades->markGatewayPaymentFailed($session, 'failed');
+        } else {
+            $session->update(['status' => 'failed']);
+        }
     }
 
     return response()->json([
@@ -1626,7 +1666,13 @@ public function sslcommerzCancel(Request $request)
     // Update payment session status
     $session = PaymentSession::where('order_id', $tranId)->first();
     if ($session) {
-        $session->update(['status' => 'cancelled']);
+        $packageUpgrades = app(PackageUpgradeService::class);
+
+        if ($packageUpgrades->isUpgradeSession($session)) {
+            $packageUpgrades->markGatewayPaymentFailed($session, 'cancelled');
+        } else {
+            $session->update(['status' => 'cancelled']);
+        }
     }
 
     return response()->json([
@@ -1665,6 +1711,22 @@ public function stripeSuccess(Request $request)
                 'success' => false,
                 'message' => 'Stripe payment is not completed.'
             ], 400);
+        }
+
+        $packageUpgrades = app(PackageUpgradeService::class);
+
+        if ($packageUpgrades->isUpgradeSession($session)) {
+            $payment = $packageUpgrades->markGatewayPaymentCompleted($session, $stripeSessionId);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Package upgrade payment successful. Upgrade request is waiting for superadmin approval.',
+                'data' => [
+                    'tenant_id' => $session->tenant_id,
+                    'user_id' => $session->user_id,
+                    'payment_id' => $payment?->id,
+                ],
+            ]);
         }
 
         DB::beginTransaction();
@@ -1728,9 +1790,15 @@ public function stripeCancel(Request $request)
     $stripeSessionId = $request->input('session_id');
 
     if ($stripeSessionId) {
-        PaymentSession::where('order_id', $stripeSessionId)
+        $session = PaymentSession::where('order_id', $stripeSessionId)
             ->where('payment_gateway', 'stripe')
-            ->update(['status' => 'cancelled']);
+            ->first();
+
+        if ($session && app(PackageUpgradeService::class)->isUpgradeSession($session)) {
+            app(PackageUpgradeService::class)->markGatewayPaymentFailed($session, 'cancelled');
+        } elseif ($session) {
+            $session->update(['status' => 'cancelled']);
+        }
     }
 
     return response()->json([

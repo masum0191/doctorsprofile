@@ -54,6 +54,13 @@
                             <option value="yearly">Yearly</option>
                         </select>
 
+                        <select name="payment_method" class="form-control mb-2">
+                            <option value="offline">Offline / Admin Approval</option>
+                            <option value="stripe">Stripe</option>
+                            <option value="sslcommerz">SSLCommerz</option>
+                            <option value="bank_transfer">Bank Transfer</option>
+                        </select>
+
                         <button class="btn btn-primary w-100">
                             {{ $isActive ? 'Upgrade' : 'Activate' }}
                         </button>

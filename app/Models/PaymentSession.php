@@ -15,11 +15,13 @@ class PaymentSession extends Model
         'coupon_id',
         'payment_gateway',
         'status',
+        'metadata',
         'expires_at'
     ];
 
     protected $casts = [
         'amount' => 'decimal:2',
+        'metadata' => 'array',
         'expires_at' => 'datetime'
     ];
 

@@ -31,6 +31,8 @@ use App\Http\Controllers\Api\AppointmentController;
 use App\Http\Controllers\Api\NotificationMessageController;
 use App\Http\Controllers\Api\EventController;
 use App\Http\Controllers\Api\PatientController;
+use App\Http\Controllers\Api\DoctorPackageUpgradeController;
+use App\Http\Controllers\Api\PaymentGatewaySettingController;
 
 use App\Http\Controllers\UserController;
 
@@ -123,6 +125,13 @@ Route::prefix('v1')->group(function () {
 
 Route::middleware('auth:sanctum')->group(function () {
 
+    Route::middleware('role:superadmin,admin')->group(function () {
+        Route::get('/payment-gateway-settings', [PaymentGatewaySettingController::class, 'show']);
+        Route::post('/payment-gateway-settings', [PaymentGatewaySettingController::class, 'update']);
+        Route::get('/payment-gateways', [PaymentGatewaySettingController::class, 'show']);
+        Route::post('/payment-gateways', [PaymentGatewaySettingController::class, 'update']);
+    });
+
     Route::post('/change-password', [AuthController::class, 'changePassword']);
     Route::post('/create-patient', [DoctorRegistrationController::class, 'createPatient']);
     Route::post('/medicines', [ContactController::class, 'storeMedicine']);
@@ -183,6 +192,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('invoices', InvoiceController::class);
     Route::get('doctor/billing', [DoctorBillingController::class, 'index']);
     Route::get('doctor/billing/report', [DoctorBillingController::class, 'report']);
+    Route::get('doctor/packages', [DoctorPackageUpgradeController::class, 'index']);
+    Route::post('doctor/packages/upgrade/quote', [DoctorPackageUpgradeController::class, 'quote']);
+    Route::post('doctor/packages/upgrade', [DoctorPackageUpgradeController::class, 'store']);
+    Route::post('packages/upgrade', [DoctorPackageUpgradeController::class, 'store']);
     Route::post('/appointments/book', [AppointmentController::class, 'store']);
 
    // Notifications

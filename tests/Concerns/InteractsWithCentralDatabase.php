@@ -161,6 +161,7 @@ trait InteractsWithCentralDatabase
             $table->unsignedBigInteger('coupon_id')->nullable();
             $table->string('payment_gateway')->nullable();
             $table->string('status')->default('pending');
+            $table->json('metadata')->nullable();
             $table->timestamp('expires_at')->nullable();
             $table->timestamps();
         });
