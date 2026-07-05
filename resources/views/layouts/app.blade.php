@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>@yield('title')</title>
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <title>{{ trim($__env->yieldContent('title')) ?: config('app.name', 'Laravel') }}</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -13,6 +14,7 @@
   <link rel="stylesheet" href="{{asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">
@@ -808,7 +810,19 @@
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    @yield('content')
+    @isset($header)
+      <section class="content-header">
+        <div class="container-fluid">
+          {{ $header }}
+        </div>
+      </section>
+    @endisset
+
+    @isset($slot)
+      {{ $slot }}
+    @else
+      @yield('content')
+    @endisset
   </div>
   <!-- /.content-wrapper -->
 
