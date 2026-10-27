@@ -336,6 +336,17 @@
         transform: translateY(-2px);
     }
 
+    .action-password {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .action-password:hover {
+        background: #d97706;
+        color: white;
+        transform: translateY(-2px);
+    }
+
     /* Mobile Card View */
     .doctor-card {
         background: white;
@@ -512,6 +523,16 @@
 </style>
 
 <div class="pb-3">
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+    @if(session('error'))
+        <div class="alert alert-danger">{{ session('error') }}</div>
+    @endif
+    @if($errors->any())
+        <div class="alert alert-danger">{{ $errors->first() }}</div>
+    @endif
+
     <!-- Page Header -->
     <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4 page-header">
         <div>
@@ -665,6 +686,12 @@
                                             <a href="{{ route('user.show', $user->id) }}" class="action-btn action-view" title="View Details">
                                                 <i class="ri-eye-line"></i>
                                             </a>
+                                            <button type="button" class="action-btn action-password change-password-btn"
+                                                    data-id="{{ $user->id }}"
+                                                    data-name="{{ $user->name }}"
+                                                    title="Change Password">
+                                                <i class="ri-lock-password-line"></i>
+                                            </button>
                                             <button type="button" class="action-btn action-delete delete-doctor-btn"
                                                     data-id="{{ $user->id }}"
                                                     data-name="{{ $user->name }}"
@@ -743,6 +770,11 @@
                     <a href="{{ route('user.show', $user->id) }}" class="btn-action btn-view flex-grow-1" style="padding: 0.6rem; border-radius: 0.5rem; text-decoration: none; text-align: center;">
                         <i class="ri-eye-line me-1"></i> View Details
                     </a>
+                    <button type="button" class="btn-action change-password-btn flex-grow-1" style="padding: 0.6rem; border-radius: 0.5rem; border: none; cursor: pointer; background: #fef3c7; color: #92400e;"
+                            data-id="{{ $user->id }}"
+                            data-name="{{ $user->name }}">
+                        <i class="ri-lock-password-line me-1"></i> Password
+                    </button>
                     <button type="button" class="btn-action btn-delete delete-doctor-btn flex-grow-1" style="padding: 0.6rem; border-radius: 0.5rem; border: none; cursor: pointer;"
                             data-id="{{ $user->id }}"
                             data-name="{{ $user->name }}">
@@ -765,6 +797,39 @@
         </div>
         <h5 class="mb-2">No doctors found</h5>
         <p class="text-muted mb-0">Try adjusting your search or filter criteria</p>
+    </div>
+</div>
+
+<!-- Change Password Modal -->
+<div id="passwordModal" class="modal-overlay">
+    <div class="modal-container">
+        <div class="d-flex justify-content-between align-items-center p-4 border-bottom">
+            <h5 class="m-0 fw-semibold">
+                <i class="ri-lock-password-line me-2"></i>Change Password
+            </h5>
+            <button type="button" class="close-password-modal border-0 bg-transparent fs-4" style="cursor: pointer; color: #94a3b8;">&times;</button>
+        </div>
+        <form id="passwordForm" method="POST">
+            @csrf
+            @method('PUT')
+            <div class="p-4">
+                <p class="text-muted small">Set a new password for <strong id="passwordDoctorName" class="text-dark"></strong>.</p>
+                <div class="mb-3">
+                    <label for="newPassword" class="form-label">New password</label>
+                    <input id="newPassword" type="password" name="password" class="form-control" minlength="8" required autocomplete="new-password">
+                </div>
+                <div>
+                    <label for="newPasswordConfirmation" class="form-label">Confirm new password</label>
+                    <input id="newPasswordConfirmation" type="password" name="password_confirmation" class="form-control" minlength="8" required autocomplete="new-password">
+                </div>
+            </div>
+            <div class="d-flex justify-content-end gap-3 p-4 border-top">
+                <button type="button" class="close-password-modal px-4 py-2 rounded-2 border" style="background: white; cursor: pointer;">Cancel</button>
+                <button type="submit" class="px-4 py-2 rounded-2 border-0" style="background: var(--primary); color: white; cursor: pointer;">
+                    Change Password
+                </button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -948,6 +1013,36 @@ document.addEventListener('DOMContentLoaded', function() {
     if (featureFilter) featureFilter.addEventListener('change', filterDoctors);
     if (resetBtn) resetBtn.addEventListener('click', resetFilters);
 
+    // Change Password Modal Logic
+    const passwordModal = document.getElementById('passwordModal');
+    const passwordForm = document.getElementById('passwordForm');
+    const passwordDoctorName = document.getElementById('passwordDoctorName');
+
+    document.querySelectorAll('.change-password-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            passwordDoctorName.textContent = this.dataset.name;
+            passwordForm.action = @json(route('user.password.update', ['id' => '__DOCTOR_ID__'])).replace('__DOCTOR_ID__', this.dataset.id);
+            passwordForm.reset();
+            passwordModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            document.getElementById('newPassword').focus();
+        });
+    });
+
+    function closePasswordModal() {
+        passwordModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        passwordForm.reset();
+    }
+
+    document.querySelectorAll('.close-password-modal').forEach(btn => {
+        btn.addEventListener('click', closePasswordModal);
+    });
+
+    passwordModal.addEventListener('click', (e) => {
+        if (e.target === passwordModal) closePasswordModal();
+    });
+
     // Delete Modal Logic
     const deleteModal = document.getElementById('deleteModal');
     const deleteForm = document.getElementById('deleteDoctorForm');
@@ -981,8 +1076,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && deleteModal.style.display === 'flex') {
-            closeDeleteModal();
+        if (e.key === 'Escape') {
+            if (passwordModal.style.display === 'flex') closePasswordModal();
+            if (deleteModal.style.display === 'flex') closeDeleteModal();
         }
     });
 });

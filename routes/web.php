@@ -275,6 +275,7 @@ Route::get('/superadmin/dashboard', [\App\Http\Controllers\AdminAuthController::
 Route::get('/users', [\App\Http\Controllers\TenantController::class, 'userIndex'])->name('user.index')->middleware(['auth', 'role:superadmin,admin']);
 Route::get('/users/{id}', [\App\Http\Controllers\TenantController::class, 'userShow'])->name('user.show')->middleware(['auth', 'role:superadmin,admin']);
 Route::match(['put', 'patch'], '/users/{id}', [\App\Http\Controllers\TenantController::class, 'userUpdate'])->name('user.update')->middleware(['auth', 'role:superadmin,admin']);
+Route::put('/users/{id}/password', [\App\Http\Controllers\TenantController::class, 'userPasswordUpdate'])->name('user.password.update')->middleware(['auth', 'role:superadmin,admin']);
 Route::delete('/users/{id}', [\App\Http\Controllers\TenantController::class, 'destroy'])->name('user.destroy')->middleware(['auth', 'role:superadmin,admin']);
 // routes/web.php
 Route::post('/tenant/{id}/{status}', [\App\Http\Controllers\TenantController::class, 'toggleUserStatus'])

@@ -394,6 +394,51 @@ class TenantController extends Controller
         return redirect()->route('user.show', $user->id)->with('success', 'Doctor details updated successfully.');
     }
 
+    public function userPasswordUpdate(Request $request, $id)
+    {
+        $user = User::where('role', 'tenant')->findOrFail($id);
+
+        $validated = $request->validate([
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        if ($user->tenant_id && ($tenant = Tenant::find($user->tenant_id))) {
+            $tenancyInitialized = false;
+
+            try {
+                tenancy()->initialize($tenant);
+                $tenancyInitialized = true;
+
+                $tenantAdmin = User::query()->where('role', 'admin')->first();
+                if (!$tenantAdmin) {
+                    return back()->with('error', 'The doctor password was not changed because the tenant admin account was not found.');
+                }
+
+                $tenantAdmin->update([
+                    'password' => Hash::make($validated['password']),
+                ]);
+            } catch (\Throwable $e) {
+                Log::error('Failed to update tenant doctor password', [
+                    'tenant_id' => $tenant->id,
+                    'user_id' => $user->id,
+                    'message' => $e->getMessage(),
+                ]);
+
+                return back()->with('error', 'The password could not be changed. Please try again.');
+            } finally {
+                if ($tenancyInitialized) {
+                    tenancy()->end();
+                }
+            }
+        }
+
+        $user->update([
+            'password' => Hash::make($validated['password']),
+        ]);
+
+        return back()->with('success', 'Password changed successfully for '.$user->name.'.');
+    }
+
     public function createView(Request $request)
     {
         $packages = \App\Models\Package::all();
