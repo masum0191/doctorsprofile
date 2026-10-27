@@ -986,18 +986,23 @@ private function detectCardType($cardNumber): string
 
         $tenantId = $user->tenant_id;
 
+        $tenant = $tenantId ? Tenant::find($tenantId) : null;
+
         DB::transaction(function () use ($user, $tenantId) {
             if ($tenantId) {
                 Domain::where('tenant_id', $tenantId)->delete();
-
-                $tenant = Tenant::find($tenantId);
-                if ($tenant) {
-                    $tenant->delete();
-                }
             }
 
             $user->delete();
         });
+
+        // Deleting a tenant dispatches the tenancy package's DeleteDatabase job.
+        // MySQL implicitly commits DROP DATABASE, so this must not run inside the
+        // central connection's transaction (otherwise PDO reports that there is
+        // no active transaction when Laravel tries to commit the closure).
+        if ($tenant) {
+            $tenant->delete();
+        }
 
         return redirect()->back()->with('success', 'Doctor deleted successfully.');
     }
