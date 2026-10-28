@@ -25,7 +25,7 @@
                 ->take(8)
                 ->get();
             $doctor = User::first();
-            $posts = DoctorPost::where('is_published', 1)->latest()->take(9)->get();
+            $posts = app(\App\Services\ArticleFeed::class)->latest(9);
         } catch (\Throwable) {
             $databaseReady = false;
         }
@@ -522,7 +522,7 @@
         <!-- Blog Posts Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             @foreach ($posts as $post)
-                <a href="{{ url('singles-article', $post->slug) }}" class="bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer group">
+                <a href="{{ $post->article_url ?? url('singles-article', $post->slug) }}" class="bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer group">
                     <div class="relative overflow-hidden">
                         <img alt="{{ $post->title }}"
                             class="w-full h-40 sm:h-48 md:h-56 object-cover object-top group-hover:scale-110 transition-transform duration-500"
@@ -560,7 +560,7 @@
                                 <div class="w-6 h-6 sm:w-7 sm:h-7 bg-gradient-to-br from-cyan-500 to-teal-500 rounded-full flex items-center justify-center">
                                     <i class="ri-user-line text-white text-xs"></i>
                                 </div>
-                                <span class="text-xs font-medium text-gray-700">{{ data_get($doctor, 'name', 'Doctors Profile') }}</span>
+                                <span class="text-xs font-medium text-gray-700">{{ $post->author_name ?? data_get($doctor, 'name', 'Doctors Profile') }}</span>
                             </div>
                             <div 
                                 class="text-cyan-600 font-semibold text-xs flex items-center gap-1 hover:gap-2 transition-all">

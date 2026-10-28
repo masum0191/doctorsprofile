@@ -19,7 +19,7 @@
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @foreach ($posts as $p)
-                    <a href="{{ url('singles-article', $p->slug) }}" class="block group">
+                    <a href="{{ $p->article_url ?? url('singles-article', $p->slug) }}" class="block group">
                         <article
                             class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer">
                             
@@ -61,7 +61,7 @@
                                         <div class="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center">
                                             <i class="ri-user-line text-white text-sm"></i>
                                         </div>
-                                        <span class="text-sm font-medium text-gray-700">{{ $doctor->name }}</span>
+                                        <span class="text-sm font-medium text-gray-700">{{ $p->author_name ?? $doctor->name }}</span>
                                     </div>
 
                                     <span class="text-cyan-600 font-semibold text-sm flex items-center gap-1 group-hover:gap-2 transition-all">
@@ -73,6 +73,12 @@
                     </a>
                 @endforeach
             </div>
+
+            @if ($posts->hasPages())
+                <div class="mt-10">
+                    {{ $posts->links() }}
+                </div>
+            @endif
         </div>
     </section>
 @endsection

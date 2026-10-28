@@ -3,7 +3,7 @@
 @section('title', $post->meta_title ?: $post->title)
 @section('meta_description', $post->meta_description ?: Str::limit(strip_tags($post->excerpt ?: $post->body), 160))
 @section('meta_keywords', is_array($post->meta_keywords) ? implode(',', $post->meta_keywords) : $post->meta_keywords)
-@section('canonical', url('singles-article/' . $post->slug))
+@section('canonical', $post->article_url ?? url('singles-article/' . $post->slug))
 @section('ogtype', 'article')
 
 @php
@@ -20,7 +20,7 @@
         'image' => $articleSeoImage,
         'datePublished' => optional($post->published_at)->toAtomString(),
         'dateModified' => optional($post->updated_at)->toAtomString(),
-        'mainEntityOfPage' => url('singles-article/' . $post->slug),
+        'mainEntityOfPage' => $post->article_url ?? url('singles-article/' . $post->slug),
     ];
 @endphp
 
@@ -341,7 +341,7 @@
                   {{ \Illuminate\Support\Str::limit(strip_tags($relatedPost->excerpt ?: $relatedPost->body), 100) }}
                 </p>
 
-                <a href="{{ url('singles-article/' . $relatedPost->slug) }}" class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[#318069] hover:gap-2 transition-all duration-200">
+                <a href="{{ $relatedPost->article_url ?? url('singles-article/' . $relatedPost->slug) }}" class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[#318069] hover:gap-2 transition-all duration-200">
                   Read Article
                   <i class="ri-arrow-right-line text-sm"></i>
                 </a>

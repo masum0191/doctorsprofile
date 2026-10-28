@@ -4,6 +4,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
+use App\Services\ArticleFeed;
 
 class DoctorPost extends Model
 {
@@ -22,6 +24,20 @@ class DoctorPost extends Model
         'published_at'  => 'datetime',
         'is_published'  => 'boolean',
     ];
+
+    protected static function booted(): void
+    {
+        // Refresh the public home/articles feed right away for admin posts;
+        // doctor (tenant) posts appear once the short feed cache expires.
+        $flush = function () {
+            if (!tenancy()->initialized) {
+                Cache::forget(ArticleFeed::CACHE_KEY);
+            }
+        };
+
+        static::saved($flush);
+        static::deleted($flush);
+    }
 
     /* Scopes */
     public function scopePublished($q)

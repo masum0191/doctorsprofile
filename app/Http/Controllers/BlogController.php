@@ -3,7 +3,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\DoctorPost;
+use App\Models\Tenant;
 use App\Models\User;
+use App\Services\ArticleFeed;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class BlogController extends Controller
 {
@@ -56,31 +60,63 @@ class BlogController extends Controller
 
         // return view('', compact('doctor','posts'));
     }
-public function allindex()
+public function allindex(Request $request, ArticleFeed $feed)
     {
-        //return 1;
-       // $theme='company';
         $doctor = User::first();
-        $posts = DoctorPost::published()->paginate(9);
-       // dd($theme);
-       // dd($posts);
+        $all = $feed->all();
+        $perPage = 9;
+        $page = LengthAwarePaginator::resolveCurrentPage();
+
+        $posts = new LengthAwarePaginator(
+            $all->forPage($page, $perPage)->values(),
+            $all->count(),
+            $perPage,
+            $page,
+            ['path' => $request->url(), 'query' => $request->query()]
+        );
+
         return view('all_article', compact('doctor','posts',));
     }
-    public function singleshow($slug)
+    public function singleshow(Request $request, $slug)
     {
-       // dd($slug);
-        //return 1;
-       // $theme='company';
-        $doctor = User::first();
-        $post = DoctorPost::with(['category', 'type'])
-            ->published()
-            ->where('slug',$slug)
-            ->firstOrFail();
+        $tenantId = $request->query('tenant');
 
-        // You can increment views
-      //  $post->increment('view_count');
+        if (!$tenantId) {
+            $doctor = User::first();
+            $post = DoctorPost::with(['category', 'type'])
+                ->published()
+                ->where('slug',$slug)
+                ->firstOrFail();
 
-        $related = $this->resolveRelatedPosts($post);
+            $related = $this->resolveRelatedPosts($post)
+                ->each(fn ($item) => ArticleFeed::decorate($item, null, $doctor?->name));
+            ArticleFeed::decorate($post, null, $doctor?->name);
+
+            return view('single_article', compact('doctor','post', 'related'));
+        }
+
+        // Doctor article: lives in that doctor's tenant database
+        $doctor = User::where('role', 'tenant')
+            ->where('status', 1)
+            ->where('tenant_id', $tenantId)
+            ->first();
+        $tenant = $doctor ? Tenant::find($tenantId) : null;
+        abort_unless($tenant, 404);
+
+        tenancy()->initialize($tenant);
+
+        try {
+            $post = DoctorPost::with(['category', 'type'])
+                ->published()
+                ->where('slug', $slug)
+                ->firstOrFail();
+
+            $related = $this->resolveRelatedPosts($post)
+                ->each(fn ($item) => ArticleFeed::decorate($item, $tenantId, $doctor->name));
+            ArticleFeed::decorate($post, $tenantId, $doctor->name);
+        } finally {
+            tenancy()->end();
+        }
 
         return view('single_article', compact('doctor','post', 'related'));
     }
