@@ -328,6 +328,9 @@ class TenantController extends Controller
             'feature' => ['nullable', 'boolean'],
         ]);
 
+        $newStatus = (int) $validated['status'];
+        $statusChanged = (int) $user->status !== $newStatus;
+
         $user->update([
             'name' => $validated['name'],
             'email' => $validated['email'],
@@ -337,7 +340,6 @@ class TenantController extends Controller
             'reg_no' => $validated['reg_no'] ?? null,
             'country' => $validated['country'] ?? null,
             'city' => $validated['city'] ?? null,
-            'status' => (int) $validated['status'],
             'feature' => (bool) ($validated['feature'] ?? false),
         ]);
 
@@ -345,12 +347,6 @@ class TenantController extends Controller
             $tenant = Tenant::find($user->tenant_id);
 
             if ($tenant) {
-                $tenant->status = (int) $validated['status'];
-                $tenant->save();
-
-                Domain::where('tenant_id', $tenant->id)
-                    ->update(['status' => (int) $validated['status']]);
-
                 try {
                     tenancy()->initialize($tenant);
 
@@ -365,7 +361,6 @@ class TenantController extends Controller
                             'reg_no' => $validated['reg_no'] ?? null,
                             'country' => $validated['country'] ?? null,
                             'city' => $validated['city'] ?? null,
-                            'status' => (int) $validated['status'],
                         ]);
                     }
 
@@ -390,6 +385,9 @@ class TenantController extends Controller
                 }
             }
         }
+
+        // Same status flow as the dashboard approve/suspend buttons; email only on an actual change.
+        $this->applyDoctorStatus($user, $newStatus, $statusChanged);
 
         return redirect()->route('user.show', $user->id)->with('success', 'Doctor details updated successfully.');
     }
@@ -1059,70 +1057,90 @@ private function detectCardType($cardNumber): string
 
 public function toggleUserStatus($id, $status)
 {
-    // Superadmin selected user
-    $adminUser = User::find($id);
+    if (!in_array((string) $status, ['0', '1'], true)) {
+        return back()->with('error', 'Invalid status.');
+    }
 
-    if (!$adminUser) {
+    $user = User::find($id);
+
+    if (!$user) {
         return back()->with('error', 'User not found.');
     }
 
-    // Update admin user status
-    $adminUser->status = $status;
-    $adminUser->save();
+    $emailSent = $this->applyDoctorStatus($user, (int) $status);
 
-    // Tenant Admin User (email receiver)
-    $tenantUser = User::where('tenant_id', $adminUser->tenant_id)
-        ->where('role', 'tenant')
-        ->first();
-    
+    return $emailSent
+        ? back()->with('success', 'Doctor status updated and email sent successfully.')
+        : back()->with('error', 'Status updated but email failed.');
+}
 
-    if (!$tenantUser) {
-        return back()->with('error', 'Tenant admin user not found.');
+/**
+ * Single source of truth for activating / suspending a doctor.
+ * Used by both the dashboard approve buttons and the doctor edit page.
+ * Returns whether the notification email was sent.
+ */
+private function applyDoctorStatus(User $user, int $status, bool $notify = true): bool
+{
+    $user->update(['status' => $status]);
+
+    $tenant = $user->tenant_id ? Tenant::find($user->tenant_id) : null;
+
+    if (!$tenant) {
+        return false;
     }
 
-    // Tenant model
-    $tenant = Tenant::find($adminUser->tenant_id);
-
-    if (!$tenant || $tenant->domains->isEmpty()) {
-        return back()->with('error', 'Tenant or domain not found.');
-    }
-
-    // Update tenant status
     $tenant->status = $status;
     $tenant->save();
-    tenancy()->initialize($tenant);
-    $tenantUserData = User::where('email', $tenantUser->email)->where('role', 'admin')->first();
-    $tenantUserData->status = $status;
-    $tenantUserData->save();
-    tenancy()->end();
 
-    $email = $tenantUser->email;
+    Domain::where('tenant_id', $tenant->id)->update(['status' => $status]);
 
-    $statusText = $status == 1 ? 'Active' : 'Suspended';
+    try {
+        tenancy()->initialize($tenant);
 
-    $subject = $status == 1
+        User::query()
+            ->where('role', 'admin')
+            ->orderByRaw('email = ? desc', [$user->email])
+            ->first()
+            ?->update(['status' => $status]);
+    } catch (Throwable $e) {
+        Log::warning('Failed to sync tenant doctor status', [
+            'tenant_id' => $tenant->id,
+            'message' => $e->getMessage(),
+        ]);
+    } finally {
+        tenancy()->end();
+    }
+
+    $domain = $tenant->domains()->first()?->domain;
+    $email = $user->email;
+
+    if (!$notify || !$domain || !$email) {
+        return false;
+    }
+
+    $subject = $status === 1
         ? 'Your DoctorsProfile Account Has Been Activated'
         : 'Your DoctorsProfile Account Has Been Suspended';
 
     try {
         Mail::send('emails.tenant_status_changed', [
             'email'       => $email,
-            'status'      => $statusText,
+            'status'      => $status === 1 ? 'Active' : 'Suspended',
             'subject'     => $subject,
-            'domain'      => $tenant->domains->first()->domain,
-            'site_url'    => 'https://' . $tenant->domains->first()->domain,
-            'adminlogin'  => 'https://' . $tenant->domains->first()->domain . '/login',
+            'domain'      => $domain,
+            'site_url'    => 'https://' . $domain,
+            'adminlogin'  => 'https://' . $domain . '/login',
         ], function ($message) use ($email, $subject) {
             $message->to($email)
                 ->subject($subject)
                 ->from('admin@doctorsprofile.xyz', 'DoctorsProfile Support Team');
         });
-    } catch (\Exception $e) {
-        \Log::error('Mail failed: ' . $e->getMessage());
-        return back()->with('error', 'Status updated but email failed.');
+    } catch (Throwable $e) {
+        Log::error('Mail failed: ' . $e->getMessage());
+        return false;
     }
 
-    return back()->with('success', 'Doctor status updated and email sent successfully.');
+    return true;
 }
 
 

@@ -155,7 +155,7 @@ class PackageUpgradeService
             return null;
         }
 
-        $tenant = Tenant::find($session->tenant_id);
+        $tenant = Tenant::find($session->tenant_id); 
         if (! $tenant) {
             return null;
         }
