@@ -10,7 +10,7 @@
     $articleSeoImage = $post->cover_image
         ? (preg_match('/^https?:\/\//i', $post->cover_image) || str_starts_with($post->cover_image, '//')
             ? $post->cover_image
-            : url(ltrim($post->cover_image, '/')))
+            : (str_starts_with($post->cover_image, 'data:') ? null : url(ltrim($post->cover_image, '/'))))
         : null;
     $articleSchema = [
         '@context' => 'https://schema.org',

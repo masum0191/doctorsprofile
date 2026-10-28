@@ -47,7 +47,8 @@ class ArticleFeed
         $post->setAttribute('article_url', static::urlFor($post, $tenantId));
 
         $cover = $post->cover_image;
-        if ($cover && !preg_match('/^(https?:)?\/\//i', $cover)) {
+        // Leave absolute URLs and inline base64 images (data:...) untouched
+        if ($cover && !preg_match('/^((https?:)?\/\/|data:)/i', $cover)) {
             $post->cover_image = url(ltrim($cover, '/'));
         }
 
