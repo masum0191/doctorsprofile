@@ -16,11 +16,23 @@ class TenantDataInitializer
         $this->insertTests();
     }
 
+    /**
+     * Read a data file from public/, falling back to the live site if it is missing.
+     */
+    protected function loadJson(string $file): ?array
+    {
+        $path = public_path($file);
+
+        if (is_file($path)) {
+            return json_decode(file_get_contents($path), true);
+        }
+
+        return Http::timeout(60)->get("https://doctorsprofile.xyz/{$file}")->json();
+    }
+
     protected function insertMedicines(): void
     {
-        $json = Http::timeout(60)
-            ->get('https://doctorsprofile.xyz/medicines.json')
-            ->json();
+        $json = $this->loadJson('medicines.json');
 
         if (!isset($json['results'])) return;
 
@@ -31,6 +43,8 @@ class TenantDataInitializer
 
             $batch[] = [
                 'medicine_name'        => $data['medicine_name'] ?? null,
+                'company_name'         => $data['company_name'] ?? null,
+                'generic_name'         => $data['generic_name'] ?? null,
                 'medicine_type'        => $data['med_type'] ?? null,
                 'medicine_dose'        => $data['med_dose'] ?? null,
                 'medicine_day'         => $data['med_day'] ?? null,
@@ -54,7 +68,7 @@ class TenantDataInitializer
 
     protected function insertCompanies(): void
     {
-        $json = Http::get('https://doctorsprofile.xyz/medicine_companies.json')->json();
+        $json = $this->loadJson('medicine_companies.json');
 
         if (!isset($json['companies'])) return;
 
@@ -73,7 +87,7 @@ class TenantDataInitializer
 
     protected function insertTests(): void
     {
-        $json = Http::get('https://doctorsprofile.xyz/medical_tests.json')->json();
+        $json = $this->loadJson('medical_tests.json');
 
         if (!isset($json['categories'])) return;
 

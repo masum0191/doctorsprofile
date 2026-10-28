@@ -1,0 +1,2161 @@
+{
+    "total": 154,
+    "results": [
+        {
+            "id": 1,
+            "data": {
+                "medicine_name": "Napa",
+                "generic_name": "Paracetamol",
+                "company_name": "Beximco Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "1+1+1",
+                "med_day": "5 Days",
+                "med_mg": "500 mg",
+                "med_comments": "After meal",
+                "med_description": "Fever and mild to moderate pain"
+            }
+        },
+        {
+            "id": 2,
+            "data": {
+                "medicine_name": "Napa Extra",
+                "generic_name": "Paracetamol + Caffeine",
+                "company_name": "Beximco Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "1+1+1",
+                "med_day": "3 Days",
+                "med_mg": "500 mg + 65 mg",
+                "med_comments": "After meal",
+                "med_description": "Headache, toothache and fever"
+            }
+        },
+        {
+            "id": 3,
+            "data": {
+                "medicine_name": "Napa Extend",
+                "generic_name": "Paracetamol",
+                "company_name": "Beximco Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "1+0+1",
+                "med_day": "5 Days",
+                "med_mg": "665 mg",
+                "med_comments": "After meal",
+                "med_description": "Extended release for persistent pain"
+            }
+        },
+        {
+            "id": 4,
+            "data": {
+                "medicine_name": "Napa Syrup",
+                "generic_name": "Paracetamol",
+                "company_name": "Beximco Pharmaceuticals Ltd.",
+                "med_type": "Syrup",
+                "med_dose": "1 tsf x 3 times",
+                "med_day": "3 Days",
+                "med_mg": "120 mg/5 ml",
+                "med_comments": "After meal",
+                "med_description": "Fever and pain in children"
+            }
+        },
+        {
+            "id": 5,
+            "data": {
+                "medicine_name": "Napa Suppository",
+                "generic_name": "Paracetamol",
+                "company_name": "Beximco Pharmaceuticals Ltd.",
+                "med_type": "Suppository",
+                "med_dose": "If temp > 102°F",
+                "med_day": "3 Days",
+                "med_mg": "125 mg",
+                "med_comments": "Rectal use",
+                "med_description": "High fever in children"
+            }
+        },
+        {
+            "id": 6,
+            "data": {
+                "medicine_name": "Ace",
+                "generic_name": "Paracetamol",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+1+1",
+                "med_day": "5 Days",
+                "med_mg": "500 mg",
+                "med_comments": "After meal",
+                "med_description": "Fever and mild to moderate pain"
+            }
+        },
+        {
+            "id": 7,
+            "data": {
+                "medicine_name": "Ace Plus",
+                "generic_name": "Paracetamol + Caffeine",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+1+1",
+                "med_day": "3 Days",
+                "med_mg": "500 mg + 65 mg",
+                "med_comments": "After meal",
+                "med_description": "Headache and fever"
+            }
+        },
+        {
+            "id": 8,
+            "data": {
+                "medicine_name": "Fast",
+                "generic_name": "Paracetamol",
+                "company_name": "Acme Laboratories Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "1+1+1",
+                "med_day": "5 Days",
+                "med_mg": "500 mg",
+                "med_comments": "After meal",
+                "med_description": "Fever and pain"
+            }
+        },
+        {
+            "id": 9,
+            "data": {
+                "medicine_name": "Tufnil",
+                "generic_name": "Tolfenamic Acid",
+                "company_name": "Eskayef Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "1+0+1",
+                "med_day": "3 Days",
+                "med_mg": "200 mg",
+                "med_comments": "After meal",
+                "med_description": "Acute migraine attack"
+            }
+        },
+        {
+            "id": 10,
+            "data": {
+                "medicine_name": "Naprosyn",
+                "generic_name": "Naproxen",
+                "company_name": "Radiant Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "1+0+1",
+                "med_day": "7 Days",
+                "med_mg": "500 mg",
+                "med_comments": "After meal",
+                "med_description": "Arthritis, musculoskeletal pain"
+            }
+        },
+        {
+            "id": 11,
+            "data": {
+                "medicine_name": "Xenole",
+                "generic_name": "Naproxen + Esomeprazole",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+0+1",
+                "med_day": "7 Days",
+                "med_mg": "500 mg + 20 mg",
+                "med_comments": "Before meal",
+                "med_description": "Arthritis pain with gastric protection"
+            }
+        },
+        {
+            "id": 12,
+            "data": {
+                "medicine_name": "Clofenac",
+                "generic_name": "Diclofenac Sodium",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+0+1",
+                "med_day": "5 Days",
+                "med_mg": "50 mg",
+                "med_comments": "After meal",
+                "med_description": "Pain and inflammation"
+            }
+        },
+        {
+            "id": 13,
+            "data": {
+                "medicine_name": "Clofenac SR",
+                "generic_name": "Diclofenac Sodium",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "0+0+1",
+                "med_day": "7 Days",
+                "med_mg": "100 mg",
+                "med_comments": "After meal",
+                "med_description": "Sustained release for chronic pain"
+            }
+        },
+        {
+            "id": 14,
+            "data": {
+                "medicine_name": "Voltalin",
+                "generic_name": "Diclofenac Sodium",
+                "company_name": "Novartis (Bangladesh) Ltd.",
+                "med_type": "Gel",
+                "med_dose": "Apply 3 times daily",
+                "med_day": "7 Days",
+                "med_mg": "1%",
+                "med_comments": "Local application",
+                "med_description": "Muscle and joint pain"
+            }
+        },
+        {
+            "id": 15,
+            "data": {
+                "medicine_name": "Etorix",
+                "generic_name": "Etoricoxib",
+                "company_name": "Incepta Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "0+0+1",
+                "med_day": "7 Days",
+                "med_mg": "90 mg",
+                "med_comments": "After meal",
+                "med_description": "Osteoarthritis and acute pain"
+            }
+        },
+        {
+            "id": 16,
+            "data": {
+                "medicine_name": "Rolac",
+                "generic_name": "Ketorolac Tromethamine",
+                "company_name": "Renata PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+0+1",
+                "med_day": "5 Days",
+                "med_mg": "10 mg",
+                "med_comments": "After meal",
+                "med_description": "Short-term moderate to severe pain"
+            }
+        },
+        {
+            "id": 17,
+            "data": {
+                "medicine_name": "Seclo",
+                "generic_name": "Omeprazole",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Capsule",
+                "med_dose": "1+0+1",
+                "med_day": "14 Days",
+                "med_mg": "20 mg",
+                "med_comments": "30 minutes before meal",
+                "med_description": "Peptic ulcer, GERD"
+            }
+        },
+        {
+            "id": 18,
+            "data": {
+                "medicine_name": "Losectil",
+                "generic_name": "Omeprazole",
+                "company_name": "Eskayef Pharmaceuticals Ltd.",
+                "med_type": "Capsule",
+                "med_dose": "1+0+1",
+                "med_day": "14 Days",
+                "med_mg": "20 mg",
+                "med_comments": "30 minutes before meal",
+                "med_description": "Peptic ulcer, GERD"
+            }
+        },
+        {
+            "id": 19,
+            "data": {
+                "medicine_name": "Sergel",
+                "generic_name": "Esomeprazole",
+                "company_name": "Healthcare Pharmaceuticals Ltd.",
+                "med_type": "Capsule",
+                "med_dose": "1+0+1",
+                "med_day": "14 Days",
+                "med_mg": "20 mg",
+                "med_comments": "30 minutes before meal",
+                "med_description": "GERD and gastric ulcer"
+            }
+        },
+        {
+            "id": 20,
+            "data": {
+                "medicine_name": "Maxpro",
+                "generic_name": "Esomeprazole",
+                "company_name": "Renata PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+0+1",
+                "med_day": "14 Days",
+                "med_mg": "20 mg",
+                "med_comments": "30 minutes before meal",
+                "med_description": "GERD and gastric ulcer"
+            }
+        },
+        {
+            "id": 21,
+            "data": {
+                "medicine_name": "Nexum",
+                "generic_name": "Esomeprazole",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+0+0",
+                "med_day": "14 Days",
+                "med_mg": "40 mg",
+                "med_comments": "30 minutes before breakfast",
+                "med_description": "Erosive esophagitis"
+            }
+        },
+        {
+            "id": 22,
+            "data": {
+                "medicine_name": "Pantonix",
+                "generic_name": "Pantoprazole",
+                "company_name": "Incepta Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "1+0+1",
+                "med_day": "14 Days",
+                "med_mg": "20 mg",
+                "med_comments": "30 minutes before meal",
+                "med_description": "Acid peptic disorders"
+            }
+        },
+        {
+            "id": 23,
+            "data": {
+                "medicine_name": "Rabe",
+                "generic_name": "Rabeprazole",
+                "company_name": "Incepta Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "1+0+0",
+                "med_day": "14 Days",
+                "med_mg": "20 mg",
+                "med_comments": "Before breakfast",
+                "med_description": "Duodenal ulcer, GERD"
+            }
+        },
+        {
+            "id": 24,
+            "data": {
+                "medicine_name": "Finix",
+                "generic_name": "Rabeprazole",
+                "company_name": "Opsonin Pharma Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "1+0+0",
+                "med_day": "14 Days",
+                "med_mg": "20 mg",
+                "med_comments": "Before breakfast",
+                "med_description": "Duodenal ulcer, GERD"
+            }
+        },
+        {
+            "id": 25,
+            "data": {
+                "medicine_name": "Neotack",
+                "generic_name": "Ranitidine",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+0+1",
+                "med_day": "14 Days",
+                "med_mg": "150 mg",
+                "med_comments": "Before meal",
+                "med_description": "Hyperacidity and ulcer"
+            }
+        },
+        {
+            "id": 26,
+            "data": {
+                "medicine_name": "Antacid Plus",
+                "generic_name": "Aluminium Hydroxide + Magnesium Hydroxide + Simethicone",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Suspension",
+                "med_dose": "2 tsf x 3 times",
+                "med_day": "7 Days",
+                "med_mg": "10 ml",
+                "med_comments": "After meal",
+                "med_description": "Heartburn, flatulence"
+            }
+        },
+        {
+            "id": 27,
+            "data": {
+                "medicine_name": "Flatameal DS",
+                "generic_name": "Aluminium Hydroxide + Magnesium Hydroxide + Simethicone",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Suspension",
+                "med_dose": "2 tsf x 3 times",
+                "med_day": "7 Days",
+                "med_mg": "10 ml",
+                "med_comments": "After meal",
+                "med_description": "Heartburn, flatulence"
+            }
+        },
+        {
+            "id": 28,
+            "data": {
+                "medicine_name": "Motigut",
+                "generic_name": "Domperidone",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+1+1",
+                "med_day": "7 Days",
+                "med_mg": "10 mg",
+                "med_comments": "15 minutes before meal",
+                "med_description": "Nausea, vomiting, bloating"
+            }
+        },
+        {
+            "id": 29,
+            "data": {
+                "medicine_name": "Omidon",
+                "generic_name": "Domperidone",
+                "company_name": "Incepta Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "1+1+1",
+                "med_day": "7 Days",
+                "med_mg": "10 mg",
+                "med_comments": "15 minutes before meal",
+                "med_description": "Nausea, vomiting, bloating"
+            }
+        },
+        {
+            "id": 30,
+            "data": {
+                "medicine_name": "Emistat",
+                "generic_name": "Ondansetron",
+                "company_name": "Incepta Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "1+0+1",
+                "med_day": "3 Days",
+                "med_mg": "8 mg",
+                "med_comments": "Before meal",
+                "med_description": "Nausea and vomiting"
+            }
+        },
+        {
+            "id": 31,
+            "data": {
+                "medicine_name": "Algin",
+                "generic_name": "Tiemonium Methylsulphate",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+1+1",
+                "med_day": "5 Days",
+                "med_mg": "50 mg",
+                "med_comments": "After meal",
+                "med_description": "Abdominal colic and spasm"
+            }
+        },
+        {
+            "id": 32,
+            "data": {
+                "medicine_name": "Viscral",
+                "generic_name": "Tiemonium Methylsulphate",
+                "company_name": "ACI Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "1+1+1",
+                "med_day": "5 Days",
+                "med_mg": "50 mg",
+                "med_comments": "After meal",
+                "med_description": "Abdominal colic and spasm"
+            }
+        },
+        {
+            "id": 33,
+            "data": {
+                "medicine_name": "Meverin",
+                "generic_name": "Mebeverine",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+1+1",
+                "med_day": "14 Days",
+                "med_mg": "135 mg",
+                "med_comments": "20 minutes before meal",
+                "med_description": "Irritable bowel syndrome"
+            }
+        },
+        {
+            "id": 34,
+            "data": {
+                "medicine_name": "Lactulose",
+                "generic_name": "Lactulose",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Syrup",
+                "med_dose": "0+0+2 tsf",
+                "med_day": "14 Days",
+                "med_mg": "3.35 gm/5 ml",
+                "med_comments": "At bedtime",
+                "med_description": "Constipation"
+            }
+        },
+        {
+            "id": 35,
+            "data": {
+                "medicine_name": "Orsaline-N",
+                "generic_name": "Oral Rehydration Salt",
+                "company_name": "SMC Enterprise Ltd.",
+                "med_type": "Powder",
+                "med_dose": "After each loose stool",
+                "med_day": "3 Days",
+                "med_mg": "10.25 gm",
+                "med_comments": "Dissolve 1 sachet in 500 ml water",
+                "med_description": "Dehydration due to diarrhoea"
+            }
+        },
+        {
+            "id": 36,
+            "data": {
+                "medicine_name": "Zinc B",
+                "generic_name": "Zinc Sulphate",
+                "company_name": "Beximco Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "1+0+0",
+                "med_day": "10 Days",
+                "med_mg": "20 mg",
+                "med_comments": "After meal",
+                "med_description": "Adjunct in diarrhoea"
+            }
+        },
+        {
+            "id": 37,
+            "data": {
+                "medicine_name": "Filmet",
+                "generic_name": "Metronidazole",
+                "company_name": "Beximco Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "1+1+1",
+                "med_day": "7 Days",
+                "med_mg": "400 mg",
+                "med_comments": "After meal",
+                "med_description": "Amoebiasis, anaerobic infections"
+            }
+        },
+        {
+            "id": 38,
+            "data": {
+                "medicine_name": "Amodis",
+                "generic_name": "Metronidazole",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+1+1",
+                "med_day": "7 Days",
+                "med_mg": "400 mg",
+                "med_comments": "After meal",
+                "med_description": "Amoebiasis, anaerobic infections"
+            }
+        },
+        {
+            "id": 39,
+            "data": {
+                "medicine_name": "Ciprocin",
+                "generic_name": "Ciprofloxacin",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+0+1",
+                "med_day": "7 Days",
+                "med_mg": "500 mg",
+                "med_comments": "After meal",
+                "med_description": "UTI, typhoid, GI infections"
+            }
+        },
+        {
+            "id": 40,
+            "data": {
+                "medicine_name": "Neofloxin",
+                "generic_name": "Ciprofloxacin",
+                "company_name": "Beximco Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "1+0+1",
+                "med_day": "7 Days",
+                "med_mg": "500 mg",
+                "med_comments": "After meal",
+                "med_description": "UTI, typhoid, GI infections"
+            }
+        },
+        {
+            "id": 41,
+            "data": {
+                "medicine_name": "Levox",
+                "generic_name": "Levofloxacin",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+0+0",
+                "med_day": "7 Days",
+                "med_mg": "500 mg",
+                "med_comments": "After meal",
+                "med_description": "Respiratory and urinary infections"
+            }
+        },
+        {
+            "id": 42,
+            "data": {
+                "medicine_name": "Zimax",
+                "generic_name": "Azithromycin",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+0+0",
+                "med_day": "3 Days",
+                "med_mg": "500 mg",
+                "med_comments": "1 hour before meal",
+                "med_description": "Respiratory tract infections"
+            }
+        },
+        {
+            "id": 43,
+            "data": {
+                "medicine_name": "Azithrocin",
+                "generic_name": "Azithromycin",
+                "company_name": "Beximco Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "1+0+0",
+                "med_day": "3 Days",
+                "med_mg": "500 mg",
+                "med_comments": "1 hour before meal",
+                "med_description": "Respiratory tract infections"
+            }
+        },
+        {
+            "id": 44,
+            "data": {
+                "medicine_name": "Tridosil",
+                "generic_name": "Azithromycin",
+                "company_name": "Incepta Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "1+0+0",
+                "med_day": "3 Days",
+                "med_mg": "500 mg",
+                "med_comments": "1 hour before meal",
+                "med_description": "Respiratory tract infections"
+            }
+        },
+        {
+            "id": 45,
+            "data": {
+                "medicine_name": "Zimax Suspension",
+                "generic_name": "Azithromycin",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Suspension",
+                "med_dose": "As per body weight",
+                "med_day": "3 Days",
+                "med_mg": "200 mg/5 ml",
+                "med_comments": "1 hour before meal",
+                "med_description": "Respiratory infections in children"
+            }
+        },
+        {
+            "id": 46,
+            "data": {
+                "medicine_name": "Moxacil",
+                "generic_name": "Amoxicillin",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Capsule",
+                "med_dose": "1+1+1",
+                "med_day": "7 Days",
+                "med_mg": "500 mg",
+                "med_comments": "After meal",
+                "med_description": "Bacterial infections"
+            }
+        },
+        {
+            "id": 47,
+            "data": {
+                "medicine_name": "Fimoxyl",
+                "generic_name": "Amoxicillin",
+                "company_name": "Opsonin Pharma Ltd.",
+                "med_type": "Capsule",
+                "med_dose": "1+1+1",
+                "med_day": "7 Days",
+                "med_mg": "500 mg",
+                "med_comments": "After meal",
+                "med_description": "Bacterial infections"
+            }
+        },
+        {
+            "id": 48,
+            "data": {
+                "medicine_name": "Moxaclav",
+                "generic_name": "Amoxicillin + Clavulanic Acid",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+0+1",
+                "med_day": "7 Days",
+                "med_mg": "625 mg",
+                "med_comments": "After meal",
+                "med_description": "Respiratory, skin and urinary infections"
+            }
+        },
+        {
+            "id": 49,
+            "data": {
+                "medicine_name": "Fluclox",
+                "generic_name": "Flucloxacillin",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Capsule",
+                "med_dose": "1+1+1+1",
+                "med_day": "7 Days",
+                "med_mg": "500 mg",
+                "med_comments": "1 hour before meal",
+                "med_description": "Skin and soft tissue infections"
+            }
+        },
+        {
+            "id": 50,
+            "data": {
+                "medicine_name": "Cef-3",
+                "generic_name": "Cefixime",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Capsule",
+                "med_dose": "1+0+1",
+                "med_day": "7 Days",
+                "med_mg": "200 mg",
+                "med_comments": "After meal",
+                "med_description": "Typhoid, UTI, respiratory infections"
+            }
+        },
+        {
+            "id": 51,
+            "data": {
+                "medicine_name": "Triocim",
+                "generic_name": "Cefixime",
+                "company_name": "Eskayef Pharmaceuticals Ltd.",
+                "med_type": "Capsule",
+                "med_dose": "1+0+1",
+                "med_day": "7 Days",
+                "med_mg": "200 mg",
+                "med_comments": "After meal",
+                "med_description": "Typhoid, UTI, respiratory infections"
+            }
+        },
+        {
+            "id": 52,
+            "data": {
+                "medicine_name": "Cefuroxime Kefuclav",
+                "generic_name": "Cefuroxime + Clavulanic Acid",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+0+1",
+                "med_day": "7 Days",
+                "med_mg": "500 mg",
+                "med_comments": "After meal",
+                "med_description": "Respiratory and ENT infections"
+            }
+        },
+        {
+            "id": 53,
+            "data": {
+                "medicine_name": "Furocef",
+                "generic_name": "Cefuroxime Axetil",
+                "company_name": "Healthcare Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "1+0+1",
+                "med_day": "7 Days",
+                "med_mg": "500 mg",
+                "med_comments": "After meal",
+                "med_description": "Respiratory and ENT infections"
+            }
+        },
+        {
+            "id": 54,
+            "data": {
+                "medicine_name": "Ceftron",
+                "generic_name": "Ceftriaxone",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Injection",
+                "med_dose": "1 vial IV daily",
+                "med_day": "7 Days",
+                "med_mg": "1 gm",
+                "med_comments": "IV/IM use",
+                "med_description": "Severe bacterial infections"
+            }
+        },
+        {
+            "id": 55,
+            "data": {
+                "medicine_name": "Doxicap",
+                "generic_name": "Doxycycline",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Capsule",
+                "med_dose": "1+0+1",
+                "med_day": "7 Days",
+                "med_mg": "100 mg",
+                "med_comments": "After meal with plenty of water",
+                "med_description": "Bacterial infections, leptospirosis"
+            }
+        },
+        {
+            "id": 56,
+            "data": {
+                "medicine_name": "Nitrofurantoin Nitrofur",
+                "generic_name": "Nitrofurantoin",
+                "company_name": "Incepta Pharmaceuticals Ltd.",
+                "med_type": "Capsule",
+                "med_dose": "1+0+1",
+                "med_day": "5 Days",
+                "med_mg": "100 mg",
+                "med_comments": "After meal",
+                "med_description": "Uncomplicated UTI"
+            }
+        },
+        {
+            "id": 57,
+            "data": {
+                "medicine_name": "Fluconal",
+                "generic_name": "Fluconazole",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Capsule",
+                "med_dose": "1 capsule weekly",
+                "med_day": "2 Weeks",
+                "med_mg": "150 mg",
+                "med_comments": "After meal",
+                "med_description": "Fungal infections"
+            }
+        },
+        {
+            "id": 58,
+            "data": {
+                "medicine_name": "Flugal",
+                "generic_name": "Fluconazole",
+                "company_name": "Incepta Pharmaceuticals Ltd.",
+                "med_type": "Capsule",
+                "med_dose": "1+0+0",
+                "med_day": "14 Days",
+                "med_mg": "50 mg",
+                "med_comments": "After meal",
+                "med_description": "Fungal infections"
+            }
+        },
+        {
+            "id": 59,
+            "data": {
+                "medicine_name": "Itra",
+                "generic_name": "Itraconazole",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Capsule",
+                "med_dose": "1+0+1",
+                "med_day": "14 Days",
+                "med_mg": "100 mg",
+                "med_comments": "After meal",
+                "med_description": "Dermatophytosis"
+            }
+        },
+        {
+            "id": 60,
+            "data": {
+                "medicine_name": "Terbin",
+                "generic_name": "Terbinafine",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Cream",
+                "med_dose": "Apply twice daily",
+                "med_day": "14 Days",
+                "med_mg": "1%",
+                "med_comments": "Local application",
+                "med_description": "Tinea and ringworm"
+            }
+        },
+        {
+            "id": 61,
+            "data": {
+                "medicine_name": "Ancomycin",
+                "generic_name": "Clotrimazole",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Cream",
+                "med_dose": "Apply twice daily",
+                "med_day": "14 Days",
+                "med_mg": "1%",
+                "med_comments": "Local application",
+                "med_description": "Fungal skin infections"
+            }
+        },
+        {
+            "id": 62,
+            "data": {
+                "medicine_name": "Acyclovir Virux",
+                "generic_name": "Acyclovir",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "5 times daily",
+                "med_day": "7 Days",
+                "med_mg": "400 mg",
+                "med_comments": "After meal",
+                "med_description": "Herpes zoster, herpes simplex"
+            }
+        },
+        {
+            "id": 63,
+            "data": {
+                "medicine_name": "Alben DS",
+                "generic_name": "Albendazole",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "0+0+1",
+                "med_day": "1 Day",
+                "med_mg": "400 mg",
+                "med_comments": "Chew at bedtime",
+                "med_description": "Worm infestation"
+            }
+        },
+        {
+            "id": 64,
+            "data": {
+                "medicine_name": "Ermox",
+                "generic_name": "Mebendazole",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+0+1",
+                "med_day": "3 Days",
+                "med_mg": "100 mg",
+                "med_comments": "Chew after meal",
+                "med_description": "Worm infestation"
+            }
+        },
+        {
+            "id": 65,
+            "data": {
+                "medicine_name": "Fexo",
+                "generic_name": "Fexofenadine",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "0+0+1",
+                "med_day": "7 Days",
+                "med_mg": "120 mg",
+                "med_comments": "At night",
+                "med_description": "Allergic rhinitis, urticaria"
+            }
+        },
+        {
+            "id": 66,
+            "data": {
+                "medicine_name": "Telfast",
+                "generic_name": "Fexofenadine",
+                "company_name": "Sanofi Bangladesh Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "0+0+1",
+                "med_day": "7 Days",
+                "med_mg": "120 mg",
+                "med_comments": "At night",
+                "med_description": "Allergic rhinitis, urticaria"
+            }
+        },
+        {
+            "id": 67,
+            "data": {
+                "medicine_name": "Alatrol",
+                "generic_name": "Cetirizine",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "0+0+1",
+                "med_day": "7 Days",
+                "med_mg": "10 mg",
+                "med_comments": "At night",
+                "med_description": "Allergy, itching, sneezing"
+            }
+        },
+        {
+            "id": 68,
+            "data": {
+                "medicine_name": "Atrizin",
+                "generic_name": "Cetirizine",
+                "company_name": "Opsonin Pharma Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "0+0+1",
+                "med_day": "7 Days",
+                "med_mg": "10 mg",
+                "med_comments": "At night",
+                "med_description": "Allergy, itching, sneezing"
+            }
+        },
+        {
+            "id": 69,
+            "data": {
+                "medicine_name": "Deslor",
+                "generic_name": "Desloratadine",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "0+0+1",
+                "med_day": "7 Days",
+                "med_mg": "5 mg",
+                "med_comments": "At night",
+                "med_description": "Allergic rhinitis"
+            }
+        },
+        {
+            "id": 70,
+            "data": {
+                "medicine_name": "Rupa",
+                "generic_name": "Rupatadine",
+                "company_name": "Incepta Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "0+0+1",
+                "med_day": "7 Days",
+                "med_mg": "10 mg",
+                "med_comments": "At night",
+                "med_description": "Allergic rhinitis, urticaria"
+            }
+        },
+        {
+            "id": 71,
+            "data": {
+                "medicine_name": "Histacin",
+                "generic_name": "Chlorpheniramine Maleate",
+                "company_name": "Jayson Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "1+1+1",
+                "med_day": "5 Days",
+                "med_mg": "4 mg",
+                "med_comments": "May cause drowsiness",
+                "med_description": "Allergic conditions"
+            }
+        },
+        {
+            "id": 72,
+            "data": {
+                "medicine_name": "Monas",
+                "generic_name": "Montelukast",
+                "company_name": "Acme Laboratories Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "0+0+1",
+                "med_day": "30 Days",
+                "med_mg": "10 mg",
+                "med_comments": "At night",
+                "med_description": "Asthma and allergic rhinitis"
+            }
+        },
+        {
+            "id": 73,
+            "data": {
+                "medicine_name": "Montene",
+                "generic_name": "Montelukast",
+                "company_name": "Beximco Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "0+0+1",
+                "med_day": "30 Days",
+                "med_mg": "10 mg",
+                "med_comments": "At night",
+                "med_description": "Asthma and allergic rhinitis"
+            }
+        },
+        {
+            "id": 74,
+            "data": {
+                "medicine_name": "Montair",
+                "generic_name": "Montelukast",
+                "company_name": "Incepta Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "0+0+1",
+                "med_day": "30 Days",
+                "med_mg": "10 mg",
+                "med_comments": "At night",
+                "med_description": "Asthma and allergic rhinitis"
+            }
+        },
+        {
+            "id": 75,
+            "data": {
+                "medicine_name": "Azmasol",
+                "generic_name": "Salbutamol",
+                "company_name": "Beximco Pharmaceuticals Ltd.",
+                "med_type": "Inhaler",
+                "med_dose": "2 puffs when needed",
+                "med_day": "Continue",
+                "med_mg": "100 mcg/puff",
+                "med_comments": "Shake well before use",
+                "med_description": "Acute asthma, bronchospasm"
+            }
+        },
+        {
+            "id": 76,
+            "data": {
+                "medicine_name": "Ventolin",
+                "generic_name": "Salbutamol",
+                "company_name": "GlaxoSmithKline Bangladesh Ltd.",
+                "med_type": "Inhaler",
+                "med_dose": "2 puffs when needed",
+                "med_day": "Continue",
+                "med_mg": "100 mcg/puff",
+                "med_comments": "Shake well before use",
+                "med_description": "Acute asthma, bronchospasm"
+            }
+        },
+        {
+            "id": 77,
+            "data": {
+                "medicine_name": "Windel",
+                "generic_name": "Salbutamol",
+                "company_name": "Incepta Pharmaceuticals Ltd.",
+                "med_type": "Nebuliser Solution",
+                "med_dose": "1 respule 3 times",
+                "med_day": "5 Days",
+                "med_mg": "2.5 mg/2.5 ml",
+                "med_comments": "Via nebuliser",
+                "med_description": "Bronchospasm"
+            }
+        },
+        {
+            "id": 78,
+            "data": {
+                "medicine_name": "Bexitrol F",
+                "generic_name": "Salmeterol + Fluticasone",
+                "company_name": "Beximco Pharmaceuticals Ltd.",
+                "med_type": "Inhaler",
+                "med_dose": "2 puffs twice daily",
+                "med_day": "Continue",
+                "med_mg": "25/250 mcg",
+                "med_comments": "Rinse mouth after use",
+                "med_description": "Asthma and COPD maintenance"
+            }
+        },
+        {
+            "id": 79,
+            "data": {
+                "medicine_name": "Doxiva",
+                "generic_name": "Doxofylline",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+0+1",
+                "med_day": "14 Days",
+                "med_mg": "400 mg",
+                "med_comments": "After meal",
+                "med_description": "Bronchial asthma, COPD"
+            }
+        },
+        {
+            "id": 80,
+            "data": {
+                "medicine_name": "Tusca",
+                "generic_name": "Dextromethorphan + Pseudoephedrine + Triprolidine",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Syrup",
+                "med_dose": "2 tsf x 3 times",
+                "med_day": "5 Days",
+                "med_mg": "100 ml",
+                "med_comments": "May cause drowsiness",
+                "med_description": "Dry cough and cold"
+            }
+        },
+        {
+            "id": 81,
+            "data": {
+                "medicine_name": "Ambrox",
+                "generic_name": "Ambroxol",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Syrup",
+                "med_dose": "2 tsf x 3 times",
+                "med_day": "7 Days",
+                "med_mg": "15 mg/5 ml",
+                "med_comments": "After meal",
+                "med_description": "Productive cough"
+            }
+        },
+        {
+            "id": 82,
+            "data": {
+                "medicine_name": "Mucolid",
+                "generic_name": "Ambroxol",
+                "company_name": "Beximco Pharmaceuticals Ltd.",
+                "med_type": "Syrup",
+                "med_dose": "2 tsf x 3 times",
+                "med_day": "7 Days",
+                "med_mg": "15 mg/5 ml",
+                "med_comments": "After meal",
+                "med_description": "Productive cough"
+            }
+        },
+        {
+            "id": 83,
+            "data": {
+                "medicine_name": "Adovas",
+                "generic_name": "Adhatoda vasica",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Syrup",
+                "med_dose": "2 tsf x 3 times",
+                "med_day": "7 Days",
+                "med_mg": "100 ml",
+                "med_comments": "After meal",
+                "med_description": "Herbal cough syrup"
+            }
+        },
+        {
+            "id": 84,
+            "data": {
+                "medicine_name": "Ostocal D",
+                "generic_name": "Calcium Carbonate + Vitamin D3",
+                "company_name": "Radiant Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "1+0+1",
+                "med_day": "30 Days",
+                "med_mg": "500 mg + 200 IU",
+                "med_comments": "After meal",
+                "med_description": "Calcium and vitamin D deficiency"
+            }
+        },
+        {
+            "id": 85,
+            "data": {
+                "medicine_name": "Calbo D",
+                "generic_name": "Calcium Carbonate + Vitamin D3",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+0+1",
+                "med_day": "30 Days",
+                "med_mg": "500 mg + 200 IU",
+                "med_comments": "After meal",
+                "med_description": "Calcium and vitamin D deficiency"
+            }
+        },
+        {
+            "id": 86,
+            "data": {
+                "medicine_name": "Coralcal DX",
+                "generic_name": "Coral Calcium + Vitamin D3",
+                "company_name": "Incepta Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "0+0+1",
+                "med_day": "30 Days",
+                "med_mg": "600 mg + 400 IU",
+                "med_comments": "After meal",
+                "med_description": "Osteoporosis, calcium deficiency"
+            }
+        },
+        {
+            "id": 87,
+            "data": {
+                "medicine_name": "D-Rise",
+                "generic_name": "Cholecalciferol",
+                "company_name": "Beximco Pharmaceuticals Ltd.",
+                "med_type": "Capsule",
+                "med_dose": "1 capsule weekly",
+                "med_day": "8 Weeks",
+                "med_mg": "40000 IU",
+                "med_comments": "After meal",
+                "med_description": "Vitamin D deficiency"
+            }
+        },
+        {
+            "id": 88,
+            "data": {
+                "medicine_name": "Feofol",
+                "generic_name": "Ferrous Fumarate + Folic Acid",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Capsule",
+                "med_dose": "0+1+0",
+                "med_day": "30 Days",
+                "med_mg": "150 mg + 0.5 mg",
+                "med_comments": "After meal",
+                "med_description": "Iron deficiency anaemia"
+            }
+        },
+        {
+            "id": 89,
+            "data": {
+                "medicine_name": "Folison",
+                "generic_name": "Folic Acid",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+0+0",
+                "med_day": "30 Days",
+                "med_mg": "5 mg",
+                "med_comments": "After meal",
+                "med_description": "Folic acid deficiency, pregnancy"
+            }
+        },
+        {
+            "id": 90,
+            "data": {
+                "medicine_name": "Neuro-B",
+                "generic_name": "Vitamin B1 + B6 + B12",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+0+1",
+                "med_day": "30 Days",
+                "med_mg": "100 mg + 200 mg + 200 mcg",
+                "med_comments": "After meal",
+                "med_description": "Peripheral neuropathy, vitamin B deficiency"
+            }
+        },
+        {
+            "id": 91,
+            "data": {
+                "medicine_name": "Nervalin",
+                "generic_name": "Pregabalin",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Capsule",
+                "med_dose": "0+0+1",
+                "med_day": "30 Days",
+                "med_mg": "75 mg",
+                "med_comments": "At night",
+                "med_description": "Neuropathic pain"
+            }
+        },
+        {
+            "id": 92,
+            "data": {
+                "medicine_name": "Pregaba",
+                "generic_name": "Pregabalin",
+                "company_name": "Incepta Pharmaceuticals Ltd.",
+                "med_type": "Capsule",
+                "med_dose": "0+0+1",
+                "med_day": "30 Days",
+                "med_mg": "75 mg",
+                "med_comments": "At night",
+                "med_description": "Neuropathic pain"
+            }
+        },
+        {
+            "id": 93,
+            "data": {
+                "medicine_name": "Bextram Gold",
+                "generic_name": "Multivitamin + Multimineral",
+                "company_name": "Beximco Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "0+1+0",
+                "med_day": "30 Days",
+                "med_mg": "-",
+                "med_comments": "After meal",
+                "med_description": "Nutritional supplement"
+            }
+        },
+        {
+            "id": 94,
+            "data": {
+                "medicine_name": "Filwel Gold",
+                "generic_name": "Multivitamin + Multimineral",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "0+1+0",
+                "med_day": "30 Days",
+                "med_mg": "-",
+                "med_comments": "After meal",
+                "med_description": "Nutritional supplement"
+            }
+        },
+        {
+            "id": 95,
+            "data": {
+                "medicine_name": "Zinc Syrup Zinco",
+                "generic_name": "Zinc Sulphate",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Syrup",
+                "med_dose": "1 tsf x 2 times",
+                "med_day": "10 Days",
+                "med_mg": "10 mg/5 ml",
+                "med_comments": "After meal",
+                "med_description": "Zinc deficiency in children"
+            }
+        },
+        {
+            "id": 96,
+            "data": {
+                "medicine_name": "Amdocal",
+                "generic_name": "Amlodipine",
+                "company_name": "Beximco Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "1+0+0",
+                "med_day": "30 Days",
+                "med_mg": "5 mg",
+                "med_comments": "Continue",
+                "med_description": "Hypertension, angina"
+            }
+        },
+        {
+            "id": 97,
+            "data": {
+                "medicine_name": "Camlodin",
+                "generic_name": "Amlodipine",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+0+0",
+                "med_day": "30 Days",
+                "med_mg": "5 mg",
+                "med_comments": "Continue",
+                "med_description": "Hypertension, angina"
+            }
+        },
+        {
+            "id": 98,
+            "data": {
+                "medicine_name": "Angilock",
+                "generic_name": "Losartan Potassium",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+0+0",
+                "med_day": "30 Days",
+                "med_mg": "50 mg",
+                "med_comments": "Continue",
+                "med_description": "Hypertension"
+            }
+        },
+        {
+            "id": 99,
+            "data": {
+                "medicine_name": "Osartil",
+                "generic_name": "Losartan Potassium",
+                "company_name": "Incepta Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "1+0+0",
+                "med_day": "30 Days",
+                "med_mg": "50 mg",
+                "med_comments": "Continue",
+                "med_description": "Hypertension"
+            }
+        },
+        {
+            "id": 100,
+            "data": {
+                "medicine_name": "Angilock Plus",
+                "generic_name": "Losartan + Hydrochlorothiazide",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+0+0",
+                "med_day": "30 Days",
+                "med_mg": "50 mg + 12.5 mg",
+                "med_comments": "Continue",
+                "med_description": "Hypertension"
+            }
+        },
+        {
+            "id": 101,
+            "data": {
+                "medicine_name": "Olmesan",
+                "generic_name": "Olmesartan Medoxomil",
+                "company_name": "Beximco Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "1+0+0",
+                "med_day": "30 Days",
+                "med_mg": "20 mg",
+                "med_comments": "Continue",
+                "med_description": "Hypertension"
+            }
+        },
+        {
+            "id": 102,
+            "data": {
+                "medicine_name": "Bisocor",
+                "generic_name": "Bisoprolol",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+0+0",
+                "med_day": "30 Days",
+                "med_mg": "2.5 mg",
+                "med_comments": "Continue",
+                "med_description": "Hypertension, heart failure"
+            }
+        },
+        {
+            "id": 103,
+            "data": {
+                "medicine_name": "Concor",
+                "generic_name": "Bisoprolol",
+                "company_name": "Renata PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+0+0",
+                "med_day": "30 Days",
+                "med_mg": "5 mg",
+                "med_comments": "Continue",
+                "med_description": "Hypertension, heart failure"
+            }
+        },
+        {
+            "id": 104,
+            "data": {
+                "medicine_name": "Tenoren",
+                "generic_name": "Atenolol",
+                "company_name": "ACI Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "1+0+0",
+                "med_day": "30 Days",
+                "med_mg": "50 mg",
+                "med_comments": "Continue",
+                "med_description": "Hypertension, angina"
+            }
+        },
+        {
+            "id": 105,
+            "data": {
+                "medicine_name": "Nebilol",
+                "generic_name": "Nebivolol",
+                "company_name": "Incepta Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "1+0+0",
+                "med_day": "30 Days",
+                "med_mg": "5 mg",
+                "med_comments": "Continue",
+                "med_description": "Hypertension"
+            }
+        },
+        {
+            "id": 106,
+            "data": {
+                "medicine_name": "Lasix",
+                "generic_name": "Furosemide",
+                "company_name": "Sanofi Bangladesh Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "1+0+0",
+                "med_day": "7 Days",
+                "med_mg": "40 mg",
+                "med_comments": "Morning",
+                "med_description": "Oedema, heart failure"
+            }
+        },
+        {
+            "id": 107,
+            "data": {
+                "medicine_name": "Spiron",
+                "generic_name": "Spironolactone",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+0+0",
+                "med_day": "30 Days",
+                "med_mg": "25 mg",
+                "med_comments": "After meal",
+                "med_description": "Oedema, ascites, heart failure"
+            }
+        },
+        {
+            "id": 108,
+            "data": {
+                "medicine_name": "Ecosprin",
+                "generic_name": "Aspirin",
+                "company_name": "ACI Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "0+1+0",
+                "med_day": "30 Days",
+                "med_mg": "75 mg",
+                "med_comments": "After meal",
+                "med_description": "Prevention of heart attack and stroke"
+            }
+        },
+        {
+            "id": 109,
+            "data": {
+                "medicine_name": "Clopid",
+                "generic_name": "Clopidogrel",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "0+1+0",
+                "med_day": "30 Days",
+                "med_mg": "75 mg",
+                "med_comments": "After meal",
+                "med_description": "Prevention of thrombotic events"
+            }
+        },
+        {
+            "id": 110,
+            "data": {
+                "medicine_name": "Lecozen",
+                "generic_name": "Clopidogrel",
+                "company_name": "Incepta Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "0+1+0",
+                "med_day": "30 Days",
+                "med_mg": "75 mg",
+                "med_comments": "After meal",
+                "med_description": "Prevention of thrombotic events"
+            }
+        },
+        {
+            "id": 111,
+            "data": {
+                "medicine_name": "Nitrocard",
+                "generic_name": "Glyceryl Trinitrate",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+0+1",
+                "med_day": "30 Days",
+                "med_mg": "2.6 mg",
+                "med_comments": "Swallow whole",
+                "med_description": "Angina prophylaxis"
+            }
+        },
+        {
+            "id": 112,
+            "data": {
+                "medicine_name": "Rosuva",
+                "generic_name": "Rosuvastatin",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "0+0+1",
+                "med_day": "30 Days",
+                "med_mg": "10 mg",
+                "med_comments": "At night",
+                "med_description": "Hypercholesterolaemia"
+            }
+        },
+        {
+            "id": 113,
+            "data": {
+                "medicine_name": "Atova",
+                "generic_name": "Atorvastatin",
+                "company_name": "Beximco Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "0+0+1",
+                "med_day": "30 Days",
+                "med_mg": "20 mg",
+                "med_comments": "At night",
+                "med_description": "Hyperlipidaemia"
+            }
+        },
+        {
+            "id": 114,
+            "data": {
+                "medicine_name": "Anzitor",
+                "generic_name": "Atorvastatin",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "0+0+1",
+                "med_day": "30 Days",
+                "med_mg": "10 mg",
+                "med_comments": "At night",
+                "med_description": "Hyperlipidaemia"
+            }
+        },
+        {
+            "id": 115,
+            "data": {
+                "medicine_name": "Comet",
+                "generic_name": "Metformin",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+0+1",
+                "med_day": "30 Days",
+                "med_mg": "500 mg",
+                "med_comments": "After meal",
+                "med_description": "Type 2 diabetes mellitus"
+            }
+        },
+        {
+            "id": 116,
+            "data": {
+                "medicine_name": "Informet",
+                "generic_name": "Metformin",
+                "company_name": "Incepta Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "1+0+1",
+                "med_day": "30 Days",
+                "med_mg": "500 mg",
+                "med_comments": "After meal",
+                "med_description": "Type 2 diabetes mellitus"
+            }
+        },
+        {
+            "id": 117,
+            "data": {
+                "medicine_name": "Secrin",
+                "generic_name": "Glimepiride",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+0+0",
+                "med_day": "30 Days",
+                "med_mg": "2 mg",
+                "med_comments": "Before breakfast",
+                "med_description": "Type 2 diabetes mellitus"
+            }
+        },
+        {
+            "id": 118,
+            "data": {
+                "medicine_name": "Diamicron MR",
+                "generic_name": "Gliclazide",
+                "company_name": "Servier Bangladesh",
+                "med_type": "Tablet",
+                "med_dose": "1+0+0",
+                "med_day": "30 Days",
+                "med_mg": "60 mg",
+                "med_comments": "Before breakfast",
+                "med_description": "Type 2 diabetes mellitus"
+            }
+        },
+        {
+            "id": 119,
+            "data": {
+                "medicine_name": "Linatab",
+                "generic_name": "Linagliptin",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+0+0",
+                "med_day": "30 Days",
+                "med_mg": "5 mg",
+                "med_comments": "Before or after meal",
+                "med_description": "Type 2 diabetes mellitus"
+            }
+        },
+        {
+            "id": 120,
+            "data": {
+                "medicine_name": "Trajenta",
+                "generic_name": "Linagliptin",
+                "company_name": "Boehringer Ingelheim",
+                "med_type": "Tablet",
+                "med_dose": "1+0+0",
+                "med_day": "30 Days",
+                "med_mg": "5 mg",
+                "med_comments": "Before or after meal",
+                "med_description": "Type 2 diabetes mellitus"
+            }
+        },
+        {
+            "id": 121,
+            "data": {
+                "medicine_name": "Sitagil",
+                "generic_name": "Sitagliptin",
+                "company_name": "Incepta Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "1+0+0",
+                "med_day": "30 Days",
+                "med_mg": "50 mg",
+                "med_comments": "Before or after meal",
+                "med_description": "Type 2 diabetes mellitus"
+            }
+        },
+        {
+            "id": 122,
+            "data": {
+                "medicine_name": "Empa",
+                "generic_name": "Empagliflozin",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+0+0",
+                "med_day": "30 Days",
+                "med_mg": "10 mg",
+                "med_comments": "Morning",
+                "med_description": "Type 2 diabetes, heart failure"
+            }
+        },
+        {
+            "id": 123,
+            "data": {
+                "medicine_name": "Insulatard",
+                "generic_name": "Isophane Insulin (Human)",
+                "company_name": "Novo Nordisk",
+                "med_type": "Injection",
+                "med_dose": "As advised",
+                "med_day": "Continue",
+                "med_mg": "100 IU/ml",
+                "med_comments": "Subcutaneous, before meal",
+                "med_description": "Diabetes mellitus"
+            }
+        },
+        {
+            "id": 124,
+            "data": {
+                "medicine_name": "Mixtard 30",
+                "generic_name": "Biphasic Isophane Insulin (Human)",
+                "company_name": "Novo Nordisk",
+                "med_type": "Injection",
+                "med_dose": "As advised",
+                "med_day": "Continue",
+                "med_mg": "100 IU/ml",
+                "med_comments": "Subcutaneous, 30 minutes before meal",
+                "med_description": "Diabetes mellitus"
+            }
+        },
+        {
+            "id": 125,
+            "data": {
+                "medicine_name": "Thyrox",
+                "generic_name": "Levothyroxine Sodium",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+0+0",
+                "med_day": "30 Days",
+                "med_mg": "50 mcg",
+                "med_comments": "Empty stomach in the morning",
+                "med_description": "Hypothyroidism"
+            }
+        },
+        {
+            "id": 126,
+            "data": {
+                "medicine_name": "Neomercazole",
+                "generic_name": "Carbimazole",
+                "company_name": "Amico Laboratories",
+                "med_type": "Tablet",
+                "med_dose": "1+1+1",
+                "med_day": "30 Days",
+                "med_mg": "5 mg",
+                "med_comments": "After meal",
+                "med_description": "Hyperthyroidism"
+            }
+        },
+        {
+            "id": 127,
+            "data": {
+                "medicine_name": "Deltasone",
+                "generic_name": "Prednisolone",
+                "company_name": "Opsonin Pharma Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "2+0+0",
+                "med_day": "5 Days",
+                "med_mg": "5 mg",
+                "med_comments": "After meal",
+                "med_description": "Inflammatory and allergic conditions"
+            }
+        },
+        {
+            "id": 128,
+            "data": {
+                "medicine_name": "Oradexon",
+                "generic_name": "Dexamethasone",
+                "company_name": "Organon",
+                "med_type": "Tablet",
+                "med_dose": "1+0+1",
+                "med_day": "5 Days",
+                "med_mg": "0.5 mg",
+                "med_comments": "After meal",
+                "med_description": "Inflammatory and allergic conditions"
+            }
+        },
+        {
+            "id": 129,
+            "data": {
+                "medicine_name": "Disopan",
+                "generic_name": "Clonazepam",
+                "company_name": "Incepta Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "0+0+1",
+                "med_day": "14 Days",
+                "med_mg": "0.5 mg",
+                "med_comments": "At night",
+                "med_description": "Anxiety, panic disorder"
+            }
+        },
+        {
+            "id": 130,
+            "data": {
+                "medicine_name": "Rivotril",
+                "generic_name": "Clonazepam",
+                "company_name": "Radiant Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "0+0+1",
+                "med_day": "14 Days",
+                "med_mg": "0.5 mg",
+                "med_comments": "At night",
+                "med_description": "Anxiety, panic disorder"
+            }
+        },
+        {
+            "id": 131,
+            "data": {
+                "medicine_name": "Sedil",
+                "generic_name": "Diazepam",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "0+0+1",
+                "med_day": "7 Days",
+                "med_mg": "5 mg",
+                "med_comments": "At night",
+                "med_description": "Anxiety, muscle spasm"
+            }
+        },
+        {
+            "id": 132,
+            "data": {
+                "medicine_name": "Amit",
+                "generic_name": "Amitriptyline",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "0+0+1",
+                "med_day": "30 Days",
+                "med_mg": "10 mg",
+                "med_comments": "At night",
+                "med_description": "Depression, tension headache"
+            }
+        },
+        {
+            "id": 133,
+            "data": {
+                "medicine_name": "Escitalo",
+                "generic_name": "Escitalopram",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+0+0",
+                "med_day": "30 Days",
+                "med_mg": "10 mg",
+                "med_comments": "Morning",
+                "med_description": "Depression, anxiety"
+            }
+        },
+        {
+            "id": 134,
+            "data": {
+                "medicine_name": "Flunarizine Sibelium",
+                "generic_name": "Flunarizine",
+                "company_name": "Janssen",
+                "med_type": "Capsule",
+                "med_dose": "0+0+1",
+                "med_day": "30 Days",
+                "med_mg": "5 mg",
+                "med_comments": "At night",
+                "med_description": "Migraine prophylaxis, vertigo"
+            }
+        },
+        {
+            "id": 135,
+            "data": {
+                "medicine_name": "Vertina",
+                "generic_name": "Betahistine",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+1+1",
+                "med_day": "14 Days",
+                "med_mg": "8 mg",
+                "med_comments": "After meal",
+                "med_description": "Vertigo, Meniere's disease"
+            }
+        },
+        {
+            "id": 136,
+            "data": {
+                "medicine_name": "Stemetil",
+                "generic_name": "Prochlorperazine",
+                "company_name": "Sanofi Bangladesh Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "1+1+1",
+                "med_day": "5 Days",
+                "med_mg": "5 mg",
+                "med_comments": "After meal",
+                "med_description": "Vertigo, nausea and vomiting"
+            }
+        },
+        {
+            "id": 137,
+            "data": {
+                "medicine_name": "Myolax",
+                "generic_name": "Tolperisone",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+1+1",
+                "med_day": "7 Days",
+                "med_mg": "50 mg",
+                "med_comments": "After meal",
+                "med_description": "Muscle spasm"
+            }
+        },
+        {
+            "id": 138,
+            "data": {
+                "medicine_name": "Tamen",
+                "generic_name": "Tamsulosin",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Capsule",
+                "med_dose": "0+0+1",
+                "med_day": "30 Days",
+                "med_mg": "0.4 mg",
+                "med_comments": "After dinner",
+                "med_description": "Benign prostatic hyperplasia"
+            }
+        },
+        {
+            "id": 139,
+            "data": {
+                "medicine_name": "Urocit-K",
+                "generic_name": "Potassium Citrate",
+                "company_name": "Incepta Pharmaceuticals Ltd.",
+                "med_type": "Tablet",
+                "med_dose": "1+1+1",
+                "med_day": "30 Days",
+                "med_mg": "1080 mg",
+                "med_comments": "After meal",
+                "med_description": "Kidney stone prevention"
+            }
+        },
+        {
+            "id": 140,
+            "data": {
+                "medicine_name": "Utrogestan",
+                "generic_name": "Progesterone",
+                "company_name": "Besins Healthcare",
+                "med_type": "Capsule",
+                "med_dose": "0+0+1",
+                "med_day": "14 Days",
+                "med_mg": "200 mg",
+                "med_comments": "Vaginal or oral",
+                "med_description": "Luteal phase support, threatened abortion"
+            }
+        },
+        {
+            "id": 141,
+            "data": {
+                "medicine_name": "Normens",
+                "generic_name": "Norethisterone",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "1+0+1",
+                "med_day": "10 Days",
+                "med_mg": "5 mg",
+                "med_comments": "After meal",
+                "med_description": "Menstrual disorders"
+            }
+        },
+        {
+            "id": 142,
+            "data": {
+                "medicine_name": "Femicon",
+                "generic_name": "Levonorgestrel + Ethinylestradiol",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Tablet",
+                "med_dose": "0+0+1",
+                "med_day": "28 Days",
+                "med_mg": "0.15 mg + 0.03 mg",
+                "med_comments": "Same time daily",
+                "med_description": "Oral contraception"
+            }
+        },
+        {
+            "id": 143,
+            "data": {
+                "medicine_name": "Betameson-N",
+                "generic_name": "Betamethasone + Neomycin",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Cream",
+                "med_dose": "Apply twice daily",
+                "med_day": "7 Days",
+                "med_mg": "0.1% + 0.5%",
+                "med_comments": "Local application",
+                "med_description": "Infected eczema, dermatitis"
+            }
+        },
+        {
+            "id": 144,
+            "data": {
+                "medicine_name": "Fusid",
+                "generic_name": "Fusidic Acid",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Cream",
+                "med_dose": "Apply 3 times daily",
+                "med_day": "7 Days",
+                "med_mg": "2%",
+                "med_comments": "Local application",
+                "med_description": "Bacterial skin infections"
+            }
+        },
+        {
+            "id": 145,
+            "data": {
+                "medicine_name": "Scabex",
+                "generic_name": "Permethrin",
+                "company_name": "Beximco Pharmaceuticals Ltd.",
+                "med_type": "Cream",
+                "med_dose": "Apply whole body at night",
+                "med_day": "1 Day, repeat after 7 days",
+                "med_mg": "5%",
+                "med_comments": "Wash off after 8-12 hours",
+                "med_description": "Scabies"
+            }
+        },
+        {
+            "id": 146,
+            "data": {
+                "medicine_name": "Lotepred",
+                "generic_name": "Loteprednol Etabonate",
+                "company_name": "Aristopharma Ltd.",
+                "med_type": "Eye Drop",
+                "med_dose": "1 drop 4 times daily",
+                "med_day": "7 Days",
+                "med_mg": "0.5%",
+                "med_comments": "Shake well before use",
+                "med_description": "Ocular inflammation"
+            }
+        },
+        {
+            "id": 147,
+            "data": {
+                "medicine_name": "Moxiflox Eye",
+                "generic_name": "Moxifloxacin",
+                "company_name": "Square Pharmaceuticals PLC",
+                "med_type": "Eye Drop",
+                "med_dose": "1 drop 4 times daily",
+                "med_day": "7 Days",
+                "med_mg": "0.5%",
+                "med_comments": "Both eyes",
+                "med_description": "Bacterial conjunctivitis"
+            }
+        },
+        {
+            "id": 148,
+            "data": {
+                "medicine_name": "Olopan",
+                "generic_name": "Olopatadine",
+                "company_name": "Aristopharma Ltd.",
+                "med_type": "Eye Drop",
+                "med_dose": "1 drop twice daily",
+                "med_day": "14 Days",
+                "med_mg": "0.1%",
+                "med_comments": "Both eyes",
+                "med_description": "Allergic conjunctivitis"
+            }
+        },
+        {
+            "id": 149,
+            "data": {
+                "medicine_name": "Otocin",
+                "generic_name": "Ciprofloxacin + Dexamethasone",
+                "company_name": "Incepta Pharmaceuticals Ltd.",
+                "med_type": "Ear Drop",
+                "med_dose": "3 drops twice daily",
+                "med_day": "7 Days",
+                "med_mg": "0.3% + 0.1%",
+                "med_comments": "Affected ear",
+                "med_description": "Otitis externa"
+            }
+        },
+        {
+            "id": 150,
+            "data": {
+                "medicine_name": "Nasivion",
+                "generic_name": "Oxymetazoline",
+                "company_name": "Merck",
+                "med_type": "Nasal Drop",
+                "med_dose": "2 drops twice daily",
+                "med_day": "5 Days",
+                "med_mg": "0.05%",
+                "med_comments": "Do not use more than 5 days",
+                "med_description": "Nasal congestion"
+            }
+        },
+        {
+            "id": 151,
+            "data": {
+                "medicine_name": "Avamys",
+                "generic_name": "Fluticasone Furoate",
+                "company_name": "GlaxoSmithKline Bangladesh Ltd.",
+                "med_type": "Nasal Spray",
+                "med_dose": "2 sprays once daily",
+                "med_day": "30 Days",
+                "med_mg": "27.5 mcg/spray",
+                "med_comments": "Each nostril",
+                "med_description": "Allergic rhinitis"
+            }
+        },
+        {
+            "id": 152,
+            "data": {
+                "medicine_name": "Hexisol",
+                "generic_name": "Chlorhexidine + Alcohol",
+                "company_name": "ACI Ltd.",
+                "med_type": "Solution",
+                "med_dose": "Apply as needed",
+                "med_day": "As needed",
+                "med_mg": "0.5%",
+                "med_comments": "External use only",
+                "med_description": "Hand and skin antiseptic"
+            }
+        },
+        {
+            "id": 153,
+            "data": {
+                "medicine_name": "Normal Saline",
+                "generic_name": "Sodium Chloride",
+                "company_name": "Beximco Pharmaceuticals Ltd.",
+                "med_type": "IV Infusion",
+                "med_dose": "1000 ml IV",
+                "med_day": "1 Day",
+                "med_mg": "0.9%",
+                "med_comments": "IV use",
+                "med_description": "Fluid and electrolyte replacement"
+            }
+        },
+        {
+            "id": 154,
+            "data": {
+                "medicine_name": "Hartmann",
+                "generic_name": "Compound Sodium Lactate",
+                "company_name": "Opsonin Pharma Ltd.",
+                "med_type": "IV Infusion",
+                "med_dose": "1000 ml IV",
+                "med_day": "1 Day",
+                "med_mg": "1000 ml",
+                "med_comments": "IV use",
+                "med_description": "Fluid and electrolyte replacement"
+            }
+        }
+    ]
+}

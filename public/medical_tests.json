@@ -1,0 +1,641 @@
+{
+    "total": 154,
+    "categories": {
+        "Hematology": [
+            {
+                "id": 1,
+                "name": "CBC (Complete Blood Count)"
+            },
+            {
+                "id": 2,
+                "name": "Hemoglobin (Hb%)"
+            },
+            {
+                "id": 3,
+                "name": "ESR"
+            },
+            {
+                "id": 4,
+                "name": "Platelet Count"
+            },
+            {
+                "id": 5,
+                "name": "Total WBC Count"
+            },
+            {
+                "id": 6,
+                "name": "Differential Count (DC)"
+            },
+            {
+                "id": 7,
+                "name": "Blood Grouping & Rh Typing"
+            },
+            {
+                "id": 8,
+                "name": "Peripheral Blood Film (PBF)"
+            },
+            {
+                "id": 9,
+                "name": "Reticulocyte Count"
+            },
+            {
+                "id": 10,
+                "name": "Bleeding Time (BT)"
+            },
+            {
+                "id": 11,
+                "name": "Clotting Time (CT)"
+            },
+            {
+                "id": 12,
+                "name": "Prothrombin Time (PT) with INR"
+            },
+            {
+                "id": 13,
+                "name": "APTT"
+            },
+            {
+                "id": 14,
+                "name": "D-Dimer"
+            },
+            {
+                "id": 15,
+                "name": "Hb Electrophoresis"
+            },
+            {
+                "id": 16,
+                "name": "Serum Iron"
+            },
+            {
+                "id": 17,
+                "name": "TIBC"
+            },
+            {
+                "id": 18,
+                "name": "Serum Ferritin"
+            }
+        ],
+        "Biochemistry": [
+            {
+                "id": 19,
+                "name": "Fasting Blood Sugar (FBS)"
+            },
+            {
+                "id": 20,
+                "name": "Random Blood Sugar (RBS)"
+            },
+            {
+                "id": 21,
+                "name": "Blood Sugar 2 Hours After Breakfast (2HABF)"
+            },
+            {
+                "id": 22,
+                "name": "Oral Glucose Tolerance Test (OGTT)"
+            },
+            {
+                "id": 23,
+                "name": "HbA1c"
+            },
+            {
+                "id": 24,
+                "name": "Serum Creatinine"
+            },
+            {
+                "id": 25,
+                "name": "Blood Urea"
+            },
+            {
+                "id": 26,
+                "name": "Blood Urea Nitrogen (BUN)"
+            },
+            {
+                "id": 27,
+                "name": "Serum Uric Acid"
+            },
+            {
+                "id": 28,
+                "name": "Serum Electrolytes"
+            },
+            {
+                "id": 29,
+                "name": "Serum Calcium"
+            },
+            {
+                "id": 30,
+                "name": "Serum Phosphate"
+            },
+            {
+                "id": 31,
+                "name": "Serum Magnesium"
+            },
+            {
+                "id": 32,
+                "name": "Lipid Profile"
+            },
+            {
+                "id": 33,
+                "name": "Total Cholesterol"
+            },
+            {
+                "id": 34,
+                "name": "Triglycerides"
+            },
+            {
+                "id": 35,
+                "name": "HDL Cholesterol"
+            },
+            {
+                "id": 36,
+                "name": "LDL Cholesterol"
+            },
+            {
+                "id": 37,
+                "name": "Serum Bilirubin (Total)"
+            },
+            {
+                "id": 38,
+                "name": "SGPT (ALT)"
+            },
+            {
+                "id": 39,
+                "name": "SGOT (AST)"
+            },
+            {
+                "id": 40,
+                "name": "Alkaline Phosphatase"
+            },
+            {
+                "id": 41,
+                "name": "Gamma GT"
+            },
+            {
+                "id": 42,
+                "name": "Serum Total Protein"
+            },
+            {
+                "id": 43,
+                "name": "Serum Albumin"
+            },
+            {
+                "id": 44,
+                "name": "Liver Function Test (LFT)"
+            },
+            {
+                "id": 45,
+                "name": "Renal Function Test (RFT)"
+            },
+            {
+                "id": 46,
+                "name": "Serum Amylase"
+            },
+            {
+                "id": 47,
+                "name": "Serum Lipase"
+            },
+            {
+                "id": 48,
+                "name": "CK-MB"
+            },
+            {
+                "id": 49,
+                "name": "Troponin I"
+            },
+            {
+                "id": 50,
+                "name": "Serum Vitamin D (25-OH)"
+            },
+            {
+                "id": 51,
+                "name": "Serum Vitamin B12"
+            },
+            {
+                "id": 52,
+                "name": "eGFR"
+            }
+        ],
+        "Hormone": [
+            {
+                "id": 53,
+                "name": "TSH"
+            },
+            {
+                "id": 54,
+                "name": "FT3"
+            },
+            {
+                "id": 55,
+                "name": "FT4"
+            },
+            {
+                "id": 56,
+                "name": "Thyroid Profile (T3, T4, TSH)"
+            },
+            {
+                "id": 57,
+                "name": "Serum Prolactin"
+            },
+            {
+                "id": 58,
+                "name": "FSH"
+            },
+            {
+                "id": 59,
+                "name": "LH"
+            },
+            {
+                "id": 60,
+                "name": "Serum Estradiol"
+            },
+            {
+                "id": 61,
+                "name": "Serum Progesterone"
+            },
+            {
+                "id": 62,
+                "name": "Serum Testosterone"
+            },
+            {
+                "id": 63,
+                "name": "Serum Cortisol"
+            },
+            {
+                "id": 64,
+                "name": "Beta hCG"
+            },
+            {
+                "id": 65,
+                "name": "AMH (Anti-Mullerian Hormone)"
+            },
+            {
+                "id": 66,
+                "name": "Serum Insulin (Fasting)"
+            },
+            {
+                "id": 67,
+                "name": "Parathyroid Hormone (PTH)"
+            }
+        ],
+        "Serology & Immunology": [
+            {
+                "id": 68,
+                "name": "CRP"
+            },
+            {
+                "id": 69,
+                "name": "RA Test"
+            },
+            {
+                "id": 70,
+                "name": "ASO Titre"
+            },
+            {
+                "id": 71,
+                "name": "Widal Test"
+            },
+            {
+                "id": 72,
+                "name": "Typhidot (IgM/IgG)"
+            },
+            {
+                "id": 73,
+                "name": "HBsAg"
+            },
+            {
+                "id": 74,
+                "name": "Anti-HCV"
+            },
+            {
+                "id": 75,
+                "name": "Anti-HIV (1+2)"
+            },
+            {
+                "id": 76,
+                "name": "VDRL"
+            },
+            {
+                "id": 77,
+                "name": "TPHA"
+            },
+            {
+                "id": 78,
+                "name": "Dengue NS1 Antigen"
+            },
+            {
+                "id": 79,
+                "name": "Dengue IgM/IgG"
+            },
+            {
+                "id": 80,
+                "name": "Chikungunya IgM"
+            },
+            {
+                "id": 81,
+                "name": "Malaria Parasite (ICT)"
+            },
+            {
+                "id": 82,
+                "name": "Febrile Antigen"
+            },
+            {
+                "id": 83,
+                "name": "ANA"
+            },
+            {
+                "id": 84,
+                "name": "Anti-CCP"
+            },
+            {
+                "id": 85,
+                "name": "Serum IgE"
+            },
+            {
+                "id": 86,
+                "name": "Procalcitonin"
+            },
+            {
+                "id": 87,
+                "name": "Pregnancy Test (Urine)"
+            }
+        ],
+        "Tumor Markers": [
+            {
+                "id": 88,
+                "name": "PSA (Total)"
+            },
+            {
+                "id": 89,
+                "name": "CEA"
+            },
+            {
+                "id": 90,
+                "name": "CA-125"
+            },
+            {
+                "id": 91,
+                "name": "CA 19-9"
+            },
+            {
+                "id": 92,
+                "name": "CA 15-3"
+            },
+            {
+                "id": 93,
+                "name": "Alpha Fetoprotein (AFP)"
+            }
+        ],
+        "Urine & Stool": [
+            {
+                "id": 94,
+                "name": "Urine R/M/E"
+            },
+            {
+                "id": 95,
+                "name": "Urine Culture & Sensitivity"
+            },
+            {
+                "id": 96,
+                "name": "Urine Albumin-Creatinine Ratio (ACR)"
+            },
+            {
+                "id": 97,
+                "name": "Urine for Microalbumin"
+            },
+            {
+                "id": 98,
+                "name": "24 Hours Urinary Total Protein"
+            },
+            {
+                "id": 99,
+                "name": "Stool R/M/E"
+            },
+            {
+                "id": 100,
+                "name": "Stool Occult Blood Test (OBT)"
+            },
+            {
+                "id": 101,
+                "name": "Stool Culture & Sensitivity"
+            },
+            {
+                "id": 102,
+                "name": "Stool for H. pylori Antigen"
+            }
+        ],
+        "Microbiology": [
+            {
+                "id": 103,
+                "name": "Blood Culture & Sensitivity"
+            },
+            {
+                "id": 104,
+                "name": "Sputum for AFB"
+            },
+            {
+                "id": 105,
+                "name": "Sputum Culture & Sensitivity"
+            },
+            {
+                "id": 106,
+                "name": "GeneXpert MTB/RIF"
+            },
+            {
+                "id": 107,
+                "name": "Throat Swab Culture"
+            },
+            {
+                "id": 108,
+                "name": "Pus Culture & Sensitivity"
+            },
+            {
+                "id": 109,
+                "name": "Wound Swab Culture"
+            },
+            {
+                "id": 110,
+                "name": "High Vaginal Swab (HVS) Culture"
+            },
+            {
+                "id": 111,
+                "name": "Skin Scraping for Fungus"
+            },
+            {
+                "id": 112,
+                "name": "Mantoux Test (MT)"
+            },
+            {
+                "id": 113,
+                "name": "Semen Analysis"
+            }
+        ],
+        "Radiology & Imaging": [
+            {
+                "id": 114,
+                "name": "X-Ray Chest P/A View"
+            },
+            {
+                "id": 115,
+                "name": "X-Ray KUB"
+            },
+            {
+                "id": 116,
+                "name": "X-Ray Lumbo-Sacral Spine (A/P & Lat)"
+            },
+            {
+                "id": 117,
+                "name": "X-Ray Cervical Spine (A/P & Lat)"
+            },
+            {
+                "id": 118,
+                "name": "X-Ray Knee Joint (A/P & Lat)"
+            },
+            {
+                "id": 119,
+                "name": "X-Ray PNS (OM View)"
+            },
+            {
+                "id": 120,
+                "name": "USG of Whole Abdomen"
+            },
+            {
+                "id": 121,
+                "name": "USG of Lower Abdomen"
+            },
+            {
+                "id": 122,
+                "name": "USG of Pregnancy Profile"
+            },
+            {
+                "id": 123,
+                "name": "USG of Thyroid"
+            },
+            {
+                "id": 124,
+                "name": "USG of Breast"
+            },
+            {
+                "id": 125,
+                "name": "USG of KUB & Prostate"
+            },
+            {
+                "id": 126,
+                "name": "CT Scan of Brain"
+            },
+            {
+                "id": 127,
+                "name": "CT Scan of Chest"
+            },
+            {
+                "id": 128,
+                "name": "HRCT of Chest"
+            },
+            {
+                "id": 129,
+                "name": "CT Scan of Abdomen"
+            },
+            {
+                "id": 130,
+                "name": "MRI of Brain"
+            },
+            {
+                "id": 131,
+                "name": "MRI of Lumbo-Sacral Spine"
+            },
+            {
+                "id": 132,
+                "name": "MRI of Cervical Spine"
+            },
+            {
+                "id": 133,
+                "name": "Mammography"
+            },
+            {
+                "id": 134,
+                "name": "DEXA Scan (Bone Densitometry)"
+            }
+        ],
+        "Cardiology": [
+            {
+                "id": 135,
+                "name": "ECG"
+            },
+            {
+                "id": 136,
+                "name": "Echocardiography (2D & M-mode)"
+            },
+            {
+                "id": 137,
+                "name": "Color Doppler Echocardiography"
+            },
+            {
+                "id": 138,
+                "name": "Exercise Tolerance Test (ETT)"
+            },
+            {
+                "id": 139,
+                "name": "Holter Monitoring (24 Hours)"
+            },
+            {
+                "id": 140,
+                "name": "Ambulatory BP Monitoring"
+            },
+            {
+                "id": 141,
+                "name": "Coronary Angiogram (CAG)"
+            }
+        ],
+        "Other Investigations": [
+            {
+                "id": 142,
+                "name": "Endoscopy (Upper GIT)"
+            },
+            {
+                "id": 143,
+                "name": "Colonoscopy"
+            },
+            {
+                "id": 144,
+                "name": "Spirometry (PFT)"
+            },
+            {
+                "id": 145,
+                "name": "EEG"
+            },
+            {
+                "id": 146,
+                "name": "NCS (Nerve Conduction Study)"
+            },
+            {
+                "id": 147,
+                "name": "EMG"
+            },
+            {
+                "id": 148,
+                "name": "FNAC"
+            },
+            {
+                "id": 149,
+                "name": "Pap Smear"
+            },
+            {
+                "id": 150,
+                "name": "Histopathology"
+            },
+            {
+                "id": 151,
+                "name": "Audiometry (PTA)"
+            },
+            {
+                "id": 152,
+                "name": "Tympanometry"
+            },
+            {
+                "id": 153,
+                "name": "Visual Acuity Test"
+            },
+            {
+                "id": 154,
+                "name": "Fundoscopy"
+            }
+        ]
+    }
+}

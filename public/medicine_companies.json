@@ -1,0 +1,201 @@
+{
+    "total": 49,
+    "companies": [
+        {
+            "id": 1,
+            "name": "ACI Ltd."
+        },
+        {
+            "id": 2,
+            "name": "Acme Laboratories Ltd."
+        },
+        {
+            "id": 3,
+            "name": "Ad-din Pharmaceuticals Ltd."
+        },
+        {
+            "id": 4,
+            "name": "Alco Pharma Ltd."
+        },
+        {
+            "id": 5,
+            "name": "Ambee Pharmaceuticals Ltd."
+        },
+        {
+            "id": 6,
+            "name": "Amico Laboratories"
+        },
+        {
+            "id": 7,
+            "name": "Aristopharma Ltd."
+        },
+        {
+            "id": 8,
+            "name": "Asiatic Laboratories Ltd."
+        },
+        {
+            "id": 9,
+            "name": "Beacon Pharmaceuticals PLC"
+        },
+        {
+            "id": 10,
+            "name": "Benham Pharmaceuticals Ltd."
+        },
+        {
+            "id": 11,
+            "name": "Besins Healthcare"
+        },
+        {
+            "id": 12,
+            "name": "Beximco Pharmaceuticals Ltd."
+        },
+        {
+            "id": 13,
+            "name": "Biopharma Ltd."
+        },
+        {
+            "id": 14,
+            "name": "Boehringer Ingelheim"
+        },
+        {
+            "id": 15,
+            "name": "Delta Pharma Ltd."
+        },
+        {
+            "id": 16,
+            "name": "Drug International Ltd."
+        },
+        {
+            "id": 17,
+            "name": "Eskayef Pharmaceuticals Ltd."
+        },
+        {
+            "id": 18,
+            "name": "General Pharmaceuticals Ltd."
+        },
+        {
+            "id": 19,
+            "name": "GlaxoSmithKline Bangladesh Ltd."
+        },
+        {
+            "id": 20,
+            "name": "Globe Pharmaceuticals Ltd."
+        },
+        {
+            "id": 21,
+            "name": "Healthcare Pharmaceuticals Ltd."
+        },
+        {
+            "id": 22,
+            "name": "Ibn Sina Pharmaceutical Industry PLC"
+        },
+        {
+            "id": 23,
+            "name": "Incepta Pharmaceuticals Ltd."
+        },
+        {
+            "id": 24,
+            "name": "Janssen"
+        },
+        {
+            "id": 25,
+            "name": "Jayson Pharmaceuticals Ltd."
+        },
+        {
+            "id": 26,
+            "name": "Kemiko Pharmaceuticals Ltd."
+        },
+        {
+            "id": 27,
+            "name": "Medimet Pharmaceuticals Ltd."
+        },
+        {
+            "id": 28,
+            "name": "Merck"
+        },
+        {
+            "id": 29,
+            "name": "Navana Pharmaceuticals PLC"
+        },
+        {
+            "id": 30,
+            "name": "Nipro JMI Pharma Ltd."
+        },
+        {
+            "id": 31,
+            "name": "Novartis (Bangladesh) Ltd."
+        },
+        {
+            "id": 32,
+            "name": "Novo Nordisk"
+        },
+        {
+            "id": 33,
+            "name": "Opsonin Pharma Ltd."
+        },
+        {
+            "id": 34,
+            "name": "Organon"
+        },
+        {
+            "id": 35,
+            "name": "Orion Pharma Ltd."
+        },
+        {
+            "id": 36,
+            "name": "Pharmasia Ltd."
+        },
+        {
+            "id": 37,
+            "name": "Popular Pharmaceuticals Ltd."
+        },
+        {
+            "id": 38,
+            "name": "Radiant Pharmaceuticals Ltd."
+        },
+        {
+            "id": 39,
+            "name": "Rangs Pharmaceuticals Ltd."
+        },
+        {
+            "id": 40,
+            "name": "Renata PLC"
+        },
+        {
+            "id": 41,
+            "name": "SMC Enterprise Ltd."
+        },
+        {
+            "id": 42,
+            "name": "Sanofi Bangladesh Ltd."
+        },
+        {
+            "id": 43,
+            "name": "Servier Bangladesh"
+        },
+        {
+            "id": 44,
+            "name": "Sharif Pharmaceuticals Ltd."
+        },
+        {
+            "id": 45,
+            "name": "Silva Pharmaceuticals Ltd."
+        },
+        {
+            "id": 46,
+            "name": "Square Pharmaceuticals PLC"
+        },
+        {
+            "id": 47,
+            "name": "Team Pharmaceuticals Ltd."
+        },
+        {
+            "id": 48,
+            "name": "Unimed Unihealth Pharmaceuticals Ltd."
+        },
+        {
+            "id": 49,
+            "name": "Ziska Pharmaceuticals Ltd."
+        }
+    ]
+}
